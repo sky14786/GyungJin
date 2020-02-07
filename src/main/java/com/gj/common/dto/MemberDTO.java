@@ -12,7 +12,6 @@ public class MemberDTO {
 	private String memId;
 	private String memPwd;
 	private String memTel;
-	private String memGender;
 	private Date memBirth;
 	private int memType;
 	private LocalDateTime regDate;
@@ -64,14 +63,6 @@ public class MemberDTO {
 
 	public void setMemTel(String memTel) {
 		this.memTel = memTel;
-	}
-
-	public String getMemGender() {
-		return memGender;
-	}
-
-	public void setMemGender(String memGender) {
-		this.memGender = memGender;
 	}
 
 	public Date getMemBirth() {
@@ -149,8 +140,8 @@ public class MemberDTO {
 	@Override
 	public String toString() {
 		return "Member [memCode=" + memCode + ", memName=" + memName + ", memId=" + memId + ", memPwd=" + memPwd
-				+ ", memTel=" + memTel + ", memGender=" + memGender + ", memBirth=" + memBirth + ", memType=" + memType
-				+ ", regDate=" + regDate + ", useYn=" + useYn + ", updDate=" + updDate + ", updUser=" + updUser
-				+ ", mailYn=" + mailYn + ", snsYn=" + snsYn + ", memNick=" + memNick + "]";
+				+ ", memTel=" + memTel + ", memBirth=" + memBirth + ", memType=" + memType + ", regDate=" + regDate
+				+ ", useYn=" + useYn + ", updDate=" + updDate + ", updUser=" + updUser + ", mailYn=" + mailYn
+				+ ", snsYn=" + snsYn + ", memNick=" + memNick + "]";
 	}
 }
