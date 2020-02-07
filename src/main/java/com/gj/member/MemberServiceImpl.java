@@ -1,14 +1,13 @@
 package com.gj.member;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gj.common.dto.MemberDTO;
 import com.gj.common.mapper.MemberMapper;
+
 @Service
 public class MemberServiceImpl implements MemberService {
 
@@ -16,20 +15,48 @@ public class MemberServiceImpl implements MemberService {
 	MemberMapper memberMapper;
 
 	@Override
-	public List<HashMap<String, Object>> findAlltest() {
-		return memberMapper.findAlltest();
+	public List<MemberDTO> findAll() {
+		return memberMapper.findAll();
 	}
 
 	@Override
-	public int create(HashMap map) {
-		map.put("updUser", map.get("memId"));
-		map.put("updDate", "DEFAULT");
-		System.out.println(map);
-		return memberMapper.create(map);
+	public boolean create(MemberDTO member) {
+		member = updUserValidate(member);
+		boolean isComplete = false;
+		if (member != null) {
+			isComplete = memberMapper.create(member) == 1 ? true : false;
+		}
+		return isComplete;
 	}
-	
+
 	@Override
-	public List<MemberDTO> findAll() {
-		return memberMapper.findAll();
+	public boolean update(MemberDTO member) {
+		member = updUserValidate(member);
+		boolean isComplete = false;
+		if (member != null) {
+			isComplete = memberMapper.update(member) == 1 ? true : false;
+		}
+		return isComplete;
+	}
+
+	@Override
+	public boolean delete(MemberDTO member) {
+		member = updUserValidate(member);
+		boolean isComplete = false;
+		if (member != null) {
+			isComplete = memberMapper.delete(member) == 1 ? true : false;
+		}
+		return isComplete;
+	}
+
+	private MemberDTO updUserValidate(MemberDTO member) {
+		boolean isValidate = false;
+		if (!member.getMemId().equals("")) {
+			if (member.getUpdUser().equals("")) {
+				member.setUpdUser(member.getMemName());
+				isValidate = true;
+			}
+		}
+		return isValidate ? member : null;
 	}
 }

@@ -2,7 +2,6 @@ package com.gj.member;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -14,12 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gj.common.dto.MemberDTO;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api")
@@ -35,14 +32,18 @@ public class MemberController {
 		return memberService.findAll();
 	}
 
-	@GetMapping(value = "/member/test")
-	public List<HashMap<String, Object>> findAlltest() {
-		return memberService.findAlltest();
+	@PostMapping(value = "/member")
+	public boolean create(@RequestBody MemberDTO member) {
+		return memberService.create(member);
 	}
 
-	@PostMapping(value = "/member")
-	public int create(@RequestBody HashMap<String, Object> map) {
-		memberService.create(map);
-		return 1;
+	@PutMapping(value = "/member")
+	public boolean update(@RequestBody MemberDTO member) {
+		return memberService.update(member);
+	}
+
+	@DeleteMapping(value = "/member")
+	public boolean delete(@RequestBody MemberDTO member) {
+		return memberService.delete(member);
 	}
 }

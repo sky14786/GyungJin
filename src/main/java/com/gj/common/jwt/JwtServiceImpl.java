@@ -20,7 +20,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtServiceImpl implements JwtService {
 	private Log log = LogFactory.getLog(JwtServiceImpl.class);
 
-	private final String saltKey = "themembers";
+	private final String saltKey = "JinGyung";
 
 	@Override
 	public String createToken(HttpServletRequest res) {

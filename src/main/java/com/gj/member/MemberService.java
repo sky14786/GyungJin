@@ -8,8 +8,9 @@ import com.gj.common.dto.MemberDTO;
 
 public interface MemberService {
 	public List<MemberDTO> findAll();
-	public List<HashMap<String,Object>> findAlltest();
-
-	public int create(HashMap map);
+	public boolean create(MemberDTO member);
+	public boolean update(MemberDTO member);
+	public boolean delete(MemberDTO member);
+	
 	
 }

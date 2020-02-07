@@ -7,13 +7,10 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.gj.common.dto.MemberDTO;
 
-
 @Mapper
 public interface MemberMapper {
 	List<MemberDTO> findAll();
-	
-	List<HashMap<String,Object>> findAlltest();
-	
-	int create(HashMap map);
-
+	int create(MemberDTO member);
+	int update(MemberDTO member);
+	int delete(MemberDTO member);
 }

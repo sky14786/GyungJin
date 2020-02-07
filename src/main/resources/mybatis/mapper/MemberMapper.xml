@@ -1,46 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "Mapper" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.themembers.common.mapper.MemberMapper">
+<mapper namespace="com.gj.common.mapper.MemberMapper">
 	<select id="findAll" resultType="member">
 		SELECT * FROM MEMBER
 	</select>
 	
-	<select id="findAlltest" resultType="hashmap">
-		SELECT * FROM MEMBER
-	</select>
-	
 	<insert id="create" parameterType="map">
-		INSERT INTO MEMBER VALUES(DEFAULT,#{memName},#{memId},#{memPwd},#{memTel},#{memGender},#{memBirth},DEFAULT,DEFAULT,"Y",DEFAULT,#{updUser},#{mailYn},#{snsYn},#{memNick})
+		INSERT INTO MEMBER VALUES(DEFAULT,#{memName},#{memId},#{memPwd},#{memTel},#{memBirth},DEFAULT,DEFAULT,"Y",DEFAULT,#{updUser},#{mailYn},#{snsYn},#{memNick})
 	</insert>
 	
-	<insert id="createTest" parameterType="com.themembers.common.dto.MemberDTO">
-		INSERT INTO MEMBER VALUES(DEFAULT,#{memName},#{memId},#{memPwd},#{memTel},#{memGender},#{memBirth},DEFAULT,DEFAULT,"Y",DEFAULT,#{updUser},#{mailYn},#{snsYn},#{memNick})
-	</insert>
-	
-	<update id="updateTest" parameterType="com.themembers.common.dto.MemberDTO">
-		UPDATE MEMBER
-		<trim prefix="SET" suffixOverrides=",">
-      		<if test="memName != null">memName = #{memName},</if>
-      		<if test="memId != null">memId = #{memId},</if>
-      		<if test="memPwd != null">memPwd = #{memPwd},</if>
-      		<if test="memTel != null">memTel = #{memTel},</if>
-      		<if test="memGender != null">memGender = #{memGender},</if>
-      		<if test="memBirth != null">memBirth = #{memBirth},</if>
-      		<if test="memType != null">memType = #{memType},</if>
-      		<if test="regDate != null">regDate = #{regDate},</if>
-      		<if test="useYn != null">useYn = #{useYn},</if>
-      		<if test="updDate != null">updDate = #{updDate},</if>
-      		<if test="updUser != null">updUser = #{updUser},</if>
-      		<if test="mailYn != null">mailYn = #{mailYn},</if>
-      		<if test="snsYn != null">snsYn = #{snsYn},</if>
-      		<if test="memNick != null">memNick = #{memNick}</if>
-   		</trim>
-			WHERE memCode = #{memCode}
+	<update id="update" parameterType="map">
+		UPDATE MEMBER SET 
+		<if test="memPwd != null">
+			MEM_PWD = #{memPwd}
+		</if>
+		<if test="memTel != null">
+			, MEM_TEL = #{memTel}
+		</if>
+		<if test="mailYn != null">
+			, MAIL_YN = #{mailYn}
+		</if>
+		<if test="snsYn != null">
+			, SNS_YN = #{snsYn}
+		</if>
+		,UPD_USER = #{updUser}, UPD_DATE = DEFAULT WHERE MEM_ID = #{memId}		
 	</update>
 	
-	<delete id="deleteTest" parameterType="com.themembers.common.dto.MemberDTO">
-		DELETE 
-		FROM MEMBER 
-		 WHERE memCode = #{memCode}
-	</delete>
+	<update id="delete" parameterType="map">
+		UPDATE MEMBER SET USE_YN = 0, UPD_USER = #{updUser}, UPD_DATE = DEFAULT WHERE MEM_ID = #{memId}
+	</update>
+	
 </mapper>
