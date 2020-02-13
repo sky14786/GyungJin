@@ -19,10 +19,16 @@ public class MemberDTO {
 	private LocalDateTime updDate;
 	private String updUser;
 	private String mailYn;
-	private String snsYn;
+	private String smsYn;
 	private String memNick;
 
 	public MemberDTO() {
+		this.memCode = 0;
+		this.memType = 0;
+		this.mailYn = "";
+		this.smsYn = "";
+		this.useYn = "";
+		this.updUser = "";
 	}
 
 	public int getMemCode() {
@@ -121,12 +127,12 @@ public class MemberDTO {
 		this.mailYn = mailYn;
 	}
 
-	public String getSnsYn() {
-		return snsYn;
+	public String getSmsYn() {
+		return smsYn;
 	}
 
-	public void setSnsYn(String snsYn) {
-		this.snsYn = snsYn;
+	public void setSmsYn(String smsYn) {
+		this.smsYn = smsYn;
 	}
 
 	public String getMemNick() {
@@ -142,8 +148,7 @@ public class MemberDTO {
 		return "MemberDTO [memCode=" + memCode + ", memName=" + memName + ", memId=" + memId + ", memPwd=" + memPwd
 				+ ", memTel=" + memTel + ", memBirth=" + memBirth + ", memType=" + memType + ", regDate=" + regDate
 				+ ", useYn=" + useYn + ", updDate=" + updDate + ", updUser=" + updUser + ", mailYn=" + mailYn
-				+ ", snsYn=" + snsYn + ", memNick=" + memNick + ", getClass()=" + getClass() + ", hashCode()="
-				+ hashCode() + ", toString()=" + super.toString() + "]";
+				+ ", smsYn=" + smsYn + ", memNick=" + memNick + "]";
 	}
 
 }

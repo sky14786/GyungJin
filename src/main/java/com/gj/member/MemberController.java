@@ -34,6 +34,7 @@ public class MemberController {
 
 	@PostMapping(value = "/member")
 	public boolean create(@RequestBody MemberDTO member) {
+		System.out.println(member.toString());
 		return memberService.create(member);
 	}
 
@@ -46,4 +47,5 @@ public class MemberController {
 	public boolean delete(@RequestBody MemberDTO member) {
 		return memberService.delete(member);
 	}
+	
 }
