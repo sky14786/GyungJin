@@ -12,7 +12,7 @@ public class MemberDTO {
 	private String memId;
 	private String memPwd;
 	private String memTel;
-	private Date memBirth;
+	private String memBirth;
 	private int memType;
 	private LocalDateTime regDate;
 	private String useYn;
@@ -71,11 +71,11 @@ public class MemberDTO {
 		this.memTel = memTel;
 	}
 
-	public Date getMemBirth() {
+	public String getMemBirth() {
 		return memBirth;
 	}
 
-	public void setMemBirth(Date memBirth) {
+	public void setMemBirth(String memBirth) {
 		this.memBirth = memBirth;
 	}
 
