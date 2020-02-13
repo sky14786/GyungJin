@@ -9,8 +9,11 @@ import com.gj.common.dto.MemberDTO;
 
 @Mapper
 public interface MemberMapper {
-	List<MemberDTO> findAll();
-	int create(MemberDTO member);
-	int update(MemberDTO member);
-	int delete(MemberDTO member);
+	public List<MemberDTO> findAll();
+
+	public int create(MemberDTO member);
+
+	public int update(MemberDTO member);
+
+	public int delete(MemberDTO member);
 }

@@ -139,9 +139,11 @@ public class MemberDTO {
 
 	@Override
 	public String toString() {
-		return "Member [memCode=" + memCode + ", memName=" + memName + ", memId=" + memId + ", memPwd=" + memPwd
+		return "MemberDTO [memCode=" + memCode + ", memName=" + memName + ", memId=" + memId + ", memPwd=" + memPwd
 				+ ", memTel=" + memTel + ", memBirth=" + memBirth + ", memType=" + memType + ", regDate=" + regDate
 				+ ", useYn=" + useYn + ", updDate=" + updDate + ", updUser=" + updUser + ", mailYn=" + mailYn
-				+ ", snsYn=" + snsYn + ", memNick=" + memNick + "]";
+				+ ", snsYn=" + snsYn + ", memNick=" + memNick + ", getClass()=" + getClass() + ", hashCode()="
+				+ hashCode() + ", toString()=" + super.toString() + "]";
 	}
+
 }

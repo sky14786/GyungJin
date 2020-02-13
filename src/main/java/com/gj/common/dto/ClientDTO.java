@@ -1,25 +1,22 @@
 package com.gj.common.dto;
 
+import java.time.LocalDateTime;
+
 import org.apache.ibatis.type.Alias;
 
 @Alias("client")
 public class ClientDTO {
 	private int clientCode;
+	private int clientCategory;
 	private String clientName;
 	private String clientCustomer;
 	private String clientTel;
-	private int clinetCount;
+	private LocalDateTime regDate;
+	private String useYn;
+	private LocalDateTime updDate;
+	private String updUser;
 
 	public ClientDTO() {
-	}
-
-	public ClientDTO(int clientCode, String clientName, String clientCustomer, String clientTel, int clinetCount) {
-		super();
-		this.clientCode = clientCode;
-		this.clientName = clientName;
-		this.clientCustomer = clientCustomer;
-		this.clientTel = clientTel;
-		this.clinetCount = clinetCount;
 	}
 
 	public int getClientCode() {
@@ -28,6 +25,14 @@ public class ClientDTO {
 
 	public void setClientCode(int clientCode) {
 		this.clientCode = clientCode;
+	}
+
+	public int getClientCategory() {
+		return clientCategory;
+	}
+
+	public void setClientCategory(int clientCategory) {
+		this.clientCategory = clientCategory;
 	}
 
 	public String getClientName() {
@@ -54,18 +59,43 @@ public class ClientDTO {
 		this.clientTel = clientTel;
 	}
 
-	public int getClinetCount() {
-		return clinetCount;
+	public LocalDateTime getRegDate() {
+		return regDate;
 	}
 
-	public void setClinetCount(int clinetCount) {
-		this.clinetCount = clinetCount;
+	public void setRegDate(LocalDateTime regDate) {
+		this.regDate = regDate;
+	}
+
+	public String getUseYn() {
+		return useYn;
+	}
+
+	public void setUseYn(String useYn) {
+		this.useYn = useYn;
+	}
+
+	public LocalDateTime getUpdDate() {
+		return updDate;
+	}
+
+	public void setUpdDate(LocalDateTime updDate) {
+		this.updDate = updDate;
+	}
+
+	public String getUpdUser() {
+		return updUser;
+	}
+
+	public void setUpdUser(String updUser) {
+		this.updUser = updUser;
 	}
 
 	@Override
 	public String toString() {
-		return "ClientDTO [clientCode=" + clientCode + ", clientName=" + clientName + ", clientCustomer="
-				+ clientCustomer + ", clientTel=" + clientTel + ", clinetCount=" + clinetCount + "]";
+		return "ClientDTO [clientCode=" + clientCode + ", clientCategory=" + clientCategory + ", clientName="
+				+ clientName + ", clientCustomer=" + clientCustomer + ", clientTel=" + clientTel + ", regDate="
+				+ regDate + ", useYn=" + useYn + ", updDate=" + updDate + ", updUser=" + updUser + "]";
 	}
 
 }
