@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>경진 ERP</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="../js/jquery.js"></script>
+  </head>
+  <body>
+    <script>
+      $(document).ready(function() {
+        $("#header").load("header.html");
+      });
+    </script>
+
+    <style>
+      .container-fluid {
+        font-family: "Noto Sans KR", sans-serif;
+      }
+    </style>
+    <div id="header"></div>
+    <div class="container-fluid" style="margin-top: 1%">
+      <table class="table">
+        <thead class="thead-light">
+          <tr style="text-align:center;">
+            <th>거래처번호</th>
+            <th>거래처명</th>
+            <th>담당자</th>
+            <th>연락처</th>
+            <th>등록일</th>
+            <th>상세정보</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="text-align:center;">
+            <td>
+              <a href="#" style="color:inherit;"></a>
+            </td>
+
+            <td></td>
+            <td></td>
+
+            <td></td>
+
+            <td></td>
+            <td>
+              <button
+                type="button"
+                class="btn btn-sm"
+                style="background-color:#17a2b8;color:white;"
+              >
+                <a href="#" style="color:inherit;">
+                  수정
+                </a>
+              </button>
+              <button
+                type="button"
+                name="btn_del"
+                class="btn btn-sm"
+                style="background-color:#17a2b8;color:white;"
+              >
+                삭제
+              </button>
+
+              <button
+                type="button"
+                name="btn_report"
+                class="btn btn-sm"
+                style="background-color:#17a2b8;color:white;"
+              >
+                경고
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div id="pageBar" style="text-align:center;color:black;"></div>
+    </div>
+  </body>
+  <style>
+    #pageBar > a {
+      color: black !important;
+      margin: 4px !important;
+      font-size: 20px;
+    }
+    #pageBar > .cPage {
+      margin: 4px !important;
+      color: grey !important;
+      font-size: 22px;
+    }
+    .list-padding {
+      padding: 10px 5px;
+    }
+  </style>
+</html>
