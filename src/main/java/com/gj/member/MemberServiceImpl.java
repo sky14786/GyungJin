@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gj.common.SHA512Encryption;
 import com.gj.common.dto.MemberDTO;
 import com.gj.common.mapper.MemberMapper;
 
@@ -24,7 +25,11 @@ public class MemberServiceImpl implements MemberService {
 		member = updUserValidate(member);
 		boolean isComplete = false;
 		if (member != null) {
-			isComplete = memberMapper.create(member) == 1 ? true : false;
+			SHA512Encryption encoder = new SHA512Encryption();
+			member.setMemPwd(encoder.encryption(member.getMemPwd()));
+			if(!member.getMemPwd().equals("")) {
+				isComplete = memberMapper.create(member) == 1 ? true : false;
+			}
 		}
 		return isComplete;
 	}
@@ -59,5 +64,5 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return isValidate ? member : null;
 	}
-	
+
 }
