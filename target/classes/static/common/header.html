@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <nav
+      class="navbar navbar-expand-xl"
+      style="height: 100px;background-color: #e4e4e4; padding: 0px 50px;"
+    >
+      <!-- <ul class="navbar-nav"> -->
+      <div class="dropdown" style="margin-right: 20px;">
+        <button
+          type="button"
+          class="btn btn-primary btn-lg dropdown-toggle"
+          data-toggle="dropdown"
+        >
+          거래처관리
+        </button>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item">보기</a>
+          <button
+            type="button"
+            class="dropdown-item"
+            data-toggle="modal"
+            data-target="#client_modal"
+          >
+            등록
+          </button>
+        </div>
+      </div>
+      <div class="dropdown" style="margin-right: 20px;">
+        <button
+          type="button"
+          class="btn btn-primary btn-lg dropdown-toggle"
+          data-toggle="dropdown"
+        >
+          시공일지
+        </button>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item">보기</a>
+          <a href="#" class="dropdown-item">등록</a>
+        </div>
+      </div>
+      <div class="dropdown" style="margin-right: 20px;">
+        <button
+          type="button"
+          class="btn btn-primary btn-lg dropdown-toggle"
+          data-toggle="dropdown"
+        >
+          매출관리
+        </button>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item">보기</a>
+          <a href="#" class="dropdown-item">등록</a>
+        </div>
+      </div>
+    </nav>
+    <div class="modal" id="client_modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">거래처 등록</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+
+          <div class="modal-body" style="padding:45px 85px;">
+            <div id="clientContent">
+              거래처명 :
+              <input
+                type="text"
+                name="clientName"
+                size="25"
+                style="margin-left:25px;"
+              /><br /><br />
+              담당자 :
+              <input
+                type="text"
+                name="clientCustomer"
+                size="25"
+                style="margin-left:39px;"
+              /><br /><br />
+              연락처 :
+              <input
+                type="text"
+                name="clientTel"
+                size="25"
+                style="margin-left:39px;"
+              /><br /><br />
+              종류 :
+              <select
+                id="client_category"
+                name="clientCategory"
+                style="margin-left: 52px;width:216px;height: 30px;"
+              >
+                <option>선택안함</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="createClient();"
+            >
+              등록
+            </button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              닫기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <style></style>
+
+    <script>
+      $(document).ready(function() {
+        loadClientCategory();
+      });
+
+      function clienctValidatingCheck() {
+        if ($("input[name=clientName]").val() == "") {
+          alert("거래처명을 입력해주세요.");
+          return false;
+        }
+        if ($("input[name=clientCustomer]").val() == "") {
+          alert("담당자를 입력해주세요.");
+          return false;
+        }
+        if ($("input[name=clientTel]").val() == "") {
+          alert("연락처를 입력해주세요.");
+          return false;
+        }
+        if ($("select[name=clienctCategory]").val() == "선택안함") {
+          alert("거래처 종류를 선택해주세요.");
+          return false;
+        }
+        return true;
+      }
+
+      function createClient() {
+        if (clienctValidatingCheck()) {
+          var temp = {};
+          $.each($("#clientContent").children("input"), function(index, item) {
+            if ($(item).val() != "") {
+              temp[$(item).attr("name")] = $(item).val();
+            }
+          });
+          $.each($("#client_category").children("option"), function(
+            index,
+            item
+          ) {
+            if ($(item).val() == $("#client_category").val()) {
+              temp[$("#client_category").attr("name")] = $(item).attr("name");
+            }
+          });
+
+          $.ajax({
+            url: "/api/client",
+            method: "POST",
+            dataType: "json",
+            data: JSON.stringify(temp),
+            contentType: "application/json; charset=UTF-8",
+            success: function(data) {
+              if (data) {
+                alert("거래처가 등록되었습니다.");
+                location.reload();
+              } else {
+                alert("거래처 등록에 실패했습니다.");
+                location.reload();
+              }
+            }
+          });
+        }
+      }
+
+      function loadClientCategory() {
+        $.ajax({
+          url: "/api/clientcategory",
+          method: "GET",
+          dataType: "json",
+          contentType: "application/json; charset=UTF-8",
+          success: function(data) {
+            if (data != null) {
+              $.each(data, function(index, item) {
+                $("#client_category").append(
+                  "<option name='" +
+                    item.clientCateCode +
+                    "'>" +
+                    item.clientCateName +
+                    "</option>"
+                );
+              });
+            }
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

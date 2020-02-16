@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "Mapper" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gj.common.mapper.ClientCategoryMapper">
-	<select id="findAll">
+	<select id="findAll" resultType="ClientCategory">
 		SELECT * FROM CLIENT_CATEGORY
 	</select>
 </mapper>

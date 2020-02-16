@@ -5,5 +5,7 @@ import java.util.List;
 import com.gj.common.dto.ClientDTO;
 
 public interface ClientService {
-	List<ClientDTO> findAll();
+	public List<ClientDTO> findAll();
+
+	public boolean create(ClientDTO client);
 }

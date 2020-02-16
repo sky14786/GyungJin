@@ -16,20 +16,19 @@ import com.gj.common.dto.ClientDTO;
 @RestController
 @RequestMapping("/api")
 public class ClientController {
-	
+
 	private Log log = LogFactory.getLog(ClientController.class);
-	
+
 	@Autowired
 	ClientService clientService;
-	
+
 	@GetMapping("/client")
-	public List<ClientDTO> findAll(){
+	public List<ClientDTO> findAll() {
 		return clientService.findAll();
 	}
-	
+
 	@PostMapping("/client")
 	public boolean create(@RequestBody ClientDTO client) {
-		log.info(client);
-		return false;
+		return clientService.create(client);
 	}
 }

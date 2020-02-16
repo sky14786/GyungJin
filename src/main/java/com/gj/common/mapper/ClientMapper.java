@@ -9,4 +9,6 @@ import com.gj.common.dto.ClientDTO;
 @Mapper
 public interface ClientMapper {
 	public List<ClientDTO> findAll();
+
+	public int create(ClientDTO client);
 }

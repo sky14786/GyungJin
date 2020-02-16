@@ -4,4 +4,8 @@
 	<select id="findAll" resultType="client">
 		SELECT * FROM CLIENT
 	</select>
+	
+	<insert id="create" parameterType="map">
+		INSERT INTO CLIENT VALUES (DEFAULT, #{clientCategory}, #{clientName}, #{clientCustomer}, #{clientTel},default,default,default,#{updUser})
+	</insert>
 </mapper>

@@ -2,7 +2,7 @@ package com.gj.common.dto;
 
 import org.apache.ibatis.type.Alias;
 
-@Alias("clientcategory")
+@Alias("ClientCategory")
 public class ClientCategoryDTO {
 	private int clientCateCode;
 	private String clientCateName;

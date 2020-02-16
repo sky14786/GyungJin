@@ -9,5 +9,7 @@ import com.gj.common.dto.ClientCategoryDTO;
 @Mapper
 public interface ClientCategoryMapper {
 	public List<ClientCategoryDTO> findAll();
-	
+
+	public int create(ClientCategoryDTO clientCategoryDTO);
+
 }

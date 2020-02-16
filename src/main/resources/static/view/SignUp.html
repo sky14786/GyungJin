@@ -210,7 +210,6 @@
               temp[$(item).attr("name")] = $(item).is(":checked") ? "Y" : "N";
             }
           });
-          console.log(JSON.stringify(temp));
           $.ajax({
             url: "/api/member",
             data: JSON.stringify(temp),
