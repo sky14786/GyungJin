@@ -13,7 +13,7 @@ public class MemberDTO {
 	private String memPwd;
 	private String memTel;
 	private String memBirth;
-	private int memType;
+	private String memType;
 	private LocalDateTime regDate;
 	private String useYn;
 	private LocalDateTime updDate;
@@ -24,7 +24,7 @@ public class MemberDTO {
 
 	public MemberDTO() {
 		this.memCode = 0;
-		this.memType = 0;
+		this.memType = "";
 		this.mailYn = "";
 		this.smsYn = "";
 		this.useYn = "";
@@ -79,11 +79,11 @@ public class MemberDTO {
 		this.memBirth = memBirth;
 	}
 
-	public int getMemType() {
+	public String getMemType() {
 		return memType;
 	}
 
-	public void setMemType(int memType) {
+	public void setMemType(String memType) {
 		this.memType = memType;
 	}
 

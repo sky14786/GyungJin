@@ -201,7 +201,6 @@
 
       function btnSignUp() {
         if (dataValidate()) {
-          console.log("시작");
           var temp = {};
           $.each($("input"), function(index, item) {
             if ($(item).attr("type") != "checkbox") {
@@ -230,7 +229,6 @@
       }
 
       function dataValidate() {
-        console.log("데이터검사");
         if (!emailValidation($("input[name=memId]").val())) return false;
         if (!passwordValidation($("#memPwd").val())) return false;
         if (!nameValidation($("input[name=memName").val())) return false;
@@ -247,6 +245,20 @@
           if (!emailRule.test(inputEmail)) {
             alert("이메일을 형식에 맞게 작성하세요.");
             return false;
+          } else {
+            $.ajax({
+              url: "/api/member/" + inputEmail,
+              dataType: "json",
+              method: "GET",
+              contentType: "application/json; charset=UTF-8",
+              success: function(data) {
+                console.log(data);
+                if (data != null) {
+                  alert("사용중인 아이디 입니다.");
+                  return false;
+                }
+              }
+            });
           }
         } else {
           alert("이메일을 입력하세요.");

@@ -10,6 +10,8 @@ import com.gj.common.dto.MemberDTO;
 @Mapper
 public interface MemberMapper {
 	public List<MemberDTO> findAll();
+	
+	public MemberDTO findOne(String email);
 
 	public int create(MemberDTO member);
 

@@ -4,4 +4,8 @@
 	<select id="findAll" resultType="ClientCategory">
 		SELECT * FROM CLIENT_CATEGORY
 	</select>
+	
+	<insert id="create" parameterType="map">
+		INSERT INTO CLIENT_CATEGORY VALUES (default,#{clientCateName})s
+	</insert>
 </mapper>

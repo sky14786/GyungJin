@@ -5,6 +5,10 @@
 		SELECT * FROM MEMBER
 	</select>
 	
+	<select id="findOne" resultType="member">
+		SELECT * FROM MEMBER WHERE MEM_ID = #{email} AND USE_YN = 'Y'
+	</select>
+	
 	<insert id="create" parameterType="map">
 		INSERT INTO MEMBER VALUES(DEFAULT,#{memName},#{memId},#{memPwd},#{memTel},#{memBirth},DEFAULT,DEFAULT,"Y",DEFAULT,#{updUser},#{mailYn},#{smsYn},#{memNick})
 	</insert>

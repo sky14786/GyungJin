@@ -1,11 +1,16 @@
 package com.gj.member;
 
+import java.time.ZoneId;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gj.common.SHA512Encryption;
+import com.gj.common.UTCMapper;
+import com.gj.common.dto.ClientCategoryDTO;
 import com.gj.common.dto.MemberDTO;
 import com.gj.common.mapper.MemberMapper;
 
@@ -16,8 +21,20 @@ public class MemberServiceImpl implements MemberService {
 	MemberMapper memberMapper;
 
 	@Override
-	public List<MemberDTO> findAll() {
-		return memberMapper.findAll();
+	public String findAll() throws JsonProcessingException {
+		String result = toJson(memberMapper.findAll());
+		return result;
+	}
+
+	@Override
+	public String findOne(String email) throws JsonProcessingException {
+		String result = "";
+		if (email != null && !email.equals("")) {
+			MemberDTO member = memberMapper.findOne(email);
+			member = timeSet(member);
+			result = toJson(member);
+		}
+		return result;
 	}
 
 	@Override
@@ -27,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
 		if (member != null) {
 			SHA512Encryption encoder = new SHA512Encryption();
 			member.setMemPwd(encoder.encryption(member.getMemPwd()));
-			if(!member.getMemPwd().equals("")) {
+			if (!member.getMemPwd().equals("")) {
 				isComplete = memberMapper.create(member) == 1 ? true : false;
 			}
 		}
@@ -63,6 +80,24 @@ public class MemberServiceImpl implements MemberService {
 			}
 		}
 		return isValidate ? member : null;
+	}
+
+	private String toJson(List<MemberDTO> temp) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		String result = mapper.writeValueAsString(temp);
+		return result;
+	}
+
+	private String toJson(MemberDTO temp) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		String result = mapper.writeValueAsString(temp);
+		return result;
+	}
+
+	private MemberDTO timeSet(MemberDTO temp) {
+		temp.setRegDate(UTCMapper.toKor(temp.getRegDate()));
+		temp.setUpdDate(UTCMapper.toKor(temp.getUpdDate()));
+		return temp;
 	}
 
 }
