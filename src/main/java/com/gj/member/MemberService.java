@@ -1,9 +1,5 @@
 package com.gj.member;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.gj.common.dto.MemberDTO;
 
@@ -17,5 +13,7 @@ public interface MemberService {
 	public boolean update(MemberDTO member);
 
 	public boolean delete(MemberDTO member);
+	
+	public MemberDTO login(MemberDTO member);
 
 }

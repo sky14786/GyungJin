@@ -9,6 +9,10 @@
 		SELECT * FROM MEMBER WHERE MEM_ID = #{email} AND USE_YN = 'Y'
 	</select>
 	
+	<select id="login" resultType="member" parameterType="map">
+		SELECT * FROM MEMBER WHERE MEM_ID = #{memId} AND MEM_PWD = #{memPwd} AND USE_YN = 'Y'	
+	</select>
+	
 	<insert id="create" parameterType="map">
 		INSERT INTO MEMBER VALUES(DEFAULT,#{memName},#{memId},#{memPwd},#{memTel},#{memBirth},DEFAULT,DEFAULT,"Y",DEFAULT,#{updUser},#{mailYn},#{smsYn},#{memNick})
 	</insert>

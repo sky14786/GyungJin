@@ -27,6 +27,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public MemberDTO login(MemberDTO member) {
+		MemberDTO result = null;
+		if (!member.getMemId().equals("") && !member.getMemPwd().equals("")) {
+			SHA512Encryption encoder = new SHA512Encryption();
+			member.setMemPwd(encoder.encryption(member.getMemPwd()));
+			result = memberMapper.login(member);
+		}
+		return result;
+	}
+
+	@Override
 	public String findOne(String email) throws JsonProcessingException {
 		String result = "";
 		if (email != null && !email.equals("")) {

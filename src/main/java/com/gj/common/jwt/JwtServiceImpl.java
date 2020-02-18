@@ -23,7 +23,7 @@ public class JwtServiceImpl implements JwtService {
 	private final String saltKey = "JinGyung";
 
 	@Override
-	public String createToken(HttpServletRequest res) {
+	public String createToken(String email) {
 		Map<String, Object> headers = new HashMap<>();
 		headers.put("typ", "JWT");
 		headers.put("alg", "HS256");
@@ -33,14 +33,7 @@ public class JwtServiceImpl implements JwtService {
 		Date now = new Date();
 		now.setTime(now.getTime() + expiredTime);
 
-		String user = res.getParameter("user");
-		String name = res.getParameter("name");
-		// Test Codes
-		user = "testuser";
-		name = "test";
-		// -------
-		payloads.put("user", user);
-		payloads.put("name", name);
+		payloads.put("memId", email);
 
 		String jwt = Jwts.builder().setHeader(headers).setClaims(payloads).setExpiration(now)
 				.signWith(SignatureAlgorithm.HS256, saltKey.getBytes()).compact();
@@ -58,9 +51,11 @@ public class JwtServiceImpl implements JwtService {
 			log.info("name : " + claims.get("name"));
 			return true;
 		} catch (ExpiredJwtException exception) {
+			// 토큰 시간 만료
 			log.info("Token Expiration");
 			return false;
 		} catch (JwtException exception) {
+			// 토큰 변조
 			log.info("Token Modulation");
 			return false;
 		}
