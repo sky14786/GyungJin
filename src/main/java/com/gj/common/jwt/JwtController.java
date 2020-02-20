@@ -33,7 +33,7 @@ public class JwtController {
 		member = memberService.login(member);
 		String result = null;
 		if(member != null) {
-			result = jwtService.createToken(member.getMemId());
+			result = jwtService.createToken(member);
 		}
 		
 		return result;
