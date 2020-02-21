@@ -1,12 +1,17 @@
 package com.gj.common.jwt;
 
+import java.util.HashMap;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gj.common.dto.MemberDTO;
 import com.gj.member.MemberService;
 
@@ -19,23 +24,26 @@ public class JwtController {
 	private MemberService memberService;
 
 	@PostMapping("/jwt")
-	public String createToken(HttpServletRequest res) throws Exception {
+	public String createToken(@RequestBody HashMap<String, String> map) throws Exception {
 		MemberDTO member = null;
-		String memId = res.getParameter("memId");
-		String memPwd = res.getParameter("memPwd");
-		
-		if(!memId.equals("") && !memPwd.equals("")) {
+
+		String memId = map.get("memId");
+		String memPwd = map.get("memPwd");
+
+		if (!memId.equals("") && !memPwd.equals("")) {
 			member = new MemberDTO();
 			member.setMemId(memId);
 			member.setMemPwd(memPwd);
 		}
-		
+
 		member = memberService.login(member);
 		String result = null;
-		if(member != null) {
+		if (member != null) {
 			result = jwtService.createToken(member);
+			map.clear();
+			map.put("accessToken", result);
+			result = toJson(map);
 		}
-		
 		return result;
 	}
 
@@ -45,8 +53,13 @@ public class JwtController {
 
 		if (jwt != null) {
 			return jwtService.validateToken(jwt);
-		} else {
-			return false;
 		}
+		return false;
+	}
+
+	private String toJson(HashMap<String, String> map) throws JsonProcessingException {
+		ObjectMapper ob = new ObjectMapper();
+		String result = ob.writeValueAsString(map);
+		return result;
 	}
 }
