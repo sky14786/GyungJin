@@ -7,7 +7,7 @@
     <!--===============================================================================================-->
 
     <script type="text/javascript" src="js/jquery.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script> -->
+
     <script type="text/javascript" src="js/jquery_cookie.js"></script>
     <!--===============================================================================================-->
     <!--===============================================================================================-->
@@ -156,6 +156,13 @@
           success: function(data) {
             $.cookie("accessToken", data.accessToken);
             $.cookie("refreshToken", data.refreshToken);
+            $(location).attr(
+              "href",
+              "http://" + $(location).attr("host") + "/view/Main.html"
+            );
+          },
+          error: function(data) {
+            alert("로그인에 실패했습니다.");
           }
         });
       }
