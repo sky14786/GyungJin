@@ -31,7 +31,7 @@ public class MemberServiceImpl implements MemberService {
 		MemberDTO result = null;
 		if (!member.getMemId().equals("") && !member.getMemPwd().equals("")) {
 			SHA512Encryption encoder = new SHA512Encryption();
-			member.setMemPwd(encoder.encryption(member.getMemPwd()));
+			member.setMemPwd(encoder.encryption(member.getMemPwd(), "password"));
 			result = memberMapper.login(member);
 		}
 		return result;
@@ -54,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
 		boolean isComplete = false;
 		if (member != null) {
 			SHA512Encryption encoder = new SHA512Encryption();
-			member.setMemPwd(encoder.encryption(member.getMemPwd()));
+			member.setMemPwd(encoder.encryption(member.getMemPwd(), "password"));
 			if (!member.getMemPwd().equals("")) {
 				isComplete = memberMapper.create(member) == 1 ? true : false;
 			}

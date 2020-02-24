@@ -31,10 +31,10 @@ public class JwtServiceImpl implements JwtService {
 		headers.put("alg", "HS256");
 
 		Map<String, Object> payloads = new HashMap<>();
-		Long expiredTime = 1000 * 60l;
+		Long expiredTime = 1000 * 60l * 15l;
 		Date now = new Date();
 		now.setTime(now.getTime() + expiredTime);
-		
+
 		payloads.put("memId", member.getMemId());
 		payloads.put("type", member.getMemType());
 
@@ -63,6 +63,16 @@ public class JwtServiceImpl implements JwtService {
 			return false;
 		}
 
+	}
+
+	@Override
+	public String refreshToken() {
+		Long expiredTime = 1000 * 60l * 60l * 24l * 7l;
+//		Long expiredTime = 1000 * 60l;
+		Date now = new Date();
+		now.setTime(now.getTime() + expiredTime);
+		String result = Jwts.builder().setExpiration(now).compact();
+		return result;
 	}
 
 }

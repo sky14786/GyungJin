@@ -5,4 +5,5 @@ import com.gj.common.dto.MemberDTO;
 public interface JwtService {
 	public String createToken(MemberDTO member);
 	public boolean validateToken(String jwt)throws Exception;
+	public String refreshToken();
 }

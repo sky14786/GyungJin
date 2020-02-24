@@ -4,12 +4,12 @@
     <title>경진 ERP</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-     <!--===============================================================================================-->
-     
-     <script type="text/javascript"src="js/jquery.js"></script>
-     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script> -->
-     <script type="text/javascript" src="js/jquery_cookie.js"></script>
-     <!--===============================================================================================-->
+    <!--===============================================================================================-->
+
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script> -->
+    <script type="text/javascript" src="js/jquery_cookie.js"></script>
+    <!--===============================================================================================-->
     <!--===============================================================================================-->
     <link rel="icon" type="image/png" href="login/images/icons/favicon.ico" />
     <!--===============================================================================================-->
@@ -76,9 +76,7 @@
             경진
           </span>
           <div class="login100-form validate-form p-b-33 p-t-5">
-            <div
-              class="wrap-input100 validate-input"
-            >
+            <div class="wrap-input100 validate-input">
               <input
                 class="input100"
                 type="text"
@@ -88,9 +86,7 @@
               <span class="focus-input100" data-placeholder="&#xe82a;"></span>
             </div>
 
-            <div
-              class="wrap-input100 validate-input"
-            >
+            <div class="wrap-input100 validate-input">
               <input
                 class="input100"
                 type="password"
@@ -101,7 +97,12 @@
             </div>
 
             <div class="container-login100-form-btn m-t-32">
-              <button  value="login" class="login100-form-btn" id="btnLogin" onclick="login();">
+              <button
+                value="login"
+                class="login100-form-btn"
+                id="btnLogin"
+                onclick="login();"
+              >
                 Login
               </button>
               <button
@@ -112,7 +113,7 @@
               >
                 SignUp
               </button>
-            </div>  
+            </div>
           </div>
         </div>
       </div>
@@ -120,7 +121,6 @@
 
     <div id="dropDownSelect1"></div>
 
-   
     <script src="login/vendor/animsition/js/animsition.min.js"></script>
     <!--===============================================================================================-->
     <script src="login/vendor/bootstrap/js/popper.js"></script>
@@ -143,20 +143,21 @@
         );
       }
 
-      function login(){
+      function login() {
         var temp = {};
         temp.memId = $("input[name=memId]").val();
         temp.memPwd = $("input[name=memPwd]").val();
         $.ajax({
-            url: "/jwt",
-            data: JSON.stringify(temp),
-            method: "POST",
-            dataType: "json",
-            contentType: "application/json; charset=UTF-8",
-            success: function(data) {
-              $.cookie('accessToken',data.accessToken);
-            }
-          });
+          url: "/jwt",
+          data: JSON.stringify(temp),
+          method: "POST",
+          dataType: "json",
+          contentType: "application/json; charset=UTF-8",
+          success: function(data) {
+            $.cookie("accessToken", data.accessToken);
+            $.cookie("refreshToken", data.refreshToken);
+          }
+        });
       }
     </script>
   </body>

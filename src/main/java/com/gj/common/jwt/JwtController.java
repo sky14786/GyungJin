@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gj.common.dto.MemberDTO;
 import com.gj.member.MemberService;
+import com.gj.refresh.RefreshTokenService;
 
 @RestController
 public class JwtController {
@@ -22,6 +23,9 @@ public class JwtController {
 
 	@Autowired
 	private MemberService memberService;
+
+	@Autowired
+	private RefreshTokenService refreshTokenService;
 
 	@PostMapping("/jwt")
 	public String createToken(@RequestBody HashMap<String, String> map) throws Exception {
@@ -42,6 +46,11 @@ public class JwtController {
 			result = jwtService.createToken(member);
 			map.clear();
 			map.put("accessToken", result);
+			if (refreshTokenService.select(member).size() != 0) {
+				map.put("refreshToken", refreshTokenService.refreshOne(member));
+			} else {
+				map.put("refreshToken", refreshTokenService.create(member));
+			}
 			result = toJson(map);
 		}
 		return result;
