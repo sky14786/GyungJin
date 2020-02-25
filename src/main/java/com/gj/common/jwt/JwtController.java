@@ -57,13 +57,13 @@ public class JwtController {
 	}
 
 	@GetMapping("/jwt")
-	public boolean validateToken(HttpServletRequest res) throws Exception {
+	public String validateToken(HttpServletRequest res) throws Exception {
 		String jwt = res.getParameter("jwt");
 
 		if (jwt != null) {
 			return jwtService.validateToken(jwt);
 		}
-		return false;
+		return "false";
 	}
 
 	private String toJson(HashMap<String, String> map) throws JsonProcessingException {

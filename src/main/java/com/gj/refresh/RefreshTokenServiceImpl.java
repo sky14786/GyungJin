@@ -57,7 +57,6 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 			tokenDTO.setMemReToken(token);
 			result = mapper.refreshOne(tokenDTO);
 		}
-
 		return result == 1 ? tokenDTO.getMemReToken() : "";
 	}
 

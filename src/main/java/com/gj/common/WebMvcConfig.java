@@ -1,21 +1,21 @@
 package com.gj.common;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
-public class WebMvcConfig extends WebMvcConfigurerAdapter {
+public class WebMvcConfig implements WebMvcConfigurer {
 	
-	@Autowired
-	private HandlerInterceptor handlerInterceptor;
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(handlerInterceptor).addPathPatterns("/**").excludePathPatterns("/view/**").excludePathPatterns("/");
+		final List<String> URL_PATTERNS = Arrays.asList("/","/view/**");
+		registry.addInterceptor(new LoggerInterceptor()).addPathPatterns("/**").excludePathPatterns(URL_PATTERNS);
+		registry.addInterceptor(new JwtInterceptor()).addPathPatterns("/api").addPathPatterns("/jwt");
 	}
 
 }
