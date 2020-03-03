@@ -12,13 +12,32 @@ function validationToken() {
     parseJwt($.cookie("accessToken")).exp - parseInt(Date.now() / 1000);
   var refreshTime =
     parseJwt($.cookie("refreshToken")).exp - parseInt(Date.now() / 1000);
-  if (expiredTime > 0) {
-  } else if (expiredTime >= -600 && expiredTime <= 0) {
-    $.ajax({});
-  } else if (expiredTime <= -600) {
-    alert("다시 로그인해 주세요.");
-    $(location).attr("href", "http://" + $(location).attr("host") + "/");
+  if (expiredTime >= -600 && expiredTime <= 0) {
+    $.ajax({
+      url: "/oauth",
+      method: "GET",
+      dataType: "text",
+      contentType: "application/json; charset=UTF-8",
+      success: function(data) {
+        if (data == "Modulation") {
+          alert("다시 로그인해 주세요.");
+          $(location).attr("href", "http://" + $(location).attr("host") + "/");
+          return false;
+        } else if (data == "false") {
+          alert("다시 로그인해 주세요.");
+          $(location).attr("href", "http://" + $(location).attr("host") + "/");
+          return false;
+        } else {
+          $.cookie("accessToken", data);
+        }
+      }
+    });
+    return true;
   }
+  // } else if (expiredTime <= -600) {
+  //   alert("다시 로그인해 주세요.");
+  //   $(location).attr("href", "http://" + $(location).attr("host") + "/");
+  // }
 }
 
 function parseJwt(token) {

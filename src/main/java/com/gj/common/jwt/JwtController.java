@@ -2,6 +2,7 @@ package com.gj.common.jwt;
 
 import java.util.HashMap;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class JwtController {
 	@Autowired
 	private RefreshTokenService refreshTokenService;
 
-	@PostMapping("/jwt")
+	@PostMapping("/oauth")
 	public String createToken(@RequestBody HashMap<String, String> map) throws Exception {
 		MemberDTO member = null;
 
@@ -56,12 +57,28 @@ public class JwtController {
 		return result;
 	}
 
-	@GetMapping("/jwt")
+	@GetMapping("/oauth")
 	public String validateToken(HttpServletRequest res) throws Exception {
-		String jwt = res.getParameter("jwt");
-
-		if (jwt != null) {
-			return jwtService.validateToken(jwt);
+		Cookie[] cookies = res.getCookies();
+		String result = "";
+		for (int i = 0; i < cookies.length; i++) {
+			if (cookies[i].getName().equals("accessToken")) {
+				// 토큰 만료
+				if (jwtService.validateToken(cookies[i].getValue()).equals("Expiration")) {
+					if (cookies[i + 1].getName().equals("refreshToken")) {
+						String refreshToken = cookies[i + 1].getValue();
+						if (refreshTokenService.validateToken(refreshToken).equals("true")) {
+							result = refreshTokenService.accessTokenReissuance(refreshToken);
+							System.out.println(result);
+							return result;
+						}
+					}
+				}
+				// 토큰 변조
+				if (jwtService.validateToken(cookies[i].getValue()).equals("Modulation")) {
+					return "Modulation";
+				}
+			}
 		}
 		return "false";
 	}

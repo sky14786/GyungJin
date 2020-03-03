@@ -12,11 +12,16 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.gj.common.jwt.JwtService;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+
 @Component
 public class JwtInterceptor extends HandlerInterceptorAdapter {
-	@Autowired
-	private JwtService jwtService;
-	
+//	@Autowired
+//	private JwtService jwtService;
+	private final String saltKey = "JinGyung";
 	private Log log = LogFactory.getLog(JwtInterceptor.class);
 
 	@Override
@@ -25,16 +30,25 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
 		Cookie[] cookies = request.getCookies();
 		for (int i = 0; i < cookies.length; i++) {
 			if (cookies[i].getName().equals("accessToken")) {
-				// 토큰 만료
-				if (jwtService.validateToken(cookies[i].getValue()).equals("Expiration")) {
+				if (validateToken(cookies[i].getValue()).equals("Expiration")) {
 				}
-				// 토큰 변조
-				if (jwtService.validateToken(cookies[i].getValue()).equals("Modulation")) {
-						
+				if (validateToken(cookies[i].getValue()).equals("Modulation")) {
 				}
 			}
 
 		}
 		return super.preHandle(request, response, handler);
+	}
+
+	public String validateToken(String jwt) throws Exception {
+		try {
+			Claims claims = Jwts.parser().setSigningKey(saltKey.getBytes()).parseClaimsJws(jwt).getBody();
+			return "true";
+		} catch (ExpiredJwtException exception) {
+			return "Expiration";
+		} catch (JwtException exception) {
+			return "Modulation";
+		}
+
 	}
 }

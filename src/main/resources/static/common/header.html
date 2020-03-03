@@ -180,23 +180,24 @@
               temp[$("#client_category").attr("name")] = $(item).attr("name");
             }
           });
-
-          $.ajax({
-            url: "/api/client",
-            method: "POST",
-            dataType: "json",
-            data: JSON.stringify(temp),
-            contentType: "application/json; charset=UTF-8",
-            success: function(data) {
-              if (data) {
-                alert("거래처가 등록되었습니다.");
-                location.reload();
-              } else {
-                alert("거래처 등록에 실패했습니다.");
-                location.reload();
+          if (validationToken()) {
+            $.ajax({
+              url: "/api/client",
+              method: "POST",
+              dataType: "json",
+              data: JSON.stringify(temp),
+              contentType: "application/json; charset=UTF-8",
+              success: function(data) {
+                if (data) {
+                  alert("거래처가 등록되었습니다.");
+                  location.reload();
+                } else {
+                  alert("거래처 등록에 실패했습니다.");
+                  location.reload();
+                }
               }
-            }
-          });
+            });
+          }
         }
       }
 

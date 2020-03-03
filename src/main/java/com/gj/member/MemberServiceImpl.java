@@ -49,6 +49,15 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public MemberDTO findOneMemberDTO(String email) {
+		MemberDTO member = null;
+		if (email != null && !email.equals("")) {
+			member = memberMapper.findOne(email);
+		}
+		return member;
+	}
+
+	@Override
 	public boolean create(MemberDTO member) {
 		member = updUserValidate(member);
 		boolean isComplete = false;

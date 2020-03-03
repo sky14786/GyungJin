@@ -6,10 +6,14 @@
 	</insert>
 	
 	<select id="selectOne" resultType="refreshToken" parameterType="map">
-		SELECT * FROM AUTH_REFRESH WHERE MEM_ID = #{memId}
+		SELECT * FROM AUTH_REFRESH WHERE MEM_RE_TOKEN = #{refreshToken}
 	</select>
 	
 	<update id="refreshOne" parameterType="map">
 		UPDATE AUTH_REFRESH SET MEM_RE_TOKEN = #{memReToken} WHERE MEM_ID = #{memId}
 	</update>
+	
+	<select id="select" resultType="refreshToken" parameterType="map">
+		SELECT * FROM AUTH_REFRESH WHERE MEM_ID = #{memId}
+	</select>
 </mapper>

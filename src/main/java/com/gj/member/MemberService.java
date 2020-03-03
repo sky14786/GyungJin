@@ -7,6 +7,8 @@ public interface MemberService {
 	public String findAll() throws JsonProcessingException;
 
 	public String findOne(String email) throws JsonProcessingException;
+	
+	public MemberDTO findOneMemberDTO(String email);
 
 	public boolean create(MemberDTO member);
 

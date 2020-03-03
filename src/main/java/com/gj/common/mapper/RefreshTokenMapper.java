@@ -14,4 +14,6 @@ public interface RefreshTokenMapper {
 	public List<RefreshTokenDTO> select(MemberDTO temp);
 
 	public int refreshOne(RefreshTokenDTO temp);
+
+	public List<RefreshTokenDTO> selectOne(String refreshToken);
 }

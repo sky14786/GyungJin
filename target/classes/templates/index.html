@@ -148,7 +148,7 @@
         temp.memId = $("input[name=memId]").val();
         temp.memPwd = $("input[name=memPwd]").val();
         $.ajax({
-          url: "/jwt",
+          url: "/oauth",
           data: JSON.stringify(temp),
           method: "POST",
           dataType: "json",
