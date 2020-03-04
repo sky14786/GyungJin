@@ -23,7 +23,7 @@ public class ClientController {
 	ClientService clientService;
 
 	@GetMapping("/client")
-	public List<ClientDTO> findAll() {
+	public String findAll() throws Exception {
 		return clientService.findAll();
 	}
 

@@ -31,8 +31,10 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
 		for (int i = 0; i < cookies.length; i++) {
 			if (cookies[i].getName().equals("accessToken")) {
 				if (validateToken(cookies[i].getValue()).equals("Expiration")) {
+					response.sendError(401,"Token Expiration");
 				}
 				if (validateToken(cookies[i].getValue()).equals("Modulation")) {
+					response.sendError(400,"Token Modulation");
 				}
 			}
 

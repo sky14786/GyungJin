@@ -1,6 +1,7 @@
 package com.gj.common.jwt;
 
 import java.util.HashMap;
+import java.util.Scanner;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -69,7 +70,6 @@ public class JwtController {
 						String refreshToken = cookies[i + 1].getValue();
 						if (refreshTokenService.validateToken(refreshToken).equals("true")) {
 							result = refreshTokenService.accessTokenReissuance(refreshToken);
-							System.out.println(result);
 							return result;
 						}
 					}
@@ -88,4 +88,5 @@ public class JwtController {
 		String result = ob.writeValueAsString(map);
 		return result;
 	}
+
 }

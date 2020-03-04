@@ -4,6 +4,12 @@ import java.time.LocalDateTime;
 
 import org.apache.ibatis.type.Alias;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 @Alias("client")
 public class ClientDTO {
 	private int clientCode;
@@ -11,8 +17,16 @@ public class ClientDTO {
 	private String clientName;
 	private String clientCustomer;
 	private String clientTel;
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+//	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+//	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime regDate;
 	private String useYn;
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd' 'HH시mm분ss초", timezone = "Asia/Seoul")
+//	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm", timezone = "Asia/Seoul")
+//	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+//	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	private LocalDateTime updDate;
 	private String updUser;
 

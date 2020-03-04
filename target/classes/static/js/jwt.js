@@ -12,6 +12,8 @@ function validationToken() {
     parseJwt($.cookie("accessToken")).exp - parseInt(Date.now() / 1000);
   var refreshTime =
     parseJwt($.cookie("refreshToken")).exp - parseInt(Date.now() / 1000);
+  console.log(expiredTime);
+  console.log(refreshTime);
   if (expiredTime >= -600 && expiredTime <= 0) {
     $.ajax({
       url: "/oauth",
@@ -30,9 +32,17 @@ function validationToken() {
         } else {
           $.cookie("accessToken", data);
         }
+      },
+      error: function(request, status, error) {
+        console.log(request);
+        console.log(status);
+        console.log(error);
       }
     });
     return true;
+  } else if (expiredTime <= -600) {
+    alert("다시 로그인해 주세요.");
+    $(location).attr("href", "http://" + $(location).attr("host") + "/");
   }
   // } else if (expiredTime <= -600) {
   //   alert("다시 로그인해 주세요.");

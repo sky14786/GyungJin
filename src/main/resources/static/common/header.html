@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script type="text/javascript" src="../js/jwt.js"></script>
+    <script type="text/javascript" src="../js/jwt.js?ver=20200304"></script>
     <!-- <script type="text/javascript" src="../js/jquery.js"></script>
     <script type="text/javascript" src="../js/jquery_cookie.js"></script> -->
 
@@ -157,7 +157,7 @@
           alert("연락처를 입력해주세요.");
           return false;
         }
-        if ($("select[name=clienctCategory]").val() == "선택안함") {
+        if ($("select[name=clientCategory]").val() == "선택안함") {
           alert("거래처 종류를 선택해주세요.");
           return false;
         }
@@ -180,24 +180,23 @@
               temp[$("#client_category").attr("name")] = $(item).attr("name");
             }
           });
-          if (validationToken()) {
-            $.ajax({
-              url: "/api/client",
-              method: "POST",
-              dataType: "json",
-              data: JSON.stringify(temp),
-              contentType: "application/json; charset=UTF-8",
-              success: function(data) {
-                if (data) {
-                  alert("거래처가 등록되었습니다.");
-                  location.reload();
-                } else {
-                  alert("거래처 등록에 실패했습니다.");
-                  location.reload();
-                }
+
+          $.ajax({
+            url: "/api/client",
+            method: "POST",
+            dataType: "json",
+            data: JSON.stringify(temp),
+            contentType: "application/json; charset=UTF-8",
+            success: function(data) {
+              if (data) {
+                alert("거래처가 등록되었습니다.");
+                location.reload();
+              } else {
+                alert("거래처 등록에 실패했습니다.");
+                location.reload();
               }
-            });
-          }
+            }
+          });
         }
       }
 
@@ -218,6 +217,19 @@
                     "</option>"
                 );
               });
+            }
+          },
+          error: function(request, status, error) {
+            if (request.responseJSON.status == 401) {
+              validationToken();
+            }
+            if (request.responseJSON.status == 400) {
+              $.removeCookie("accessToken");
+              alert("다시 로그인해 주세요.");
+              $(location).attr(
+                "href",
+                "http://" + $(location).attr("host") + "/"
+              );
             }
           }
         });

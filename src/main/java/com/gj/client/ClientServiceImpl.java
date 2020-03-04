@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gj.common.dto.ClientDTO;
 import com.gj.common.mapper.ClientMapper;
 
@@ -15,8 +17,9 @@ public class ClientServiceImpl implements ClientService {
 	private ClientMapper clientMapper;
 
 	@Override
-	public List<ClientDTO> findAll() {
-		return clientMapper.findAll();
+	public String findAll() throws JsonProcessingException {
+		String result = toJson(clientMapper.findAll());
+		return result;
 	}
 
 	@Override
@@ -41,6 +44,12 @@ public class ClientServiceImpl implements ClientService {
 			client.setUpdUser("010-6332-3652");
 		}
 		return true;
+	}
+
+	private String toJson(List<ClientDTO> temp) throws JsonProcessingException {
+		ObjectMapper mapper = new ObjectMapper();
+		String result = mapper.writeValueAsString(temp);
+		return result;
 	}
 
 }

@@ -32,8 +32,8 @@
             <th>상세정보</th>
           </tr>
         </thead>
-        <tbody>
-          <tr style="text-align:center;">
+        <tbody id="tbody" style="text-align: center;">
+          <!-- <tr style="text-align:center;">
             <td>
               <a href="#" style="color:inherit;"></a>
             </td>
@@ -72,12 +72,86 @@
                 경고
               </button>
             </td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
       <div id="pageBar" style="text-align:center;color:black;"></div>
     </div>
   </body>
+  <script>
+    $(document).ready(function() {
+      loadCLient();
+    });
+    function loadCLient() {
+      $.ajax({
+        url: "/api/client",
+        method: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        success: function(data) {
+          $.each(data, function(index, item) {
+            console.log(item.regDate);
+            createRow(item);
+          });
+        },
+        error: function(request, status, error) {
+          console.log("ERROR");
+        }
+      });
+    }
+
+    function createRow(item) {
+      var tbody = $("#tbody");
+      var tr = $("<tr>");
+
+      $(tr).append($("<td>").text(item.clientCode));
+      $(tr).append($("<td>").text(item.clientName));
+      $(tr).append($("<td>").text(item.clientCustomer));
+      $(tr).append($("<td>").text(item.clientTel));
+      $(tr).append(
+        $("<td>").text(
+          item.regDate.year +
+            "-" +
+            item.regDate.monthValue +
+            "-" +
+            item.regDate.dayOfMonth +
+            " / " +
+            item.regDate.hour +
+            "시 " +
+            item.regDate.minute +
+            "분"
+        )
+      );
+
+      var td = $("<td>");
+      $(td).append(
+        $("<button>")
+          .attr("class", "btn btn-sm")
+          .attr("type", "button")
+          .css({
+            "background-color": "#17a2b8",
+            color: "white"
+          })
+          .text("수정")
+      );
+      $(td).append(
+        $("<button>")
+          .attr("class", "btn btn-sm")
+          .attr("type", "button")
+          .css({
+            "background-color": "#17a2b8",
+            color: "white",
+            "margin-left": "10px"
+          })
+          .text("삭제")
+      );
+
+      $(tr).append(td);
+
+      $(tbody).append(tr);
+    }
+  </script>
+
   <style>
     #pageBar > a {
       color: black !important;
