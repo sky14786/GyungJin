@@ -201,21 +201,18 @@
       }
 
       function loadClientCategory() {
-        $.ajax({
+        var obj = {
           url: "/api/clientcategory",
           method: "GET",
           dataType: "json",
           contentType: "application/json; charset=UTF-8",
+          result: {},
+          async: false,
           success: function(data) {
             if (data != null) {
+              obj.result = data;
               $.each(data, function(index, item) {
-                $("#client_category").append(
-                  "<option name='" +
-                    item.clientCateCode +
-                    "'>" +
-                    item.clientCateName +
-                    "</option>"
-                );
+                clientCategoryCreate(item);
               });
             }
           },
@@ -232,7 +229,21 @@
               );
             }
           }
-        });
+        };
+
+        $.ajax(obj);
+
+        return obj.result;
+      }
+
+      function clientCategoryCreate(item) {
+        $("#client_category").append(
+          "<option name='" +
+            item.clientCateCode +
+            "'>" +
+            item.clientCateName +
+            "</option>"
+        );
       }
     </script>
   </body>
