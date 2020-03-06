@@ -10,7 +10,7 @@
   <body>
     <script>
       $(document).ready(function() {
-        $("#header").load("../common/header.html?ver=20200224");
+        $("#header").load("../common/header.html?ver=20200306");
       });
     </script>
 
@@ -81,22 +81,25 @@
   </body>
   <script>
     $(document).ready(function() {
-      loadCLient();
+      loadClient();
     });
 
-    function loadCLient() {
+    var clientCategory;
+
+    function loadClient() {
       $.ajax({
         url: "/api/client",
         method: "GET",
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
         success: function(data) {
+          clientCategory = loadClientCategory();
           $.each(data, function(index, item) {
             createRow(item);
           });
         },
         error: function(request, status, error) {
-          console.log("ERROR");
+          ajaxError(request, status, error);
         }
       });
     }
@@ -110,14 +113,13 @@
       $(tr).append($("<td>").text(item.clientCustomer));
       $(tr).append($("<td>").text(item.clientTel));
 
-      var temp = loadClientCategory();
-      console.log(temp);
-      $.each(temp, function(index, result) {
-        console.log(index);
-        console.log(result);
+      // temp = loadClientCategory();
+      // console.log(clientCategory);
+      $.each(clientCategory, function(index, result) {
+        if (result.clientCateCode == item.clientCategory) {
+          $(tr).append($("<td>").text(result.clientCateName));
+        }
       });
-
-      $(tr).append($("<td>").text(item.clientCategory));
 
       $(tr).append(
         $("<td>").text(
@@ -149,6 +151,7 @@
         $("<button>")
           .attr("class", "btn btn-sm")
           .attr("type", "button")
+          .attr("onclick", "deleteClient(this)")
           .css({
             "background-color": "#17a2b8",
             color: "white",
@@ -160,6 +163,36 @@
       $(tr).append(td);
 
       $(tbody).append(tr);
+    }
+
+    function deleteClient(item) {
+      var index = $(item)
+        .parent()
+        .parent()
+        .children()[0];
+      $.ajax({
+        url: "/api/client/" + $(index).text(),
+        method: "DELETE",
+        dataType: "text",
+        contentType: "application/json; charset=UTF-8",
+        success: function(data) {
+          if (data == "true") {
+            alert("삭제되었습니다.");
+          } else {
+            alert("삭제 실패!");
+          }
+        },
+        erorr: function(request, status, error) {
+          ajaxError(request, status, error);
+        },
+        beforeSend: function() {
+          loadingDisplayOn();
+        },
+        complete: function() {
+          loadingDisplayOff();
+          $(location).attr("href", $(location).attr("href"));
+        }
+      });
     }
   </script>
 

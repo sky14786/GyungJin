@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script type="text/javascript" src="../js/jwt.js?ver=20200304"></script>
+    <script type="text/javascript" src="../js/jwt.js?ver=20200306"></script>
     <!-- <script type="text/javascript" src="../js/jquery.js"></script>
     <script type="text/javascript" src="../js/jquery_cookie.js"></script> -->
 
@@ -137,114 +137,186 @@
         </div>
       </div>
     </div>
-    <style></style>
+    <!-- <div class="wrap-loading display-none">
+      <div><img src="../images/loading.gif" /></div>
+    </div> -->
+  </body>
 
-    <script>
-      $(document).ready(function() {
-        loadClientCategory();
-      });
+  <script>
+    $(document).ready(function() {
+      loadClientCategory();
+    });
 
-      function clienctValidatingCheck() {
-        if ($("input[name=clientName]").val() == "") {
-          alert("거래처명을 입력해주세요.");
-          return false;
-        }
-        if ($("input[name=clientCustomer]").val() == "") {
-          alert("담당자를 입력해주세요.");
-          return false;
-        }
-        if ($("input[name=clientTel]").val() == "") {
-          alert("연락처를 입력해주세요.");
-          return false;
-        }
-        if ($("select[name=clientCategory]").val() == "선택안함") {
-          alert("거래처 종류를 선택해주세요.");
-          return false;
-        }
-        return true;
+    function clienctValidatingCheck() {
+      if ($("input[name=clientName]").val() == "") {
+        alert("거래처명을 입력해주세요.");
+        return false;
       }
-
-      function createClient() {
-        if (clienctValidatingCheck()) {
-          var temp = {};
-          $.each($("#clientContent").children("input"), function(index, item) {
-            if ($(item).val() != "") {
-              temp[$(item).attr("name")] = $(item).val();
-            }
-          });
-          $.each($("#client_category").children("option"), function(
-            index,
-            item
-          ) {
-            if ($(item).val() == $("#client_category").val()) {
-              temp[$("#client_category").attr("name")] = $(item).attr("name");
-            }
-          });
-
-          $.ajax({
-            url: "/api/client",
-            method: "POST",
-            dataType: "json",
-            data: JSON.stringify(temp),
-            contentType: "application/json; charset=UTF-8",
-            success: function(data) {
-              if (data) {
-                alert("거래처가 등록되었습니다.");
-                location.reload();
-              } else {
-                alert("거래처 등록에 실패했습니다.");
-                location.reload();
-              }
-            }
-          });
-        }
+      if ($("input[name=clientCustomer]").val() == "") {
+        alert("담당자를 입력해주세요.");
+        return false;
       }
+      if ($("input[name=clientTel]").val() == "") {
+        alert("연락처를 입력해주세요.");
+        return false;
+      }
+      if ($("select[name=clientCategory]").val() == "선택안함") {
+        alert("거래처 종류를 선택해주세요.");
+        return false;
+      }
+      return true;
+    }
 
-      function loadClientCategory() {
-        var obj = {
-          url: "/api/clientcategory",
-          method: "GET",
+    function createClient() {
+      if (clienctValidatingCheck()) {
+        var temp = {};
+        $.each($("#clientContent").children("input"), function(index, item) {
+          if ($(item).val() != "") {
+            temp[$(item).attr("name")] = $(item).val();
+          }
+        });
+        $.each($("#client_category").children("option"), function(index, item) {
+          if ($(item).val() == $("#client_category").val()) {
+            temp[$("#client_category").attr("name")] = $(item).attr("name");
+          }
+        });
+
+        $.ajax({
+          url: "/api/client",
+          method: "POST",
           dataType: "json",
+          data: JSON.stringify(temp),
           contentType: "application/json; charset=UTF-8",
-          result: {},
-          async: false,
           success: function(data) {
-            if (data != null) {
-              obj.result = data;
+            if (data) {
+              alert("거래처가 등록되었습니다.");
+              location.reload();
+            } else {
+              alert("거래처 등록에 실패했습니다.");
+              location.reload();
+            }
+          }
+        });
+      }
+    }
+
+    function loadClientCategory() {
+      var obj = {
+        url: "/api/clientcategory",
+        method: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        result: {},
+        async: false,
+        success: function(data) {
+          if (data != null) {
+            obj.result = data;
+            // console.log(data.length);
+            // console.log($("#client_category").children().length);
+            if (data.length >= $("#client_category").children().length) {
               $.each(data, function(index, item) {
                 clientCategoryCreate(item);
               });
             }
-          },
-          error: function(request, status, error) {
-            if (request.responseJSON.status == 401) {
-              validationToken();
-            }
-            if (request.responseJSON.status == 400) {
-              $.removeCookie("accessToken");
-              alert("다시 로그인해 주세요.");
-              $(location).attr(
-                "href",
-                "http://" + $(location).attr("host") + "/"
-              );
-            }
           }
-        };
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        }
+      };
 
-        $.ajax(obj);
+      $.ajax(obj);
 
-        return obj.result;
-      }
+      return obj.result;
+    }
 
-      function clientCategoryCreate(item) {
-        $("#client_category").append(
-          "<option name='" +
-            item.clientCateCode +
-            "'>" +
-            item.clientCateName +
-            "</option>"
+    function clientCategoryCreate(item) {
+      $("#client_category").append(
+        "<option name='" +
+          item.clientCateCode +
+          "'>" +
+          item.clientCateName +
+          "</option>"
+      );
+    }
+
+    function loadingDisplayOff() {
+      // $(".wrap-loading").addClass("display-none");
+      $("#div_ajax_load_image").hide();
+    }
+
+    function loadingDisplayOn() {
+      // $(".wrap-loading").removeClass("display-none");
+
+      var width = 0;
+      var height = 0;
+      var left = 0;
+      var top = 0;
+
+      width = 50;
+      height = 50;
+
+      top = ($(window).height() - height) / 2 + $(window).scrollTop();
+      left = ($(window).width() - width) / 2 + $(window).scrollLeft();
+
+      if ($("#div_ajax_load_image").length != 0) {
+        $("#div_ajax_load_image").css({
+          top: top + "px",
+          left: left + "px"
+        });
+        $("#div_ajax_load_image").show();
+      } else {
+        $("body").append(
+          '<div id="div_ajax_load_image" style="position:absolute; top:' +
+            top +
+            "px; left:" +
+            left +
+            "px; width:" +
+            width +
+            "px; height:" +
+            height +
+            'px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; "><img src="../images/loading.gif" style="width:50px; height:50px;"></div>'
         );
       }
-    </script>
-  </body>
+    }
+  </script>
+  <style>
+    .wrap-loading {
+      /*화면 전체를 어둡게 합니다.*/
+
+      position: fixed;
+
+      left: 0;
+
+      right: 0;
+
+      top: 0;
+
+      bottom: 0;
+
+      background: rgba(0, 0, 0, 0.2); /*not in ie */
+
+      filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000'); /* ie */
+    }
+
+    .wrap-loading div {
+      /*로딩 이미지*/
+
+      position: fixed;
+
+      top: 50%;
+
+      left: 50%;
+
+      margin-left: -21px;
+
+      margin-top: -21px;
+    }
+
+    .display-none {
+      /*감추기*/
+
+      display: none;
+    }
+  </style>
 </html>

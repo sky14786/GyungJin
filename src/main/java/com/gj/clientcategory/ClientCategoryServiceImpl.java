@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gj.common.UTCMapper;
 import com.gj.common.dto.ClientCategoryDTO;
+import com.gj.common.dto.MemberDTO;
 import com.gj.common.mapper.ClientCategoryMapper;
 
 @Service

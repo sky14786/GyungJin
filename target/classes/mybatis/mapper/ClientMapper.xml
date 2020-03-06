@@ -2,10 +2,14 @@
 <!DOCTYPE mapper PUBLIC "Mapper" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gj.common.mapper.ClientMapper">
 	<select id="findAll" resultType="client">
-		SELECT * FROM CLIENT
+		SELECT * FROM CLIENT WHERE USE_YN = 'Y'
 	</select>
 	
 	<insert id="create" parameterType="map">
 		INSERT INTO CLIENT VALUES (DEFAULT, #{clientCategory}, #{clientName}, #{clientCustomer}, #{clientTel},default,default,default,#{updUser})
 	</insert>
+	
+	<update id="delete" parameterType="map">
+		UPDATE CLIENT SET USE_YN = 'N' WHERE CLIENT_CODE = #{index}
+	</update>
 </mapper>

@@ -11,4 +11,6 @@ public interface ClientMapper {
 	public List<ClientDTO> findAll();
 
 	public int create(ClientDTO client);
+
+	public int delete(String index);
 }

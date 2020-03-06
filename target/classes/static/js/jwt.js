@@ -12,8 +12,8 @@ function validationToken() {
     parseJwt($.cookie("accessToken")).exp - parseInt(Date.now() / 1000);
   var refreshTime =
     parseJwt($.cookie("refreshToken")).exp - parseInt(Date.now() / 1000);
-  console.log(expiredTime);
-  console.log(refreshTime);
+  // console.log(expiredTime);
+  // console.log(refreshTime);
   if (expiredTime >= -600 && expiredTime <= 0) {
     $.ajax({
       url: "/oauth",
@@ -30,13 +30,12 @@ function validationToken() {
           $(location).attr("href", "http://" + $(location).attr("host") + "/");
           return false;
         } else {
+          $.removeCookie("accessToken");
           $.cookie("accessToken", data);
         }
       },
       error: function(request, status, error) {
-        console.log(request);
-        console.log(status);
-        console.log(error);
+        ajaxError(request, status, error);
       }
     });
     return true;
@@ -44,10 +43,6 @@ function validationToken() {
     alert("다시 로그인해 주세요.");
     $(location).attr("href", "http://" + $(location).attr("host") + "/");
   }
-  // } else if (expiredTime <= -600) {
-  //   alert("다시 로그인해 주세요.");
-  //   $(location).attr("href", "http://" + $(location).attr("host") + "/");
-  // }
 }
 
 function parseJwt(token) {
@@ -63,4 +58,24 @@ function parseJwt(token) {
   );
 
   return JSON.parse(jsonPayload);
+}
+
+function ajaxError(request, status, error) {
+  if (request.responseJSON.status == 401) {
+    validationToken();
+  }
+  if (request.responseJSON.status == 400) {
+    $.removeCookie("accessToken");
+    alert("다시 로그인해 주세요.");
+    $(location).attr("href", "http://" + $(location).attr("host") + "/");
+  }
+}
+
+function testToken() {
+  var expiredTime =
+    parseJwt($.cookie("accessToken")).exp - parseInt(Date.now() / 1000);
+  var refreshTime =
+    parseJwt($.cookie("refreshToken")).exp - parseInt(Date.now() / 1000);
+  console.log(expiredTime);
+  console.log(refreshTime);
 }

@@ -1,6 +1,5 @@
 package com.gj.member;
 
-import java.time.ZoneId;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,6 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gj.common.SHA512Encryption;
-import com.gj.common.UTCMapper;
-import com.gj.common.dto.ClientCategoryDTO;
 import com.gj.common.dto.MemberDTO;
 import com.gj.common.mapper.MemberMapper;
 
@@ -42,7 +39,6 @@ public class MemberServiceImpl implements MemberService {
 		String result = "";
 		if (email != null && !email.equals("")) {
 			MemberDTO member = memberMapper.findOne(email);
-			member = timeSet(member);
 			result = toJson(member);
 		}
 		return result;
@@ -112,12 +108,6 @@ public class MemberServiceImpl implements MemberService {
 		ObjectMapper mapper = new ObjectMapper();
 		String result = mapper.writeValueAsString(temp);
 		return result;
-	}
-
-	private MemberDTO timeSet(MemberDTO temp) {
-		temp.setRegDate(UTCMapper.toKor(temp.getRegDate()));
-		temp.setUpdDate(UTCMapper.toKor(temp.getUpdDate()));
-		return temp;
 	}
 
 }

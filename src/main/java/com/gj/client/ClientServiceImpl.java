@@ -27,6 +27,15 @@ public class ClientServiceImpl implements ClientService {
 		return validatingCheck(client) ? (clientMapper.create(client) == 1 ? true : false) : false;
 	}
 
+	@Override
+	public int delete(String index) {
+		int isDelete = -1;
+		if (index != null && !index.equals("")) {
+			isDelete = clientMapper.delete(index);
+		}
+		return isDelete;
+	}
+
 	private boolean validatingCheck(ClientDTO client) {
 		if (client.getClientCustomer() == null || client.getClientCustomer().equals("")) {
 			return false;
