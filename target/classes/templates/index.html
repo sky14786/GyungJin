@@ -144,6 +144,7 @@
       }
 
       function login() {
+        // $.removeCookie("accessToken", { path: "/" });
         var temp = {};
         temp.memId = $("input[name=memId]").val();
         temp.memPwd = $("input[name=memPwd]").val();

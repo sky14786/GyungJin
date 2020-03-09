@@ -21,36 +21,52 @@ import io.jsonwebtoken.Jwts;
 public class JwtInterceptor extends HandlerInterceptorAdapter {
 //	@Autowired
 //	private JwtService jwtService;
-	private final String saltKey = "JinGyung";
+	private final String SALT_KEY = "JinGyung";
 	private Log log = LogFactory.getLog(JwtInterceptor.class);
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		String result = "Null";
 		Cookie[] cookies = request.getCookies();
 		for (int i = 0; i < cookies.length; i++) {
+			System.out.println(cookies[i].getName());
+			System.out.println(cookies[i].getValue());
 			if (cookies[i].getName().equals("accessToken")) {
+				result = "Effective";
 				if (validateToken(cookies[i].getValue()).equals("Expiration")) {
-					response.sendError(401,"Token Expiration");
+					result = "Expiration";
 				}
 				if (validateToken(cookies[i].getValue()).equals("Modulation")) {
-					response.sendError(400,"Token Modulation");
+					result = "Modulation";
 				}
 			}
-
 		}
+		System.out.println("Token Validation Result :" + result);
+		if (!result.equals("Effective")) {
+			if (result.equals("Null")) {
+				response.sendError(400, "Token Modulation");
+			} else if (result.equals("Expiration")) {
+				response.sendError(401, "Token Expiration");
+			} else if (result.equals("Modulation")) {
+				response.sendError(400, "Token Modulation");
+			}
+		}
+
 		return super.preHandle(request, response, handler);
 	}
 
 	public String validateToken(String jwt) throws Exception {
+		String result = "";
 		try {
-			Claims claims = Jwts.parser().setSigningKey(saltKey.getBytes()).parseClaimsJws(jwt).getBody();
-			return "true";
+			Claims claims = Jwts.parser().setSigningKey(SALT_KEY.getBytes()).parseClaimsJws(jwt).getBody();
+			result = "true";
 		} catch (ExpiredJwtException exception) {
-			return "Expiration";
+			result = "Expiration";
 		} catch (JwtException exception) {
-			return "Modulation";
+			result = "Modulation";
 		}
-
+		System.out.println(result);
+		return result;
 	}
 }

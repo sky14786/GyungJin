@@ -10,7 +10,7 @@
   <body>
     <script>
       $(document).ready(function() {
-        $("#header").load("../common/header.html?ver=20200306");
+        $("#header").load("../common/header.html?ver=2020030903");
       });
     </script>
 
@@ -78,6 +78,65 @@
       </table>
       <div id="pageBar" style="text-align:center;color:black;"></div>
     </div>
+    <div class="modal" id="client_modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">거래처 등록</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+
+          <div class="modal-body" style="padding:45px 85px;">
+            <div id="clientContent">
+              거래처명 :
+              <input
+                type="text"
+                name="clientName"
+                size="25"
+                style="margin-left:25px;"
+              /><br /><br />
+              담당자 :
+              <input
+                type="text"
+                name="clientCustomer"
+                size="25"
+                style="margin-left:39px;"
+              /><br /><br />
+              연락처 :
+              <input
+                type="text"
+                name="clientTel"
+                size="25"
+                style="margin-left:39px;"
+              /><br /><br />
+              종류 :
+              <select
+                id="client_category"
+                name="clientCategory"
+                style="margin-left: 52px;width:216px;height: 30px;"
+              >
+                <option>선택안함</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="createClient();"
+            >
+              등록
+            </button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              닫기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
   <script>
     $(document).ready(function() {
@@ -141,6 +200,8 @@
         $("<button>")
           .attr("class", "btn btn-sm")
           .attr("type", "button")
+          .attr("data-toggle", "modal")
+          .attr("data-target", "#client_modal")
           .css({
             "background-color": "#17a2b8",
             color: "white"

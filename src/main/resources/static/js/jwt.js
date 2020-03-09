@@ -30,8 +30,12 @@ function validationToken() {
           $(location).attr("href", "http://" + $(location).attr("host") + "/");
           return false;
         } else {
-          $.removeCookie("accessToken");
+          // console.log(data);
+          // console.log("1" + $.cookie("accessToken"));
+          // $.removeCookie("accessToken", { path: "/" });
+          console.log("2" + $.cookie("accessToken"));
           $.cookie("accessToken", data);
+          console.log("3" + $.cookie("accessToken"));
         }
       },
       error: function(request, status, error) {
@@ -65,7 +69,7 @@ function ajaxError(request, status, error) {
     validationToken();
   }
   if (request.responseJSON.status == 400) {
-    $.removeCookie("accessToken");
+    // $.removeCookie("accessToken", { path: "/" });
     alert("다시 로그인해 주세요.");
     $(location).attr("href", "http://" + $(location).attr("host") + "/");
   }
