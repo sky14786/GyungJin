@@ -1,7 +1,7 @@
 package com.gj.common.jwt;
 
 import java.util.HashMap;
-import java.util.Scanner;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -60,25 +60,24 @@ public class JwtController {
 
 	@GetMapping("/oauth")
 	public String validateToken(HttpServletRequest res) throws Exception {
-		Cookie[] cookies = res.getCookies();
+		Cookie[] temps = res.getCookies();
+		Map<String, String> cookies = new HashMap<>();
+		for (int i = 0; i < temps.length; i++) {
+			cookies.put(temps[i].getName(), temps[i].getValue());
+		}
 		String result = "";
-		for (int i = 0; i < cookies.length; i++) {
-			if (cookies[i].getName().equals("accessToken")) {
-				// 토큰 만료
-				if (jwtService.validateToken(cookies[i].getValue()).equals("Expiration")) {
-					if (cookies[i + 1].getName().equals("refreshToken")) {
-						String refreshToken = cookies[i + 1].getValue();
-						if (refreshTokenService.validateToken(refreshToken).equals("true")) {
-							result = refreshTokenService.accessTokenReissuance(refreshToken);
-							return result;
-						}
-					}
-				}
-				// 토큰 변조
-				if (jwtService.validateToken(cookies[i].getValue()).equals("Modulation")) {
-					return "Modulation";
-				}
+
+		// 토큰 만료
+		if (jwtService.validateToken(cookies.get("accessToken")).equals("Expiration")) {
+			String refreshToken = cookies.get("refreshToken");
+			if (refreshTokenService.validateToken(refreshToken).equals("true")) {
+				result = refreshTokenService.accessTokenReissuance(refreshToken);
+				return result;
 			}
+		}
+		// 토큰 변조
+		if (jwtService.validateToken(cookies.get("accessToken")).equals("Modulation")) {
+			return "Modulation";
 		}
 		return "false";
 	}

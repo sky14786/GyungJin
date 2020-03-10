@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script type="text/javascript" src="../js/jwt.js?ver=20200030904s"></script>
+    <script type="text/javascript" src="../js/jwt.js?ver=2020031001"></script>
     <!-- <script type="text/javascript" src="../js/jquery.js"></script>
     <script type="text/javascript" src="../js/jquery_cookie.js"></script> -->
 
@@ -198,6 +198,12 @@
               alert("거래처 등록에 실패했습니다.");
               location.reload();
             }
+          },
+          beforeSend: function() {
+            loadingDisplayOn();
+          },
+          complete: function() {
+            loadingDisplayOff();
           }
         });
       }
@@ -225,6 +231,12 @@
         },
         error: function(request, status, error) {
           ajaxError(request, status, error);
+        },
+        beforeSend: function() {
+          loadingDisplayOn();
+        },
+        complete: function() {
+          loadingDisplayOff();
         }
       };
 

@@ -32,18 +32,25 @@ function validationToken() {
         } else {
           // console.log(data);
           // console.log("1" + $.cookie("accessToken"));
-          // $.removeCookie("accessToken", { path: "/" });
-          console.log("2" + $.cookie("accessToken"));
-          $.cookie("accessToken", data);
-          console.log("3" + $.cookie("accessToken"));
+          $.removeCookie("accessToken", { path: "/" });
+          // console.log("2" + $.cookie("accessToken"));
+          $.cookie("accessToken", data, { path: "/" });
+          // console.log("3" + $.cookie("accessToken"));
         }
       },
       error: function(request, status, error) {
         ajaxError(request, status, error);
+      },
+      beforeSend: function() {
+        loadingDisplayOn();
+      },
+      complete: function() {
+        loadingDisplayOff();
       }
     });
     return true;
   } else if (expiredTime <= -600) {
+    $.removeCookie("accessToken", { path: "/" });
     alert("다시 로그인해 주세요.");
     $(location).attr("href", "http://" + $(location).attr("host") + "/");
   }
@@ -69,7 +76,7 @@ function ajaxError(request, status, error) {
     validationToken();
   }
   if (request.responseJSON.status == 400) {
-    // $.removeCookie("accessToken", { path: "/" });
+    $.removeCookie("accessToken", { path: "/" });
     alert("다시 로그인해 주세요.");
     $(location).attr("href", "http://" + $(location).attr("host") + "/");
   }
