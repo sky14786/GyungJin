@@ -24,6 +24,8 @@ public class TransactionDTO {
 	private String traPayment;
 	private String traMemo;
 	private String traMaterial;
+	private LocalDateTime traVisitDate;
+	private String traStatus;
 
 	public TransactionDTO() {
 	}
@@ -172,6 +174,22 @@ public class TransactionDTO {
 		this.traMaterial = traMaterial;
 	}
 
+	public LocalDateTime getTraVisitDate() {
+		return traVisitDate;
+	}
+
+	public void setTraVisitDate(LocalDateTime traVisitDate) {
+		this.traVisitDate = traVisitDate;
+	}
+
+	public String getTraStatus() {
+		return traStatus;
+	}
+
+	public void setTraStatus(String traStatus) {
+		this.traStatus = traStatus;
+	}
+
 	@Override
 	public String toString() {
 		return "TransactionDTO [traCode=" + traCode + ", traCategory=" + traCategory + ", traClient=" + traClient
@@ -179,7 +197,7 @@ public class TransactionDTO {
 				+ traAddr + ", traAddrDetail=" + traAddrDetail + ", regDate=" + regDate + ", useYn=" + useYn
 				+ ", updDate=" + updDate + ", updUser=" + updUser + ", traCost=" + traCost + ", traPrice=" + traPrice
 				+ ", traTax=" + traTax + ", traPayment=" + traPayment + ", traMemo=" + traMemo + ", traMaterial="
-				+ traMaterial + "]";
+				+ traMaterial + ", traVisitDate=" + traVisitDate + ", traStatus=" + traStatus + "]";
 	}
 
 }
