@@ -12,4 +12,8 @@
 	<update id="delete" parameterType="map">
 		UPDATE CLIENT SET USE_YN = 'N' WHERE CLIENT_CODE = #{index}
 	</update>
+	
+	<update id="update" parameterType="map">
+		UPDATE CLIENT SET CLIENT_CATEGORY = #{clientCategory}, CLIENT_NAME = #{clientName}, CLIENT_CUSTOMER=#{clientCustomer}, CLIENT_TEL = #{clientTel}, UPD_DATE = DEFAULT , UPD_USER = #{updUser} WHERE CLIENT_CODE = #{clientCode} 
+	</update>
 </mapper>

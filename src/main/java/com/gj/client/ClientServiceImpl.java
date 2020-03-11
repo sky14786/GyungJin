@@ -26,6 +26,13 @@ public class ClientServiceImpl implements ClientService {
 	public boolean create(ClientDTO client) {
 		return validatingCheck(client) ? (clientMapper.create(client) == 1 ? true : false) : false;
 	}
+	
+	@Override
+	public boolean update(ClientDTO client, int index) {
+		client.setClientCode(index);
+		return validatingCheck(client) ? (clientMapper.update(client) == 1 ? true : false) : false;
+		
+	}
 
 	@Override
 	public int delete(String index) {

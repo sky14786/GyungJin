@@ -13,4 +13,6 @@ public interface ClientMapper {
 	public int create(ClientDTO client);
 
 	public int delete(String index);
+	
+	public int update(ClientDTO client);
 }

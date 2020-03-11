@@ -8,4 +8,6 @@ public interface ClientService {
 	public boolean create(ClientDTO client);
 
 	public int delete(String index);
+	
+	public boolean update(ClientDTO client, int index);
 }
