@@ -6,11 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
-import com.gj.common.jwt.JwtService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -19,8 +16,7 @@ import io.jsonwebtoken.Jwts;
 
 @Component
 public class JwtInterceptor extends HandlerInterceptorAdapter {
-//	@Autowired
-//	private JwtService jwtService;
+
 	private final String SALT_KEY = "JinGyung";
 	private Log log = LogFactory.getLog(JwtInterceptor.class);
 
@@ -66,7 +62,7 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
 		} catch (JwtException exception) {
 			result = "Modulation";
 		}
-		System.out.println(result);
+		// System.out.println(result);
 		return result;
 	}
 }

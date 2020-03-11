@@ -30,12 +30,9 @@ function validationToken() {
           $(location).attr("href", "http://" + $(location).attr("host") + "/");
           return false;
         } else {
-          // console.log(data);
-          // console.log("1" + $.cookie("accessToken"));
           $.removeCookie("accessToken", { path: "/" });
-          // console.log("2" + $.cookie("accessToken"));
           $.cookie("accessToken", data, { path: "/" });
-          // console.log("3" + $.cookie("accessToken"));
+          $(location).attr("href", $(location).attr("href"));
         }
       },
       error: function(request, status, error) {
