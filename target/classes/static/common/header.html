@@ -2,12 +2,15 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script type="text/javascript" src="../js/jwt.js?ver=2020031001"></script>
     <!-- <script type="text/javascript" src="../js/jquery.js"></script>
     <script type="text/javascript" src="../js/jquery_cookie.js"></script> -->
-
+    <link
+      href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -24,8 +27,16 @@
       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
       crossorigin="anonymous"
     ></script>
+    <!-- <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
+  />
+  <script
+    defer
+    src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+  ></script> -->
   </head>
-  <body>
+
     <nav
       class="navbar navbar-expand-xl"
       style="height: 100px;background-color: #e4e4e4; padding: 0px 50px;"
@@ -61,7 +72,7 @@
         </button>
         <div class="dropdown-menu">
           <a href="/view/Transaction.html" class="dropdown-item">보기</a>
-          <a href="#" class="dropdown-item">등록</a>
+          <a href="/view/InsertTrade.html" class="dropdown-item">등록</a>
         </div>
       </div>
       <div class="dropdown" style="margin-right: 20px;">
@@ -294,6 +305,7 @@
         );
       }
     }
+    
   </script>
   <style>
     .wrap-loading {

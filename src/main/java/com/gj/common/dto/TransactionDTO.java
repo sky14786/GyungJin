@@ -24,7 +24,7 @@ public class TransactionDTO {
 	private String traPayment;
 	private String traMemo;
 	private String traMaterial;
-	private LocalDateTime traVisitDate;
+	private String traVisitDate;
 	private String traStatus;
 
 	public TransactionDTO() {
@@ -174,11 +174,11 @@ public class TransactionDTO {
 		this.traMaterial = traMaterial;
 	}
 
-	public LocalDateTime getTraVisitDate() {
+	public String getTraVisitDate() {
 		return traVisitDate;
 	}
 
-	public void setTraVisitDate(LocalDateTime traVisitDate) {
+	public void setTraVisitDate(String traVisitDate) {
 		this.traVisitDate = traVisitDate;
 	}
 
