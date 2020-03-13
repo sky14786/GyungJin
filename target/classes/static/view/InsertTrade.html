@@ -42,6 +42,7 @@
             type="text"
             class="form-control"
             placeholder="XX아파트 X동 X호"
+            id="traName"
           />
         </div>
         <div class="input-group mb-4">
@@ -52,19 +53,25 @@
             type="text"
             class="form-control"
             placeholder="010-XXXX-XXXXX"
+            id="traTel"
           />
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
             <span class="input-group-text">고객명</span>
           </div>
-          <input type="text" class="form-control" placeholder="홍길동"" />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="홍길동"
+            id="traCustomer"
+          />
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
             <span class="input-group-text">주소</span>
           </div>
-          <input type="text" class="form-control" id="traAddress" />
+          <input type="text" class="form-control" id="traAddr" readonly />
           <input
             class="btn btn-primary"
             type="button"
@@ -80,25 +87,41 @@
             type="text"
             class="form-control"
             placeholder="XX아파트 XX동 XX호"
+            id="traAddrDetail"
           />
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
             <span class="input-group-text">원가</span>
           </div>
-          <input type="text" class="form-control" placeholder="40000000" />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="40000000"
+            id="traCost"
+          />
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
             <span class="input-group-text">세금</span>
           </div>
-          <input type="text" class="form-control" placeholder="40000000" />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="40000000"
+            id="traTax"
+          />
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
             <span class="input-group-text">거래금액</span>
           </div>
-          <input type="text" class="form-control" placeholder="40000000" />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="40000000"
+            id="traPrice"
+          />
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
@@ -129,11 +152,11 @@
 
         <div class="form-group mb-4">
           <label for="comment">자제 상세 내용:</label>
-          <textarea class="form-control" rows="3"></textarea>
+          <textarea class="form-control" rows="3" id="traMaterial"></textarea>
         </div>
         <div class="form-group mb-4">
           <label for="comment">메모:</label>
-          <textarea class="form-control" rows="3"></textarea>
+          <textarea class="form-control" rows="3" id="traMemo"></textarea>
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
@@ -179,7 +202,7 @@
         oncomplete: function(data) {
           // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
           // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-          $("#traAddress").val(data.roadAddress);
+          $("#traAddr").val(data.roadAddress);
         }
       }).open();
     }
@@ -207,14 +230,13 @@
         $(option).text(i + 1);
         $("#day").append(option);
       }
-      for (var i = 0; i < 60; i++) {
+      for (var i = 0; i < 61; i++) {
         var option = $("<option>");
-        $(option).text(i + 1);
+        $(option).text(i);
         $("#minute").append(option);
       }
 
       $("#traStatus").append($("<option>").text("예약"));
-      $("#traStatus").append($("<option>").text("진행"));
       $("#traStatus").append($("<option>").text("완료"));
     }
 
@@ -248,7 +270,87 @@
     }
 
     function createTransaction() {
-      console.log(getVisitDate());
+      if (!validationData()) {
+        return false;
+      }
+      var transaction = {};
+      transaction.traName = $("#traName").val();
+      transaction.traTel = $("#traTel").val();
+      transaction.traCustomer = $("#traCustomer").val();
+      transaction.traAddr = $("#traAddr").val();
+      transaction.traAddrDetail = $("#traAddrDetail").val();
+      transaction.traCost = $("#traCost").val();
+      transaction.traTax = $("#traTax").val();
+      transaction.traPrice = $("#traPrice").val();
+      transaction.traVisitDate = getVisitDate();
+      transaction.traStatus = $("#traStatus").val();
+      transaction.traMaterial = $("#traMaterial").val();
+      transaction.traMemo = $("#traMemo").val();
+      $.each(tradeCategory, function(index, item) {
+        if (item.tradeName == $("#traCategory").val()) {
+          transaction.traCategory = item.tradeCode;
+        }
+      });
+
+      $.ajax({
+        url: "/api/transaction",
+        method: "POST",
+        data: JSON.stringify(transaction),
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        success: function(data) {
+          if (data) {
+            alert("등록했습니다.");
+          } else {
+            alert("등록에 실패했습니다.");
+          }
+          $(location).attr(
+            "href",
+            $(location).attr("host") + "/view/Transaction.html"
+          );
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        },
+        beforeSend: function() {
+          loadingDisplayOn();
+        },
+        complete: function() {
+          loadingDisplayOff();
+        }
+      });
+    }
+
+    function validationData() {
+      if ($("#traName").val() == "") {
+        alert("거래명을 입력해 주세요.");
+        return false;
+      }
+      if ($("#traTel").val() == "") {
+        alert("연락처를 입력해 주세요.");
+        return false;
+      }
+      if ($("#traAddr").val() == "") {
+        alert("주소를 검색해 주세요.");
+        return false;
+      }
+      if ($("#traAddrDetail").val() == "") {
+        alert("상세주소를 입력해 주세요.");
+        return false;
+      }
+      if ($("#traCost").val() == "") {
+        alert("원가를 입력해 주세요.");
+        return false;
+      }
+      if ($("#traTax").val() == "") {
+        alert("세금을 입력해 주세요.");
+        return false;
+      }
+      if ($("#traPrice").val() == "") {
+        alert("거래금액을 입력해 주세요.");
+        return false;
+      }
+      return true;
     }
 
     function getVisitDate() {

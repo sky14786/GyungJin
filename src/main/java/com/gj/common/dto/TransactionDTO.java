@@ -21,7 +21,6 @@ public class TransactionDTO {
 	private int traCost;
 	private int traPrice;
 	private int traTax;
-	private String traPayment;
 	private String traMemo;
 	private String traMaterial;
 	private String traVisitDate;
@@ -150,14 +149,6 @@ public class TransactionDTO {
 		this.traTax = traTax;
 	}
 
-	public String getTraPayment() {
-		return traPayment;
-	}
-
-	public void setTraPayment(String traPayment) {
-		this.traPayment = traPayment;
-	}
-
 	public String getTraMemo() {
 		return traMemo;
 	}
@@ -196,8 +187,8 @@ public class TransactionDTO {
 				+ ", traName=" + traName + ", traTel=" + traTel + ", traCustomer=" + traCustomer + ", traAddr="
 				+ traAddr + ", traAddrDetail=" + traAddrDetail + ", regDate=" + regDate + ", useYn=" + useYn
 				+ ", updDate=" + updDate + ", updUser=" + updUser + ", traCost=" + traCost + ", traPrice=" + traPrice
-				+ ", traTax=" + traTax + ", traPayment=" + traPayment + ", traMemo=" + traMemo + ", traMaterial="
-				+ traMaterial + ", traVisitDate=" + traVisitDate + ", traStatus=" + traStatus + "]";
+				+ ", traTax=" + traTax + ", traMemo=" + traMemo + ", traMaterial=" + traMaterial + ", traVisitDate="
+				+ traVisitDate + ", traStatus=" + traStatus + "]";
 	}
 
 }

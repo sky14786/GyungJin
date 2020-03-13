@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "Mapper" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.gj.common.mapper.TrasactionMapper">
-	<select id="findAll">
-		SELECT * FROM TRANSACTION
+<mapper namespace="com.gj.common.mapper.TransactionMapper">
+	<select id="findAll" resultType="transaction">
+		SELECT * FROM TRANSACTION WHERE USE_YN = 'Y'
 	</select>
+	
+	<insert id="create" parameterType="map">
+		INSERT INTO TRANSACTION VALUES(DEFAULT,#{traCategory},#{traName},#{traTel},#{traCustomer},#{traAddr},#{traAddrDetail},DEFAULT,DEFAULT,DEFAULT,#{updUser},#{traCost},#{traPrice},#{traTax},#{traMemo},#{traMaterial},#{traVisitDate},#{traStatus})
+	</insert>
 </mapper>

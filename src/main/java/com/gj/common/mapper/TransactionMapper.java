@@ -9,4 +9,6 @@ import com.gj.common.dto.TransactionDTO;
 @Mapper
 public interface TransactionMapper {
 	public List<TransactionDTO> findAll();
+
+	public int create(TransactionDTO temp);
 }
