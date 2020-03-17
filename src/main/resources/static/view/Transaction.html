@@ -36,32 +36,111 @@
         </thead>
         <tbody id="tbody" style="text-align: center;"></tbody>
       </table>
-      <div id="pageBar" style="text-align:center;color:black;"></div>
+      <ul
+        id="pageBar"
+        class="pagination justify-content-center"
+        style="margin:20px 0"
+      >
+        <!-- <li class="page-item"><a class="page-link" href="#">이전</a></li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">다음</a></li> -->
+      </ul>
     </div>
   </body>
   <script>
     var tradeCategory;
     $(document).ready(function() {
-      loadTransaction();
+      loadTransaction(1);
     });
 
-    function loadTransaction() {
+    function loadTransaction(page) {
+      $("#tbody").empty();
       $.ajax({
-        url: "/api/transaction",
+        url: "/api/transaction?page=" + page,
         method: "GET",
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
         async: false,
         success: function(data) {
+          var count = data[data.length - 1].count;
           tradeCategory = loadTradeCategory();
           $.each(data, function(index, item) {
-            createRow(item);
+            if (index != data.length - 1) {
+              createRow(item);
+            }
           });
+          createPageBar(count, page);
         },
         error: function(request, status, error) {
           ajaxError(request, status, error);
         }
       });
+    }
+
+    function createPageBar(count, nowPage) {
+      var countPerPageBar = 10;
+      $("#pageBar").empty();
+      var prePageNum =
+        Math.ceil(nowPage / countPerPageBar) * countPerPageBar -
+        countPerPageBar;
+      var postPageNum =
+        Math.ceil(nowPage / countPerPageBar) * countPerPageBar + 1;
+
+      var pageBarCount = Math.ceil(count / countPerPageBar);
+      var range =
+        postPageNum - 1 < pageBarCount ? postPageNum - 1 : pageBarCount;
+      if (nowPage > countPerPageBar) {
+        $("#pageBar").append(
+          $("<li>")
+            .append(
+              $("<a>")
+                .attr("class", "page-link")
+                .attr("href", "javascript:loadTransaction(" + prePageNum + ")")
+                .text("이전")
+            )
+            .attr("class", "page-item")
+        );
+      }
+
+      for (var i = prePageNum + 1; i <= range; i++) {
+        if (i == nowPage) {
+          $("#pageBar").append(
+            $("<li>")
+              .append(
+                $("<a>")
+                  .attr("class", "page-link")
+                  .attr("href", "javascript:loadTransaction(" + i + ")")
+                  .text(i)
+              )
+              .attr("class", "page-item disabled")
+          );
+        } else {
+          $("#pageBar").append(
+            $("<li>")
+              .append(
+                $("<a>")
+                  .attr("class", "page-link")
+                  .attr("href", "javascript:loadTransaction(" + i + ")")
+                  .text(i)
+              )
+              .attr("class", "page-item")
+          );
+        }
+      }
+      if (count - postPageNum * countPerPageBar > 0) {
+        $("#pageBar").append(
+          $("<li>")
+            .append(
+              $("<a>")
+                .attr("class", "page-link")
+                .attr("href", "javascript:loadTransaction(" + postPageNum + ")")
+                .text("다음")
+            )
+            .attr("class", "page-item")
+        );
+      }
     }
 
     function createRow(item) {
@@ -70,7 +149,15 @@
 
       $.each(tradeCategory, function(index, result) {
         if (result.tradeCode == item.traCategory) {
-          $(tr).append($("<td>").text(result.tradeName));
+          $(tr).append(
+            $("<td>")
+              .text(result.tradeName)
+              .append(
+                $("<input>")
+                  .attr("type", "hidden")
+                  .val(item.traCode)
+              )
+          );
         }
       });
       $(tr).append($("<td>").text(item.traAddr + " / " + item.traAddrDetail));
@@ -78,9 +165,6 @@
       $(tr).append($("<td>").text(item.traTel));
       $(tr).append($("<td>").text(item.traVisitDate));
       $(tr).append($("<td>").text(item.traPrice.toLocaleString() + "원"));
-
-      // temp = loadClientCategory();
-      // console.log(clientCategory);
 
       $(tr).append(
         $("<td>").text(
@@ -102,9 +186,7 @@
         $("<button>")
           .attr("class", "btn btn-sm")
           .attr("type", "button")
-          // .attr("data-toggle", "modal")
-          // .attr("data-target", "#client_modal")
-          .attr("onclick", "updateModalOn(this)")
+          .attr("onclick", "detailViewConnection(this)")
           .css({
             "background-color": "#17a2b8",
             color: "white"
@@ -115,9 +197,7 @@
         $("<button>")
           .attr("class", "btn btn-sm")
           .attr("type", "button")
-          // .attr("data-toggle", "modal")
-          // .attr("data-target", "#client_modal")
-          .attr("onclick", "updateModalOn(this)")
+          .attr("onclick", "updasteViewConnection(this)")
           .css({
             "background-color": "#17a2b8",
             color: "white",
@@ -144,33 +224,62 @@
     }
 
     function deleteClient(item) {
-      var index = $(item)
+      if (confirm("삭제하시겠습니까?")) {
+        var input = $(item)
+          .parent()
+          .parent()
+          .children()[0];
+        var index = $(input)
+          .children("input")
+          .val();
+        $.ajax({
+          url: "/api/transaction/" + index,
+          method: "DELETE",
+          dataType: "text",
+          contentType: "application/json; charset=UTF-8",
+          success: function(data) {
+            if (data == "true") {
+              alert("삭제되었습니다.");
+            } else {
+              alert("삭제 실패!");
+            }
+          },
+          erorr: function(request, status, error) {
+            ajaxError(request, status, error);
+          },
+          beforeSend: function() {
+            loadingDisplayOn();
+          },
+          complete: function() {
+            loadingDisplayOff();
+            $(location).attr("href", $(location).attr("href"));
+          }
+        });
+      }
+    }
+
+    function detailViewConnection(item) {
+      var input = $(item)
         .parent()
         .parent()
         .children()[0];
-      $.ajax({
-        url: "/api/client/" + $(index).text(),
-        method: "DELETE",
-        dataType: "text",
-        contentType: "application/json; charset=UTF-8",
-        success: function(data) {
-          if (data == "true") {
-            alert("삭제되었습니다.");
-          } else {
-            alert("삭제 실패!");
-          }
-        },
-        erorr: function(request, status, error) {
-          ajaxError(request, status, error);
-        },
-        beforeSend: function() {
-          loadingDisplayOn();
-        },
-        complete: function() {
-          loadingDisplayOff();
-          $(location).attr("href", $(location).attr("href"));
-        }
-      });
+      var index = $(input)
+        .children("input")
+        .val();
+      sessionStorage.setItem("index", index);
+      location.href = "TradeDetailView.html";
+    }
+
+    function updasteViewConnection(item) {
+      var input = $(item)
+        .parent()
+        .parent()
+        .children()[0];
+      var index = $(input)
+        .children("input")
+        .val();
+      sessionStorage.setItem("index", index);
+      location.href = "UpdateTrade.html";
     }
 
     function loadTradeCategory() {
@@ -191,32 +300,6 @@
       $.ajax(obj);
       return obj.result;
     }
-
-    Number.prototype.format = function() {
-      if (this == 0) return 0;
-
-      var reg = /(^[+-]?\d+)(\d{3})/;
-      var n = this + "";
-
-      while (reg.test(n)) n = n.replace(reg, "$1" + "," + "$2");
-
-      return n;
-    };
-
-    // 문자열 타입에서 쓸 수 있도록 format() 함수 추가
-    String.prototype.format = function() {
-      var num = parseFloat(this);
-      if (isNaN(num)) return "0";
-
-      return num.format();
-    };
-    jQuery(".format-money").text(function() {
-      jQuery(this).text(
-        jQuery(this)
-          .text()
-          .format()
-      );
-    });
   </script>
 
   <style>

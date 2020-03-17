@@ -10,5 +10,11 @@ import com.gj.common.dto.TransactionDTO;
 public interface TransactionMapper {
 	public List<TransactionDTO> findAll();
 
+	public TransactionDTO findOne(int index);
+
+	public int delete(int index);
+
 	public int create(TransactionDTO temp);
+
+	public int update(TransactionDTO temp);
 }

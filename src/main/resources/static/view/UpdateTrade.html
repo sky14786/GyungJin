@@ -174,7 +174,7 @@
           <button
             class="btn  btn-primary"
             style="margin-right:150px;width: 100px;height: 50px;font-size: 25px;"
-            onclick="createTransaction();"
+            onclick="updateTransaction();"
           >
             등록
           </button>
@@ -195,18 +195,9 @@
       dateSetting();
       tradeCategory = loadTradeCategory();
       createTradeCategory();
+      loadTransactionData();
       priceFormatting();
     });
-
-    function addrSearch() {
-      new daum.Postcode({
-        oncomplete: function(data) {
-          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-          // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-          $("#traAddr").val(data.roadAddress);
-        }
-      }).open();
-    }
 
     function priceFormatting() {
       $("#traCost").change(function() {
@@ -220,6 +211,16 @@
           Number($("#traPrice").val()).toLocaleString() + "원"
         );
       });
+    }
+
+    function addrSearch() {
+      new daum.Postcode({
+        oncomplete: function(data) {
+          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+          // 예제를 참고하여 다양한 활용법을 확인해 보세요.
+          $("#traAddr").val(data.roadAddress);
+        }
+      }).open();
     }
 
     function dateSetting() {
@@ -254,6 +255,48 @@
       $("#traStatus").append($("<option>").text("예약"));
       $("#traStatus").append($("<option>").text("완료"));
     }
+    function loadTransactionData() {
+      var index = sessionStorage.getItem("index");
+      $.ajax({
+        url: "/api/transaction/" + index,
+        method: "GET",
+        contentType: "application/json; charset=UTF-8",
+        dataType: "json",
+        success: function(data) {
+          settingTransactionData(data);
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        }
+      });
+    }
+
+    function settingTransactionData(item) {
+      $("#traName").val(item.traName);
+      $("#traTel").val(item.traTel);
+      $("#traCustomer").val(item.traCustomer);
+      $("#traAddr").val(item.traAddr);
+      $("#traAddrDetail").val(item.traAddrDetail);
+      $("#traCost").val(item.traCost.toLocaleString() + "원");
+      $("#traTax").val(item.traTax.toLocaleString() + "원");
+      $("#traPrice").val(item.traPrice.toLocaleString() + "원");
+      $("#traMaterial").text(item.traMaterial);
+      $("#traMemo").text(item.traMemo);
+      $("#traStatus").val(item.traStatus);
+
+      $.each(tradeCategory, function(index, temp) {
+        if (temp.tradeCode == item.traCategory) {
+          $("#traCategory").val(temp.tradeName);
+        }
+      });
+
+      var visitDate = item.traVisitDate.split(" ");
+      $("#year").val(visitDate[0].substr(0, visitDate[0].length - 1));
+      $("#month").val(visitDate[1].substr(0, visitDate[1].length - 1));
+      $("#day").val(visitDate[2].substr(0, visitDate[2].length - 1));
+      $("#hour").val(visitDate[3].substr(0, visitDate[3].length - 1));
+      $("#minute").val(visitDate[4].substr(0, visitDate[4].length - 1));
+    }
 
     function loadTradeCategory() {
       var obj = {
@@ -284,7 +327,7 @@
       });
     }
 
-    function createTransaction() {
+    function updateTransaction() {
       if (!validationData()) {
         return false;
       }
@@ -323,8 +366,8 @@
       });
 
       $.ajax({
-        url: "/api/transaction",
-        method: "POST",
+        url: "/api/transaction/" + sessionStorage.getItem("index"),
+        method: "PUT",
         data: JSON.stringify(transaction),
         dataType: "json",
         contentType: "application/json; charset=UTF-8",

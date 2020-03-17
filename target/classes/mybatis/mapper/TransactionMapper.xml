@@ -2,10 +2,30 @@
 <!DOCTYPE mapper PUBLIC "Mapper" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gj.common.mapper.TransactionMapper">
 	<select id="findAll" resultType="transaction">
-		SELECT * FROM TRANSACTION WHERE USE_YN = 'Y'
+		SELECT * FROM TRANSACTION WHERE USE_YN = 'Y' ORDER BY TRA_CODE DESC
 	</select>
+	
+	<select id="findOne" resultType="transaction" parameterType="map">
+		SELECT * FROM TRANSACTION WHERE USE_YN = 'Y' AND TRA_CODE = #{index}
+	</select>
+	
+	<update id="delete" parameterType="map">
+		UPDATE TRANSACTION SET USE_YN = 'N' WHERE TRA_CODE = #{index}
+	</update>
 	
 	<insert id="create" parameterType="map">
 		INSERT INTO TRANSACTION VALUES(DEFAULT,#{traCategory},#{traName},#{traTel},#{traCustomer},#{traAddr},#{traAddrDetail},DEFAULT,DEFAULT,DEFAULT,#{updUser},#{traCost},#{traPrice},#{traTax},#{traMemo},#{traMaterial},#{traVisitDate},#{traStatus})
 	</insert>
+	
+	<update id="update" parameterType="map">
+		UPDATE TRANSACTION SET TRA_NAME = #{traName},
+		TRA_TEL = #{traTel}, TRA_CUSTOMER = #{traCustomer},
+		TRA_ADDR = #{traAddr}, TRA_ADDR_DETAIL = #{traAddrDetail},
+		TRA_COST = #{traCost}, TRA_TAX = #{traTax}, TRA_PRICE = #{traPrice},
+		TRA_VISIT_DATE = #{traVisitDate}, TRA_MATERIAL = #{traMaterial},
+		TRA_MEMO = #{traMemo}, TRA_STATUS = #{traStatus}, TRA_CATEGORY= #{traCategory}
+		WHERE TRA_CODE = #{traCode}
+	</update>
+	
+	
 </mapper>

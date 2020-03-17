@@ -234,33 +234,35 @@
     }
 
     function deleteClient(item) {
-      var index = $(item)
-        .parent()
-        .parent()
-        .children()[0];
-      $.ajax({
-        url: "/api/client/" + $(index).text(),
-        method: "DELETE",
-        dataType: "text",
-        contentType: "application/json; charset=UTF-8",
-        success: function(data) {
-          if (data == "true") {
-            alert("삭제되었습니다.");
-          } else {
-            alert("삭제 실패!");
+      if (confirm("정말 삭제하시겠습니까?")) {
+        var index = $(item)
+          .parent()
+          .parent()
+          .children()[0];
+        $.ajax({
+          url: "/api/client/" + $(index).text(),
+          method: "DELETE",
+          dataType: "text",
+          contentType: "application/json; charset=UTF-8",
+          success: function(data) {
+            if (data == "true") {
+              alert("삭제되었습니다.");
+            } else {
+              alert("삭제 실패!");
+            }
+          },
+          erorr: function(request, status, error) {
+            ajaxError(request, status, error);
+          },
+          beforeSend: function() {
+            loadingDisplayOn();
+          },
+          complete: function() {
+            loadingDisplayOff();
+            $(location).attr("href", $(location).attr("href"));
           }
-        },
-        erorr: function(request, status, error) {
-          ajaxError(request, status, error);
-        },
-        beforeSend: function() {
-          loadingDisplayOn();
-        },
-        complete: function() {
-          loadingDisplayOff();
-          $(location).attr("href", $(location).attr("href"));
-        }
-      });
+        });
+      }
     }
 
     function updateClient() {

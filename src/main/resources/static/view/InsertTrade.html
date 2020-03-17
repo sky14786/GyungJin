@@ -195,6 +195,7 @@
       dateSetting();
       tradeCategory = loadTradeCategory();
       createTradeCategory();
+      priceFormatting();
     });
 
     function addrSearch() {
@@ -205,6 +206,20 @@
           $("#traAddr").val(data.roadAddress);
         }
       }).open();
+    }
+
+    function priceFormatting() {
+      $("#traCost").change(function() {
+        $("#traCost").val(Number($("#traCost").val()).toLocaleString() + "원");
+      });
+      $("#traTax").change(function() {
+        $("#traTax").val(Number($("#traTax").val()).toLocaleString() + "원");
+      });
+      $("#traPrice").change(function() {
+        $("#traPrice").val(
+          Number($("#traPrice").val()).toLocaleString() + "원"
+        );
+      });
     }
 
     function dateSetting() {
@@ -279,9 +294,24 @@
       transaction.traCustomer = $("#traCustomer").val();
       transaction.traAddr = $("#traAddr").val();
       transaction.traAddrDetail = $("#traAddrDetail").val();
-      transaction.traCost = $("#traCost").val();
-      transaction.traTax = $("#traTax").val();
-      transaction.traPrice = $("#traPrice").val();
+      transaction.traCost = Number(
+        $("#traCost")
+          .val()
+          .replace("원", "")
+          .replace(",", "")
+      );
+      transaction.traTax = Number(
+        $("#traTax")
+          .val()
+          .replace("원", "")
+          .replace(",", "")
+      );
+      transaction.traPrice = Number(
+        $("#traPrice")
+          .val()
+          .replace("원", "")
+          .replace(",", "")
+      );
       transaction.traVisitDate = getVisitDate();
       transaction.traStatus = $("#traStatus").val();
       transaction.traMaterial = $("#traMaterial").val();

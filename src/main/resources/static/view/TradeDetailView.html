@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script type="text/javascript" src="../js/jquery.js"></script>
     <script type="text/javascript" src="../js/jquery_cookie.js"></script>
-    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <!-- <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> -->
     <!-- <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
@@ -43,6 +43,7 @@
             class="form-control"
             placeholder="XX아파트 X동 X호"
             id="traName"
+            readonly
           />
         </div>
         <div class="input-group mb-4">
@@ -54,6 +55,7 @@
             class="form-control"
             placeholder="010-XXXX-XXXXX"
             id="traTel"
+            readonly
           />
         </div>
         <div class="input-group mb-4">
@@ -65,6 +67,7 @@
             class="form-control"
             placeholder="홍길동"
             id="traCustomer"
+            readonly
           />
         </div>
         <div class="input-group mb-4">
@@ -72,12 +75,6 @@
             <span class="input-group-text">주소</span>
           </div>
           <input type="text" class="form-control" id="traAddr" readonly />
-          <input
-            class="btn btn-primary"
-            type="button"
-            onclick="addrSearch();"
-            value="주소검색"
-          />
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
@@ -88,6 +85,7 @@
             class="form-control"
             placeholder="XX아파트 XX동 XX호"
             id="traAddrDetail"
+            readonly
           />
         </div>
         <div class="input-group mb-4">
@@ -99,6 +97,7 @@
             class="form-control"
             placeholder="40000000"
             id="traCost"
+            readonly
           />
         </div>
         <div class="input-group mb-4">
@@ -110,6 +109,7 @@
             class="form-control"
             placeholder="40000000"
             id="traTax"
+            readonly
           />
         </div>
         <div class="input-group mb-4">
@@ -121,29 +121,55 @@
             class="form-control"
             placeholder="40000000"
             id="traPrice"
+            readonly
           />
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
             <span class="input-group-text mr-1">방문일자</span>
-            <select class="form-control" id="year" style="width: 100px;">
+            <select
+              class="form-control"
+              id="year"
+              style="width: 100px;"
+              readonly
+            >
               <option>선택안함</option>
             </select>
             <span class="mr-3 mt-1">년</span>
 
-            <select class="form-control" id="month" style="width: 100px;">
+            <select
+              class="form-control"
+              id="month"
+              style="width: 100px;"
+              readonly
+            >
               <option>선택안함</option>
             </select>
             <span class="mr-3 mt-1">월</span>
-            <select class="form-control" id="day" style="width: 100px;">
+            <select
+              class="form-control"
+              id="day"
+              style="width: 100px;"
+              readonly
+            >
               <option>선택안함</option>
             </select>
             <span class="mr-3 mt-1">일</span>
-            <select class="form-control" id="hour" style="width: 100px;">
+            <select
+              class="form-control"
+              id="hour"
+              style="width: 100px;"
+              readonly
+            >
               <option>선택안함</option>
             </select>
             <span class="mr-3 mt-1">시</span>
-            <select class="form-control" id="minute" style="width: 100px;">
+            <select
+              class="form-control"
+              id="minute"
+              style="width: 100px;"
+              readonly
+            >
               <option>선택안함</option>
             </select>
             <span class="mr-3 mt-1">분</span>
@@ -152,37 +178,47 @@
 
         <div class="form-group mb-4">
           <label for="comment">자제 상세 내용:</label>
-          <textarea class="form-control" rows="3" id="traMaterial"></textarea>
+          <textarea
+            class="form-control"
+            rows="3"
+            id="traMaterial"
+            readonly
+          ></textarea>
         </div>
         <div class="form-group mb-4">
           <label for="comment">메모:</label>
-          <textarea class="form-control" rows="3" id="traMemo"></textarea>
+          <textarea
+            class="form-control"
+            rows="3"
+            id="traMemo"
+            readonly
+          ></textarea>
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
             <span class="input-group-text mr-1">거래상태</span>
-            <select class="form-control mr-5" id="traStatus">
+            <select class="form-control mr-5" id="traStatus" readonly>
               <option>선택안함</option>
             </select>
             <span class="input-group-text mr-1">분류</span>
-            <select class="form-control" id="traCategory">
+            <select class="form-control" id="traCategory" readonly>
               <option>선택안함</option>
             </select>
           </div>
         </div>
         <div style="text-align: center;padding: 25px;">
-          <button
+          <!-- <button
             class="btn  btn-primary"
             style="margin-right:150px;width: 100px;height: 50px;font-size: 25px;"
-            onclick="createTransaction();"
           >
-            등록
-          </button>
+            수정
+          </button> -->
           <button
             class="btn  btn-info"
             style="width: 100px;height: 50px;font-size: 25px;"
+            onclick="history.back();"
           >
-            취소
+            뒤로
           </button>
         </div>
       </div>
@@ -195,31 +231,50 @@
       dateSetting();
       tradeCategory = loadTradeCategory();
       createTradeCategory();
-      priceFormatting();
+      loadTransactionData();
     });
 
-    function addrSearch() {
-      new daum.Postcode({
-        oncomplete: function(data) {
-          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-          // 예제를 참고하여 다양한 활용법을 확인해 보세요.
-          $("#traAddr").val(data.roadAddress);
+    function loadTransactionData() {
+      var index = sessionStorage.getItem("index");
+      $.ajax({
+        url: "/api/transaction/" + index,
+        method: "GET",
+        contentType: "application/json; charset=UTF-8",
+        dataType: "json",
+        success: function(data) {
+          settingTransactionData(data);
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
         }
-      }).open();
+      });
     }
 
-    function priceFormatting() {
-      $("#traCost").change(function() {
-        $("#traCost").val(Number($("#traCost").val()).toLocaleString() + "원");
+    function settingTransactionData(item) {
+      $("#traName").val(item.traName);
+      $("#traTel").val(item.traTel);
+      $("#traCustomer").val(item.traCustomer);
+      $("#traAddr").val(item.traAddr);
+      $("#traAddrDetail").val(item.traAddrDetail);
+      $("#traCost").val(item.traCost.toLocaleString() + "원");
+      $("#traTax").val(item.traTax.toLocaleString() + "원");
+      $("#traPrice").val(item.traPrice.toLocaleString() + "원");
+      $("#traMaterial").text(item.traMaterial);
+      $("#traMemo").text(item.traMemo);
+      $("#traStatus").val(item.traStatus);
+
+      $.each(tradeCategory, function(index, temp) {
+        if (temp.tradeCode == item.traCategory) {
+          $("#traCategory").val(temp.tradeName);
+        }
       });
-      $("#traTax").change(function() {
-        $("#traTax").val(Number($("#traTax").val()).toLocaleString() + "원");
-      });
-      $("#traPrice").change(function() {
-        $("#traPrice").val(
-          Number($("#traPrice").val()).toLocaleString() + "원"
-        );
-      });
+
+      var visitDate = item.traVisitDate.split(" ");
+      $("#year").val(visitDate[0].substr(0, visitDate[0].length - 1));
+      $("#month").val(visitDate[1].substr(0, visitDate[1].length - 1));
+      $("#day").val(visitDate[2].substr(0, visitDate[2].length - 1));
+      $("#hour").val(visitDate[3].substr(0, visitDate[3].length - 1));
+      $("#minute").val(visitDate[4].substr(0, visitDate[4].length - 1));
     }
 
     function dateSetting() {
@@ -282,136 +337,6 @@
             .text(item.tradeName)
         );
       });
-    }
-
-    function createTransaction() {
-      if (!validationData()) {
-        return false;
-      }
-      var transaction = {};
-      transaction.traName = $("#traName").val();
-      transaction.traTel = $("#traTel").val();
-      transaction.traCustomer = $("#traCustomer").val();
-      transaction.traAddr = $("#traAddr").val();
-      transaction.traAddrDetail = $("#traAddrDetail").val();
-      transaction.traCost = Number(
-        $("#traCost")
-          .val()
-          .replace("원", "")
-          .replace(",", "")
-      );
-      transaction.traTax = Number(
-        $("#traTax")
-          .val()
-          .replace("원", "")
-          .replace(",", "")
-      );
-      transaction.traPrice = Number(
-        $("#traPrice")
-          .val()
-          .replace("원", "")
-          .replace(",", "")
-      );
-      transaction.traVisitDate = getVisitDate();
-      transaction.traStatus = $("#traStatus").val();
-      transaction.traMaterial = $("#traMaterial").val();
-      transaction.traMemo = $("#traMemo").val();
-      $.each(tradeCategory, function(index, item) {
-        if (item.tradeName == $("#traCategory").val()) {
-          transaction.traCategory = item.tradeCode;
-        }
-      });
-
-      $.ajax({
-        url: "/api/transaction",
-        method: "POST",
-        data: JSON.stringify(transaction),
-        dataType: "json",
-        contentType: "application/json; charset=UTF-8",
-        success: function(data) {
-          if (data) {
-            alert("등록했습니다.");
-          } else {
-            alert("등록에 실패했습니다.");
-          }
-          $(location).attr(
-            "href",
-            $(location).attr("host") + "/view/Transaction.html"
-          );
-        },
-        error: function(request, status, error) {
-          ajaxError(request, status, error);
-        },
-        beforeSend: function() {
-          loadingDisplayOn();
-        },
-        complete: function() {
-          loadingDisplayOff();
-        }
-      });
-    }
-
-    function validationData() {
-      if ($("#traName").val() == "") {
-        alert("거래명을 입력해 주세요.");
-        return false;
-      }
-      if ($("#traTel").val() == "") {
-        alert("연락처를 입력해 주세요.");
-        return false;
-      }
-      if ($("#traAddr").val() == "") {
-        alert("주소를 검색해 주세요.");
-        return false;
-      }
-      if ($("#traAddrDetail").val() == "") {
-        alert("상세주소를 입력해 주세요.");
-        return false;
-      }
-      if ($("#traCost").val() == "") {
-        alert("원가를 입력해 주세요.");
-        return false;
-      }
-      if ($("#traTax").val() == "") {
-        alert("세금을 입력해 주세요.");
-        return false;
-      }
-      if ($("#traPrice").val() == "") {
-        alert("거래금액을 입력해 주세요.");
-        return false;
-      }
-      return true;
-    }
-
-    function getVisitDate() {
-      var result = "";
-      if ($("#year").val() == "선택안함") {
-        alert("방문년도를 선택해 주세요.");
-        return false;
-      }
-      result += $("#year").val() + "년 ";
-      if ($("#month").val() == "선택안함") {
-        alert("방문월을 선택해 주세요.");
-        return false;
-      }
-      result += $("#month").val() + "월 ";
-      if ($("#day").val() == "선택안함") {
-        alert("방문일을 선택해 주세요.");
-        return false;
-      }
-      result += $("#day").val() + "일 ";
-      if ($("#hour").val() == "선택안함") {
-        alert("방문시간을 선택해 주세요.");
-        return false;
-      }
-      result += $("#hour").val() + "시 ";
-      if ($("#minute").val() == "선택안함") {
-        alert("방문시간을 선택해 주세요.");
-        return false;
-      }
-      result += $("#minute").val() + "분";
-
-      return result;
     }
   </script>
 
