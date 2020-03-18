@@ -75,7 +75,7 @@
           <a href="/view/InsertTrade.html" class="dropdown-item">등록</a>
         </div>
       </div>
-      <div class="dropdown" style="margin-right: 20px;">
+      <div class="dropdown" style="margin-right: 40px;">
         <button
           type="button"
           class="btn btn-primary btn-lg dropdown-toggle"
@@ -83,11 +83,26 @@
         >
           매출관리
         </button>
-        <div class="dropdown-menu">
+        <div class="dropdown-menu" >
           <a href="#" class="dropdown-item">보기</a>
           <a href="#" class="dropdown-item">등록</a>
         </div>
       </div>
+      <div style="padding-left: 100px;">
+
+        <select id="searchCategory" style="width:90px;height: 48px;"> 
+          <option >거래처</option>
+          <option>시공일지</option>
+        </select>
+        <select id="searchType" style="width:90px;height: 48px;"> 
+          <option >선택안함</option>
+          <option name="clientName">거래처명</option>
+          <option name="clientCustomer">담당자</option>
+        </select>
+        <input id="searchKeyword"type="text" style="width:300px;height: 48px;">
+
+        <button type="button" class="btn btn-lg btn-primary" style="margin-bottom: 5px;" onclick="searching();">검색</button>
+    </div>
     </nav>
     <div class="modal" id="clientCreateModal">
       <div class="modal-dialog">
@@ -156,7 +171,61 @@
   <script>
     $(document).ready(function() {
       loadClientCategory();
+      settingSearchType();
     });
+
+    function searchingValidating(){
+      if($("#searchType").val()=="선택안함"){
+        alert("검색 타입을 선택해 주세요.");
+        return false;
+      }
+      if($("#searchKeyword").val()==""){
+        alert("검색어를 입력해 주세요.");
+        return false;
+      }
+      return true;
+    }
+
+    function searching(){
+      if(searchingValidating()){
+        var type;
+         $.each($("#searchType").children(),function(index,item){
+         if($("#searchType").val()==$(item).val()){
+           type = $(item).attr("name");
+          }  
+        });
+          var category = $("#searchCategory").val();
+          var keyword = $("#searchKeyword").val();
+          
+          sessionStorage.removeItem("type");
+          sessionStorage.removeItem("keyword");
+
+          sessionStorage.setItem("type",type);
+          sessionStorage.setItem("keyword",keyword);
+          
+          if(category=="거래처"){
+            $(location).attr("href","/view/SearchClient.html");
+          }else if(category=="시공일지"){
+            $(location).attr("href","/view/SearchTrade.html");
+          }
+      }
+    }
+
+    function settingSearchType(){
+      $("#searchCategory").change(function(){
+        $("#searchType").empty();
+        if($("#searchCategory").val()=="거래처"){
+          $("#searchType").append($("<option>").text("선택안함"));
+          $("#searchType").append($("<option>").attr("name","clientName").text("거래처명"));
+          $("#searchType").append($("<option>").attr("name","clientCustomer").text("담당자"));
+        }
+        if($("#searchCategory").val()=="시공일지"){
+          $("#searchType").append($("<option>").text("선택안함"));
+          $("#searchType").append($("<option>").attr("name","traTel").text("연락처"));
+          $("#searchType").append($("<option>").attr("name","traAddr").text("주소"));
+        }
+      });
+    }
 
     function clienctValidatingCheck() {
       if ($("input[name=clientName]").val() == "") {
@@ -305,6 +374,8 @@
         );
       }
     }
+
+
     
   </script>
   <style>

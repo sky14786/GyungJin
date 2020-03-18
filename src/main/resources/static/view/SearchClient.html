@@ -10,7 +10,7 @@
   <body>
     <script>
       $(document).ready(function() {
-        $("#header").load("../common/header.html?ver=20200031801");
+        $("#header").load("../common/header.html?ver=2020031801");
       });
     </script>
 
@@ -105,27 +105,36 @@
   <script>
     var clientCategory;
     $(document).ready(function() {
-      loadClient(1);
+      loadClient(
+        sessionStorage.getItem("keyword"),
+        sessionStorage.getItem("type"),
+        1
+      );
     });
 
     // $("#clientUpdateModal").on("hide.bs.modal", updateModalReset());
 
-    function loadClient(page) {
+    function loadClient(keyword, type, page) {
       $("#tbody").empty();
       $.ajax({
-        url: "/api/client?page=" + page,
+        url:
+          "/api/client?keyword=" + keyword + "&type=" + type + "&page=" + page,
         method: "GET",
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
         success: function(data) {
-          var count = data[data.length - 1].count;
-          clientCategory = loadClientCategory();
-          $.each(data, function(index, item) {
-            if (index != data.length - 1) {
-              createRow(item);
-            }
-          });
-          createPageBar(count, page);
+          if (data.length != 1) {
+            var count = data[data.length - 1].count;
+            clientCategory = loadClientCategory();
+            $.each(data, function(index, item) {
+              if (index != data.length - 1) {
+                createRow(item);
+              }
+            });
+            createPageBar(count, page);
+          } else {
+            alert("검색 결과가 없습니다.");
+          }
         },
         error: function(request, status, error) {
           ajaxError(request, status, error);
@@ -151,7 +160,16 @@
             .append(
               $("<a>")
                 .attr("class", "page-link")
-                .attr("href", "javascript:loadClient(" + prePageNum + ")")
+                .attr(
+                  "href",
+                  "javascript:loadClient('" +
+                    sessionStorage.getItem("keyword") +
+                    "','" +
+                    sessionStorage.getItem("type") +
+                    "'," +
+                    prePageNum +
+                    ")"
+                )
                 .text("이전")
             )
             .attr("class", "page-item")
@@ -165,7 +183,16 @@
               .append(
                 $("<a>")
                   .attr("class", "page-link")
-                  .attr("href", "javascript:loadClient(" + i + ")")
+                  .attr(
+                    "href",
+                    "javascript:loadClient('" +
+                      sessionStorage.getItem("keyword") +
+                      "','" +
+                      sessionStorage.getItem("type") +
+                      "'," +
+                      i +
+                      ")"
+                  )
                   .text(i)
               )
               .attr("class", "page-item disabled")
@@ -176,7 +203,16 @@
               .append(
                 $("<a>")
                   .attr("class", "page-link")
-                  .attr("href", "javascript:loadClient(" + i + ")")
+                  .attr(
+                    "href",
+                    "javascript:loadClient('" +
+                      sessionStorage.getItem("keyword") +
+                      "','" +
+                      sessionStorage.getItem("type") +
+                      "'," +
+                      i +
+                      ")"
+                  )
                   .text(i)
               )
               .attr("class", "page-item")
@@ -189,7 +225,16 @@
             .append(
               $("<a>")
                 .attr("class", "page-link")
-                .attr("href", "javascript:loadClient(" + postPageNum + ")")
+                .attr(
+                  "href",
+                  "javascript:loadClient('" +
+                    sessionStorage.getItem("keyword") +
+                    "','" +
+                    sessionStorage.getItem("type") +
+                    "'," +
+                    postPageNum +
+                    ")"
+                )
                 .text("다음")
             )
             .attr("class", "page-item")

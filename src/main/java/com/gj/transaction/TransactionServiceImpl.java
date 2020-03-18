@@ -1,7 +1,9 @@
 package com.gj.transaction;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,30 @@ public class TransactionServiceImpl implements TransactionService {
 		String result = toJson(resultTemp);
 		String count = ",{\"count\" :" + temp.size() + "}]";
 		result = result.replace("]", count);
-		System.out.println(result);
+		return result;
+	}
+
+	@Override
+	public String search(String keyword, String type, int page) throws JsonProcessingException {
+		Map<String, String> parameter = new HashMap<>();
+		parameter.put("keyword", keyword);
+		parameter.put("type", type);
+
+		List<TransactionDTO> temp = transactionMapper.search(parameter);
+		List<TransactionDTO> resultTemp = new ArrayList<>();
+
+		int range = temp.size() <= (page * TRADE_PER_PAGE) ? temp.size() : page * TRADE_PER_PAGE;
+
+		for (int i = (page == 1 ? 0 : TRADE_PER_PAGE * page - TRADE_PER_PAGE); i < range; i++) {
+			resultTemp.add(temp.get(i));
+		}
+		String result = toJson(resultTemp);
+		if (result.equals("[]")) {
+			result = "[{\"result\":null}]";
+		} else {
+			String count = ",{\"count\" :" + temp.size() + "}]";
+			result = result.replace("]", count);
+		}
 		return result;
 	}
 

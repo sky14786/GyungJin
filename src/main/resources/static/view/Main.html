@@ -10,7 +10,7 @@
   <body>
     <script>
       $(document).ready(function() {
-        $("#header").load("../common/header.html?ver=20200031201");
+        $("#header").load("../common/header.html?ver=20200031801");
       });
     </script>
 
@@ -35,7 +35,11 @@
         </thead>
         <tbody id="tbody" style="text-align: center;"></tbody>
       </table>
-      <div id="pageBar" style="text-align:center;color:black;"></div>
+      <ul
+        id="pageBar"
+        class="pagination justify-content-center"
+        style="margin:20px 0"
+      ></ul>
     </div>
     <div class="modal" id="clientUpdateModal">
       <div class="modal-dialog">
@@ -101,27 +105,96 @@
   <script>
     var clientCategory;
     $(document).ready(function() {
-      loadClient();
+      loadClient(1);
     });
 
-    $("#clientUpdateModal").on("hide.bs.modal", updateModalReset());
+    // $("#clientUpdateModal").on("hide.bs.modal", updateModalReset());
 
-    function loadClient() {
+    function loadClient(page) {
+      $("#tbody").empty();
       $.ajax({
-        url: "/api/client",
+        url: "/api/client?page=" + page,
         method: "GET",
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
         success: function(data) {
+          var count = data[data.length - 1].count;
           clientCategory = loadClientCategory();
           $.each(data, function(index, item) {
-            createRow(item);
+            if (index != data.length - 1) {
+              createRow(item);
+            }
           });
+          createPageBar(count, page);
         },
         error: function(request, status, error) {
           ajaxError(request, status, error);
         }
       });
+    }
+
+    function createPageBar(count, nowPage) {
+      var countPerPageBar = 10;
+      $("#pageBar").empty();
+      var prePageNum =
+        Math.ceil(nowPage / countPerPageBar) * countPerPageBar -
+        countPerPageBar;
+      var postPageNum =
+        Math.ceil(nowPage / countPerPageBar) * countPerPageBar + 1;
+
+      var pageBarCount = Math.ceil(count / countPerPageBar);
+      var range =
+        postPageNum - 1 < pageBarCount ? postPageNum - 1 : pageBarCount;
+      if (nowPage > countPerPageBar) {
+        $("#pageBar").append(
+          $("<li>")
+            .append(
+              $("<a>")
+                .attr("class", "page-link")
+                .attr("href", "javascript:loadClient(" + prePageNum + ")")
+                .text("이전")
+            )
+            .attr("class", "page-item")
+        );
+      }
+
+      for (var i = prePageNum + 1; i <= range; i++) {
+        if (i == nowPage) {
+          $("#pageBar").append(
+            $("<li>")
+              .append(
+                $("<a>")
+                  .attr("class", "page-link")
+                  .attr("href", "javascript:loadClient(" + i + ")")
+                  .text(i)
+              )
+              .attr("class", "page-item disabled")
+          );
+        } else {
+          $("#pageBar").append(
+            $("<li>")
+              .append(
+                $("<a>")
+                  .attr("class", "page-link")
+                  .attr("href", "javascript:loadClient(" + i + ")")
+                  .text(i)
+              )
+              .attr("class", "page-item")
+          );
+        }
+      }
+      if (count - postPageNum * countPerPageBar > 0) {
+        $("#pageBar").append(
+          $("<li>")
+            .append(
+              $("<a>")
+                .attr("class", "page-link")
+                .attr("href", "javascript:loadClient(" + postPageNum + ")")
+                .text("다음")
+            )
+            .attr("class", "page-item")
+        );
+      }
     }
 
     function createRow(item) {

@@ -40,38 +40,47 @@
         id="pageBar"
         class="pagination justify-content-center"
         style="margin:20px 0"
-      >
-        <!-- <li class="page-item"><a class="page-link" href="#">이전</a></li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item"><a class="page-link" href="#">다음</a></li> -->
-      </ul>
+      ></ul>
     </div>
   </body>
   <script>
     var tradeCategory;
     $(document).ready(function() {
-      loadTransaction(1);
+      loadTransaction(
+        sessionStorage.getItem("keyword"),
+        sessionStorage.getItem("type"),
+        1
+      );
     });
 
-    function loadTransaction(page) {
+    function loadTransaction(keyword, type, page) {
       $("#tbody").empty();
       $.ajax({
-        url: "/api/transaction?page=" + page,
+        url:
+          "/api/transaction?keyword=" +
+          keyword +
+          "&type=" +
+          type +
+          "&page=" +
+          page,
         method: "GET",
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
         async: false,
         success: function(data) {
-          var count = data[data.length - 1].count;
-          tradeCategory = loadTradeCategory();
-          $.each(data, function(index, item) {
-            if (index != data.length - 1) {
-              createRow(item);
-            }
-          });
-          createPageBar(count, page);
+          if (data.length != 1) {
+            var count = data[data.length - 1].count;
+            console.log(data);
+            tradeCategory = loadTradeCategory();
+            $.each(data, function(index, item) {
+              if (index != data.length - 1) {
+                createRow(item);
+              }
+            });
+            createPageBar(count, page);
+          } else {
+            alert("검색 결과가 없습니다.");
+          }
         },
         error: function(request, status, error) {
           ajaxError(request, status, error);
@@ -97,7 +106,16 @@
             .append(
               $("<a>")
                 .attr("class", "page-link")
-                .attr("href", "javascript:loadTransaction(" + prePageNum + ")")
+                .attr(
+                  "href",
+                  "javascript:loadTransaction('" +
+                    sessionStorage.getItem("keyword") +
+                    "','" +
+                    sessionStorage.getItem("type") +
+                    "'," +
+                    prePageNum +
+                    ")"
+                )
                 .text("이전")
             )
             .attr("class", "page-item")
@@ -111,7 +129,16 @@
               .append(
                 $("<a>")
                   .attr("class", "page-link")
-                  .attr("href", "javascript:loadTransaction(" + i + ")")
+                  .attr(
+                    "href",
+                    "javascript:loadTransaction('" +
+                      sessionStorage.getItem("keyword") +
+                      "','" +
+                      sessionStorage.getItem("type") +
+                      "'," +
+                      i +
+                      ")"
+                  )
                   .text(i)
               )
               .attr("class", "page-item disabled")
@@ -122,7 +149,16 @@
               .append(
                 $("<a>")
                   .attr("class", "page-link")
-                  .attr("href", "javascript:loadTransaction(" + i + ")")
+                  .attr(
+                    "href",
+                    "javascript:loadTransaction('" +
+                      sessionStorage.getItem("keyword") +
+                      "','" +
+                      sessionStorage.getItem("type") +
+                      "'," +
+                      i +
+                      ")"
+                  )
                   .text(i)
               )
               .attr("class", "page-item")
@@ -135,7 +171,16 @@
             .append(
               $("<a>")
                 .attr("class", "page-link")
-                .attr("href", "javascript:loadTransaction(" + postPageNum + ")")
+                .attr(
+                  "href",
+                  "javascript:loadTransaction('" +
+                    sessionStorage.getItem("keyword") +
+                    "','" +
+                    sessionStorage.getItem("type") +
+                    "'," +
+                    postPageNum +
+                    ")"
+                )
                 .text("다음")
             )
             .attr("class", "page-item")

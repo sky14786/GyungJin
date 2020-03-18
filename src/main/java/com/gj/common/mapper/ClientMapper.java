@@ -1,6 +1,7 @@
 package com.gj.common.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,6 +14,8 @@ public interface ClientMapper {
 	public int create(ClientDTO client);
 
 	public int delete(String index);
-	
+
+	public List<ClientDTO> search(Map<String,String> parameter);
+
 	public int update(ClientDTO client);
 }

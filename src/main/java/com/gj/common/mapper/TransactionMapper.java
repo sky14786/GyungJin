@@ -1,6 +1,7 @@
 package com.gj.common.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -17,4 +18,6 @@ public interface TransactionMapper {
 	public int create(TransactionDTO temp);
 
 	public int update(TransactionDTO temp);
+
+	public List<TransactionDTO> search(Map<String, String> parameter);
 }

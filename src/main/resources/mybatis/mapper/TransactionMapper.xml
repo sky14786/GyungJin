@@ -17,6 +17,18 @@
 		INSERT INTO TRANSACTION VALUES(DEFAULT,#{traCategory},#{traName},#{traTel},#{traCustomer},#{traAddr},#{traAddrDetail},DEFAULT,DEFAULT,DEFAULT,#{updUser},#{traCost},#{traPrice},#{traTax},#{traMemo},#{traMaterial},#{traVisitDate},#{traStatus})
 	</insert>
 	
+	<select id="search" resultType="transaction" parameterType="map">
+		SELECT * FROM TRANSACTION WHERE USE_YN ='Y' 
+		<if test='type != null and type == "traTel"'>
+			AND TRA_TEL LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		 <if test='type != null and type == "traAddr"'>
+		 	AND TRA_ADDR LIKE CONCAT('%', #{keyword}, '%')
+		 	OR TRA_ADDR_DETAIL LIKE CONCAT('%', #{keyword}, '%')
+		 </if>
+	</select>
+	
+	
 	<update id="update" parameterType="map">
 		UPDATE TRANSACTION SET TRA_NAME = #{traName},
 		TRA_TEL = #{traTel}, TRA_CUSTOMER = #{traCustomer},

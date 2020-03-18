@@ -1,7 +1,5 @@
 package com.gj.client;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gj.common.dto.ClientDTO;
@@ -26,8 +25,17 @@ public class ClientController {
 	ClientService clientService;
 
 	@GetMapping("/client")
-	public String findAll() throws Exception {
-		return clientService.findAll();
+	public String findAll(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "keyword", required = false) String keyword,
+			@RequestParam(value = "type", required = false) String type) throws Exception {
+		String result = "";
+		if(keyword!=null&&type!=null) {
+			result = clientService.search(keyword,type,page);
+		}else {
+			result = clientService.findAll(page);
+		}
+		System.out.println(result);
+		return result;
 	}
 
 	@PostMapping("/client")

@@ -26,8 +26,16 @@ public class TransactionController {
 	TransactionService transactionService;
 
 	@GetMapping("/transaction")
-	public String findAll(@RequestParam("page") int page) throws JsonProcessingException {
-		return transactionService.findAll(page);
+	public String findAll(@RequestParam(value = "page", defaultValue = "1") int page,
+			@RequestParam(value = "keyword", required = false) String keyword,
+			@RequestParam(value = "type", required = false) String type) throws JsonProcessingException {
+		String result = "";
+		if (keyword != null && type != null) {
+			result = transactionService.search(keyword, type, page);
+		} else {
+			result = transactionService.findAll(page);
+		}
+		return result;
 	}
 
 	@GetMapping("/transaction/{index}")

@@ -13,6 +13,16 @@
 		UPDATE CLIENT SET USE_YN = 'N' WHERE CLIENT_CODE = #{index}
 	</update>
 	
+	<select id="search" resultType="client" parameterType="map">
+		SELECT * FROM CLIENT WHERE USE_YN ='Y' 
+		<if test='type != null and type == "clientName"'>
+			AND CLIENT_NAME LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		 <if test='type != null and type == "clientCustomer"'>
+		 	AND CLIENT_CUSTOMER LIKE CONCAT('%', #{keyword}, '%')
+		 </if>
+	</select>
+	
 	<update id="update" parameterType="map">
 		UPDATE CLIENT SET CLIENT_CATEGORY = #{clientCategory}, CLIENT_NAME = #{clientName}, CLIENT_CUSTOMER=#{clientCustomer}, CLIENT_TEL = #{clientTel}, UPD_DATE = DEFAULT , UPD_USER = #{updUser} WHERE CLIENT_CODE = #{clientCode} 
 	</update>

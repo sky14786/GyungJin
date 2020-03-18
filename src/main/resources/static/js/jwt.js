@@ -68,6 +68,14 @@ function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
+function testToken() {
+  var expiredTime =
+    parseJwt($.cookie("accessToken")).exp - parseInt(Date.now() / 1000);
+  var refreshTime =
+    parseJwt($.cookie("refreshToken")).exp - parseInt(Date.now() / 1000);
+  console.log(expiredTime);
+  console.log(refreshTime);
+}
 function ajaxError(request, status, error) {
   if (request.responseJSON.status == 401) {
     validationToken();
@@ -77,13 +85,4 @@ function ajaxError(request, status, error) {
     alert("다시 로그인해 주세요.");
     $(location).attr("href", "http://" + $(location).attr("host") + "/");
   }
-}
-
-function testToken() {
-  var expiredTime =
-    parseJwt($.cookie("accessToken")).exp - parseInt(Date.now() / 1000);
-  var refreshTime =
-    parseJwt($.cookie("refreshToken")).exp - parseInt(Date.now() / 1000);
-  console.log(expiredTime);
-  console.log(refreshTime);
 }
