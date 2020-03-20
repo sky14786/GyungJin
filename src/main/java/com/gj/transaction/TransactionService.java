@@ -15,4 +15,6 @@ public interface TransactionService {
 	public String search(String keyword, String type, int page) throws JsonProcessingException;
 
 	public boolean update(TransactionDTO transaction, int index);
+
+	public String monthStat(int year, int month, int page) throws JsonProcessingException;
 }

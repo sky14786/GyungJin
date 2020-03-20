@@ -20,4 +20,8 @@ public interface TransactionMapper {
 	public int update(TransactionDTO temp);
 
 	public List<TransactionDTO> search(Map<String, String> parameter);
+
+	public Map<String, Integer> monthStat(String parameter);
+
+	public List<TransactionDTO> dateSearch(String parameter);
 }

@@ -39,5 +39,13 @@
 		WHERE TRA_CODE = #{traCode}
 	</update>
 	
+	<select id="monthStat" parameterType="map" resultType="map">
+		SELECT SUM(TRA_COST) AS TRA_COST, SUM(TRA_PRICE) AS TRA_PRICE, SUM(TRA_TAX) AS TRA_TAX FROM TRANSACTION WHERE USE_YN = 'Y' AND TRA_VISIT_DATE LIKE CONCAT('%',#{parameter},'%')
+	</select>
+	
+	<select id="dateSearch" resultType="transaction" parameterType="map">
+		SELECT * FROM TRANSACTION WHERE USE_YN = 'Y' AND TRA_VISIT_DATE LIKE CONCAT('%',#{parameter},'%')
+	</select>
+	
 	
 </mapper>

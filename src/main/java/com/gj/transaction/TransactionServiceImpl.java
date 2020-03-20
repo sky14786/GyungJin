@@ -81,6 +81,35 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
+	public String monthStat(int year, int month, int page) throws JsonProcessingException {
+		String parameter = year + "년 " + month + "월";
+		Map<String, Integer> temp = transactionMapper.monthStat(parameter);
+		ObjectMapper mapper = new ObjectMapper();
+		String result = "";
+
+		List<TransactionDTO> tempList = transactionMapper.dateSearch(parameter);
+		List<TransactionDTO> resultTemp = new ArrayList<>();
+
+		int range = tempList.size() <= (page * TRADE_PER_PAGE) ? tempList.size() : page * TRADE_PER_PAGE;
+
+		for (int i = (page == 1 ? 0 : TRADE_PER_PAGE * page - TRADE_PER_PAGE); i < range; i++) {
+			resultTemp.add(tempList.get(i));
+		}
+
+		result = toJson(resultTemp);
+
+		if (result.equals("[]")) {
+			result = "[{\"result\":null}]";
+		} else {
+			String count = ",{\"count\" :" + tempList.size() + "}]";
+			result = result.replace("]", "," + mapper.writeValueAsString(temp) + count);
+		}
+
+		System.out.println("result : " + result);
+		return result;
+	}
+
+	@Override
 	public boolean delete(int index) {
 		return transactionMapper.delete(index) == 1 ? true : false;
 	}
