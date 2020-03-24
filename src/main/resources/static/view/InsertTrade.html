@@ -7,6 +7,10 @@
     <script type="text/javascript" src="../js/jquery.js"></script>
     <script type="text/javascript" src="../js/jquery_cookie.js"></script>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
     <!-- <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
@@ -90,38 +94,60 @@
             id="traAddrDetail"
           />
         </div>
+        <div style="text-align: center;" class="mb-4">
+          <span>---------------자재---------------</span>
+        </div>
+
+        <div class="input-group mb-4">
+          <div class="input-group-prepend mb-4">
+            <sapn class="input-group-text">사이즈</sapn
+            ><input class="form-control mr-4" type="text" name="matSize" />
+            <sapn class="input-group-text">자재명</sapn
+            ><input class="form-control mr-4" type="text" name="matName" />
+            <sapn class="input-group-text">원가</sapn
+            ><input class="form-control mr-4" type="text" name="matCost" />
+            <sapn class="input-group-text">공급가액</sapn
+            ><input class="form-control mr-4" type="text" name="matPrice" />
+            <sapn class="input-group-text">수량</sapn
+            ><input class="form-control mr-4" type="text" name="quantity" />
+            <button
+              class="btn btn-warning material-icons mr-4"
+              type="button"
+              onclick="addMaterial(this);"
+            >
+              add
+            </button>
+            <button
+              class="btn btn-warning material-icons mr-4"
+              type="button"
+              onclick="removeMaterial(this)"
+            >
+              remove
+            </button>
+          </div>
+        </div>
+
+        <div style="text-align: center;" class="mb-4">
+          <span>---------------자재---------------</span>
+        </div>
+
         <div class="input-group mb-4">
           <div class="input-group-prepend">
             <span class="input-group-text">원가</span>
           </div>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="40000000"
-            id="traCost"
-          />
+          <input type="text" class="form-control" id="traCost" readonly />
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
             <span class="input-group-text">세금</span>
           </div>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="40000000"
-            id="traTax"
-          />
+          <input type="text" class="form-control" id="traTax" readonly />
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
             <span class="input-group-text">거래금액</span>
           </div>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="40000000"
-            id="traPrice"
-          />
+          <input type="text" class="form-control" id="traPrice" readonly />
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
@@ -150,10 +176,6 @@
           </div>
         </div>
 
-        <div class="form-group mb-4">
-          <label for="comment">자제 상세 내용:</label>
-          <textarea class="form-control" rows="3" id="traMaterial"></textarea>
-        </div>
         <div class="form-group mb-4">
           <label for="comment">메모:</label>
           <textarea class="form-control" rows="3" id="traMemo"></textarea>
@@ -190,7 +212,7 @@
   </body>
   <script>
     var tradeCategory;
-
+    var materialCount = 1;
     $(document).ready(function() {
       dateSetting();
       tradeCategory = loadTradeCategory();
@@ -198,27 +220,144 @@
       priceFormatting();
     });
 
+    function removeMaterial(item) {
+      if (materialCount > 1) {
+        $(item)
+          .parent()
+          .remove();
+        var costSum = 0;
+        var priceSum = 0;
+        var tax = 0;
+        $.each($("input[name=quantity]"), function(index, item) {
+          costSum +=
+            Number(item.value) * Number($("input[name=matCost]")[index].value);
+          priceSum +=
+            Number(item.value) * Number($("input[name=matPrice]")[index].value);
+          tax += priceSum * 0.1;
+        });
+        $("#traPrice").val(Number(priceSum + tax).toLocaleString() + "원");
+        $("#traCost").val(Number(costSum).toLocaleString() + "원");
+        $("#traTax").val(Number(tax).toLocaleString() + "원");
+
+        materialCount--;
+      } else {
+        alert("1개 이하로 제거할 수 없습니다.");
+      }
+    }
+
+    function addMaterial(item) {
+      if (materialCount < 10) {
+        var div = $("<div>").attr("class", "input-group-prepend mb-4");
+
+        $(div).append(
+          $("<span>")
+            .attr("class", "input-group-text")
+            .text("사이즈")
+        );
+        $(div).append(
+          $("<input>")
+            .attr("class", "form-control mr-4")
+            .attr("type", "text")
+            .attr("name", "matSize")
+        );
+
+        $(div).append(
+          $("<span>")
+            .attr("class", "input-group-text")
+            .text("자재명")
+        );
+        $(div).append(
+          $("<input>")
+            .attr("class", "form-control mr-4")
+            .attr("type", "text")
+            .attr("name", "matName")
+        );
+
+        $(div).append(
+          $("<span>")
+            .attr("class", "input-group-text")
+            .text("원가")
+        );
+        $(div).append(
+          $("<input>")
+            .attr("class", "form-control mr-4")
+            .attr("type", "text")
+            .attr("name", "matCost")
+        );
+
+        $(div).append(
+          $("<span>")
+            .attr("class", "input-group-text")
+            .text("공급가액")
+        );
+        $(div).append(
+          $("<input>")
+            .attr("class", "form-control mr-4")
+            .attr("type", "text")
+            .attr("name", "matPrice")
+        );
+
+        $(div).append(
+          $("<span>")
+            .attr("class", "input-group-text")
+            .text("수량")
+        );
+        $(div).append(
+          $("<input>")
+            .attr("class", "form-control mr-4")
+            .attr("type", "text")
+            .attr("name", "quantity")
+        );
+
+        $(div).append(
+          $("<button>")
+            .attr("type", "button")
+            .attr("class", "btn btn-warning material-icons mr-4")
+            .text("add")
+            .attr("onclick", "addMaterial(this)")
+        );
+        $(div).append(
+          $("<button>")
+            .attr("type", "button")
+            .attr("class", "btn btn-warning material-icons mr-4")
+            .text("remove")
+            .attr("onclick", "removeMaterial(this)")
+        );
+
+        $(item)
+          .parent()
+          .parent()
+          .append(div);
+        materialCount++;
+      } else {
+        alert("자재는 10개 까지 입력가능합니다.");
+      }
+      priceFormatting();
+    }
+
     function addrSearch() {
       new daum.Postcode({
         oncomplete: function(data) {
-          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
-          // 예제를 참고하여 다양한 활용법을 확인해 보세요.
           $("#traAddr").val(data.roadAddress);
         }
       }).open();
     }
 
     function priceFormatting() {
-      $("#traCost").change(function() {
-        $("#traCost").val(Number($("#traCost").val()).toLocaleString() + "원");
-      });
-      $("#traTax").change(function() {
-        $("#traTax").val(Number($("#traTax").val()).toLocaleString() + "원");
-      });
-      $("#traPrice").change(function() {
-        $("#traPrice").val(
-          Number($("#traPrice").val()).toLocaleString() + "원"
-        );
+      $("input[name=quantity]").change(function() {
+        var costSum = 0;
+        var priceSum = 0;
+        var tax = 0;
+        $.each($("input[name=quantity]"), function(index, item) {
+          costSum +=
+            Number(item.value) * Number($("input[name=matCost]")[index].value);
+          priceSum +=
+            Number(item.value) * Number($("input[name=matPrice]")[index].value);
+          tax += priceSum * 0.1;
+        });
+        $("#traPrice").val(Number(priceSum + tax).toLocaleString() + "원");
+        $("#traCost").val(Number(costSum).toLocaleString() + "원");
+        $("#traTax").val(Number(tax).toLocaleString() + "원");
       });
     }
 
@@ -284,11 +423,123 @@
       });
     }
 
+    function createEstimate(materials) {
+      var estimate = {};
+      $.each($("input[name=matName]"), function(index, item) {
+        estimate["material" + (index + 1)] = materials[index].matCode;
+        estimate["quantity" + (index + 1)] = $("input[name=quantity]")[
+          index
+        ].value;
+      });
+
+      var result = {};
+      $.ajax({
+        url: "/api/estimate",
+        method: "POST",
+        dataType: "json",
+        data: JSON.stringify(estimate),
+        contentType: "application/json; charset=UTF-8",
+        async: false,
+        success: function(data) {
+          result = data;
+        },
+        error(request, status, error) {
+          ajaxError(reuqest, status, error);
+        }
+      });
+      return result;
+    }
+
+    function createMaterial() {
+      if (!validationDataMaterial()) {
+        return false;
+      }
+      var materials = new Array();
+      $.each($("input[name=matName]"), function(index, item) {
+        var temp = {};
+        temp.matSize = $("input[name=matSize]")[index].value;
+        temp.matName = $(item).val();
+        temp.matCost = $("input[name=matCost]")[index].value;
+        temp.matPrice = $("input[name=matPrice]")[index].value;
+        materials[index] = temp;
+      });
+
+      var result = {};
+      $.ajax({
+        url: "/api/material",
+        method: "POST",
+        dataType: "json",
+        data: JSON.stringify(materials),
+        contentType: "application/json; charset=UTF-8",
+        async: false,
+        success: function(data) {
+          result = data;
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        }
+      });
+      return result;
+    }
+
+    function validationDataMaterial() {
+      if (materialCount > 1) {
+        $.each($("input[name=matName]"), function(index, item) {
+          if ($("input[name=matSize]")[index].value == "") {
+            alert(index + 1 + "번 자재 사이즈를 입력해 주세요.");
+            return false;
+          }
+          if ($(item).val() == "") {
+            alert(index + 1 + "번 자재 자재명을 입력해 주세요.");
+            return false;
+          }
+
+          if ($("input[name=matCost]")[index].value == "") {
+            alert(index + 1 + "번 자재 원가를 입력해 주세요.");
+            return false;
+          }
+          if ($("input[name=matPrice]")[index].value == "") {
+            alert(index + 1 + "번 자재 공급가액을 입력해 주세요.");
+            return false;
+          }
+          if ($("input[name=quantity]")[index].value == "") {
+            alert(index + 1 + "번 자재 공급가액을 입력해 주세요.");
+            return false;
+          }
+        });
+      } else {
+        if ($("input[name=matSize]").val() == "") {
+          alert("자재 사이즈를 입력해 주세요.");
+          return false;
+        }
+        if ($("input[name=matName]").val() == "") {
+          alert("자재 이름을 입력해 주세요.");
+          return false;
+        }
+        if ($("input[name=matCost]").val() == "") {
+          alert("자재 원가를 입력해 주세요.");
+          return false;
+        }
+        if ($("input[name=matPrice]").val() == "") {
+          alert("자재 공급가액을 입력해 주세요.");
+          return false;
+        }
+        if ($("input[name=quantity]").val() == "") {
+          alert("자재 공급가액을 입력해 주세요.");
+          return false;
+        }
+      }
+      return true;
+    }
+
     function createTransaction() {
       if (!validationData()) {
         return false;
       }
       var transaction = {};
+      var temp = createMaterial();
+
+      transaction.traEstimate = createEstimate(temp).estCode;
       transaction.traName = $("#traName").val();
       transaction.traTel = $("#traTel").val();
       transaction.traCustomer = $("#traCustomer").val();
@@ -314,7 +565,6 @@
       );
       transaction.traVisitDate = getVisitDate();
       transaction.traStatus = $("#traStatus").val();
-      transaction.traMaterial = $("#traMaterial").val();
       transaction.traMemo = $("#traMemo").val();
       $.each(tradeCategory, function(index, item) {
         if (item.tradeName == $("#traCategory").val()) {
@@ -328,16 +578,14 @@
         data: JSON.stringify(transaction),
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
+        async: false,
         success: function(data) {
           if (data) {
             alert("등록했습니다.");
           } else {
             alert("등록에 실패했습니다.");
           }
-          $(location).attr(
-            "href",
-            $(location).attr("host") + "/view/Transaction.html"
-          );
+          $(location).attr("href", "/view/Transaction.html");
         },
         error: function(request, status, error) {
           ajaxError(request, status, error);

@@ -14,7 +14,7 @@
 	</update>
 	
 	<insert id="create" parameterType="map">
-		INSERT INTO TRANSACTION VALUES(DEFAULT,#{traCategory},#{traName},#{traTel},#{traCustomer},#{traAddr},#{traAddrDetail},DEFAULT,DEFAULT,DEFAULT,#{updUser},#{traCost},#{traPrice},#{traTax},#{traMemo},#{traMaterial},#{traVisitDate},#{traStatus})
+		INSERT INTO TRANSACTION VALUES(DEFAULT,#{traCategory},#{traName},#{traTel},#{traCustomer},#{traAddr},#{traAddrDetail},DEFAULT,DEFAULT,DEFAULT,#{updUser},#{traCost},#{traPrice},#{traTax},#{traMemo},#{traEstimate},#{traVisitDate},#{traStatus})
 	</insert>
 	
 	<select id="search" resultType="transaction" parameterType="map">
@@ -25,6 +25,9 @@
 		 <if test='type != null and type == "traAddr"'>
 		 	AND TRA_ADDR LIKE CONCAT('%', #{keyword}, '%')
 		 	OR TRA_ADDR_DETAIL LIKE CONCAT('%', #{keyword}, '%')
+		 </if>
+		 <if test='type != null and type == "traVisitDate"'>
+		 	AND TRA_VISIT_DATE LIKE CONCAT('%',#{keyword},'%')
 		 </if>
 	</select>
 	

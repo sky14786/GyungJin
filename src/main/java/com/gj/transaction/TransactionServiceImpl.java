@@ -105,7 +105,6 @@ public class TransactionServiceImpl implements TransactionService {
 			result = result.replace("]", "," + mapper.writeValueAsString(temp) + count);
 		}
 
-		System.out.println("result : " + result);
 		return result;
 	}
 

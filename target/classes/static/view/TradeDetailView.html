@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script type="text/javascript" src="../js/jquery.js"></script>
     <script type="text/javascript" src="../js/jquery_cookie.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
     <!-- <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> -->
     <!-- <link
       rel="stylesheet"
@@ -87,6 +91,17 @@
             id="traAddrDetail"
             readonly
           />
+        </div>
+        <div style="text-align: center;" class="mb-4">
+          <span>---------------자재---------------</span>
+        </div>
+
+        <div class="input-group mb-4">
+          <div class="input-group-prepend mb-4"></div>
+        </div>
+
+        <div style="text-align: center;" class="mb-4">
+          <span>---------------자재---------------</span>
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
@@ -175,16 +190,6 @@
             <span class="mr-3 mt-1">분</span>
           </div>
         </div>
-
-        <div class="form-group mb-4">
-          <label for="comment">자제 상세 내용:</label>
-          <textarea
-            class="form-control"
-            rows="3"
-            id="traMaterial"
-            readonly
-          ></textarea>
-        </div>
         <div class="form-group mb-4">
           <label for="comment">메모:</label>
           <textarea
@@ -207,12 +212,6 @@
           </div>
         </div>
         <div style="text-align: center;padding: 25px;">
-          <!-- <button
-            class="btn  btn-primary"
-            style="margin-right:150px;width: 100px;height: 50px;font-size: 25px;"
-          >
-            수정
-          </button> -->
           <button
             class="btn  btn-info"
             style="width: 100px;height: 50px;font-size: 25px;"
@@ -226,14 +225,51 @@
   </body>
   <script>
     var tradeCategory;
-
+    var estimate = {};
+    var materials = new Array();
     $(document).ready(function() {
       dateSetting();
       tradeCategory = loadTradeCategory();
       createTradeCategory();
       loadTransactionData();
+      // loadEstimate();
     });
-
+    function loadMaterials(matCode) {
+      $.ajax({
+        url: "/api/material/" + matCode,
+        method: "GET",
+        contentType: "application/json; charset=UTF-8",
+        dataType: "json",
+        async: "false",
+        success: function(data) {
+          // 받아온것 설정
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        }
+      });
+    }
+    function loadEstimate(estCode) {
+      $.ajax({
+        url: "/api/estimate/" + estCode,
+        method: "GET",
+        contentType: "application/json; charset=UTF-8",
+        dataType: "json",
+        async: "false",
+        success: function(data) {
+          console.log(data);
+          estimate = data;
+          for (var i = 1; i <= 10; i++) {
+            if (estimate["quantity" + i] != 0) {
+              loadMaterials(estimate["material" + i])
+            }
+          }
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        }
+      });
+    }
     function loadTransactionData() {
       var index = sessionStorage.getItem("index");
       $.ajax({
@@ -241,8 +277,10 @@
         method: "GET",
         contentType: "application/json; charset=UTF-8",
         dataType: "json",
+        async: "false",
         success: function(data) {
           settingTransactionData(data);
+          loadEstimate(data.traEstimate);
         },
         error: function(request, status, error) {
           ajaxError(request, status, error);

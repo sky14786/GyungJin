@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "Mapper" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gj.common.mapper.EstimateMapper">
+	<insert id="create" parameterType="estimate" useGeneratedKeys="true" keyProperty="estCode">
+		INSERT INTO ESTIMATE VALUES(DEFAULT,
+		<choose>
+			<when test="quantity1 != 0">
+				#{material1},#{quantity1},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity2 != 0">
+				#{material2},#{quantity2},
+			</when>
+			<otherwise>
+					NULL,NULL,
+			</otherwise>
+		</choose><choose>
+			<when test="quantity3 != 0">
+				#{material3},#{quantity3},
+			</when>
+			<otherwise>
+					NULL,NULL,
+			</otherwise>
+		</choose><choose>
+			<when test="quantity4 != 0">
+				#{material4},#{quantity4},
+			</when>
+			<otherwise>
+					NULL,NULL,
+			</otherwise>
+		</choose><choose>
+			<when test="quantity5 != 0">
+				#{material5},#{quantity5},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose><choose>
+			<when test="quantity6 != 0">
+				#{material6},#{quantity6},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose><choose>
+			<when test="quantity7 != 0">
+				#{material7},#{quantity7},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose><choose>
+			<when test="quantity8 != 0">
+				#{material8},#{quantity8},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose><choose>
+			<when test="quantity9 != 0">
+				#{material9},#{quantity9},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose><choose>
+			<when test="quantity10 != 0">
+				,#{material10},#{quantity10}
+			</when>
+			<otherwise>
+				NULL,NULL
+			</otherwise>
+		</choose>
+		)
+		<selectKey keyProperty="estCode" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<select id="findOne" parameterType="map" resultType="estimate">
+		SELECT * FROM ESTIMATE WHERE EST_CODE = #{index}
+	</select>
+
+</mapper>

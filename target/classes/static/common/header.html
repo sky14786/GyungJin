@@ -171,6 +171,7 @@
     $(document).ready(function() {
       loadClientCategory();
       settingSearchType();
+      settingSearchKeyword();
     });
 
     function searchingValidating(){
@@ -222,8 +223,29 @@
           $("#searchType").append($("<option>").text("선택안함"));
           $("#searchType").append($("<option>").attr("name","traTel").text("연락처"));
           $("#searchType").append($("<option>").attr("name","traAddr").text("주소"));
+          $("#searchType").append($("<option>").attr("name","traVisitDate").text("방문일자"));
         }
       });
+    }
+
+    function settingSearchKeyword(){
+      $("#searchType").change(function(){
+        if($("#searchType").val()=="거래처명"){
+          $("#searchKeyword").attr("placeholder","경진");
+        }
+        if($("#searchType").val()=="담당자"){
+          $("#searchKeyword").attr("placeholder","김정덕");
+        }
+        if($("#searchType").val()=="연락처"){
+          $("#searchKeyword").attr("placeholder","010-6332-3652");
+        }
+        if($("#searchType").val()=="주소"){
+          $("#searchKeyword").attr("placeholder","XX시 또는 XX동");
+        }
+        if($("#searchType").val()=="방문일자"){
+          $("#searchKeyword").attr("placeholder","XXXX년 또는 XX월 XX일");
+        }
+      })
     }
 
     function clienctValidatingCheck() {
