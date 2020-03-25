@@ -9,4 +9,7 @@ public interface EstimateMapper {
 	public int create(EstimateDTO estimate);
 
 	public EstimateDTO findOne(int index);
+
+	public int update(EstimateDTO estimate);
+
 }

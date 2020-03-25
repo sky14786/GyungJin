@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "Mapper" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gj.common.mapper.EstimateMapper">
-	<insert id="create" parameterType="estimate" useGeneratedKeys="true" keyProperty="estCode">
+	<insert id="create" parameterType="estimate"
+		useGeneratedKeys="true" keyProperty="estCode">
 		INSERT INTO ESTIMATE VALUES(DEFAULT,
 		<choose>
 			<when test="quantity1 != 0">
@@ -16,58 +17,66 @@
 				#{material2},#{quantity2},
 			</when>
 			<otherwise>
-					NULL,NULL,
+				NULL,NULL,
 			</otherwise>
-		</choose><choose>
+		</choose>
+		<choose>
 			<when test="quantity3 != 0">
 				#{material3},#{quantity3},
 			</when>
 			<otherwise>
-					NULL,NULL,
+				NULL,NULL,
 			</otherwise>
-		</choose><choose>
+		</choose>
+		<choose>
 			<when test="quantity4 != 0">
 				#{material4},#{quantity4},
 			</when>
 			<otherwise>
-					NULL,NULL,
+				NULL,NULL,
 			</otherwise>
-		</choose><choose>
+		</choose>
+		<choose>
 			<when test="quantity5 != 0">
 				#{material5},#{quantity5},
 			</when>
 			<otherwise>
 				NULL,NULL,
 			</otherwise>
-		</choose><choose>
+		</choose>
+		<choose>
 			<when test="quantity6 != 0">
 				#{material6},#{quantity6},
 			</when>
 			<otherwise>
 				NULL,NULL,
 			</otherwise>
-		</choose><choose>
+		</choose>
+		<choose>
 			<when test="quantity7 != 0">
 				#{material7},#{quantity7},
 			</when>
 			<otherwise>
 				NULL,NULL,
 			</otherwise>
-		</choose><choose>
+		</choose>
+		<choose>
 			<when test="quantity8 != 0">
 				#{material8},#{quantity8},
 			</when>
 			<otherwise>
 				NULL,NULL,
 			</otherwise>
-		</choose><choose>
+		</choose>
+		<choose>
 			<when test="quantity9 != 0">
 				#{material9},#{quantity9},
 			</when>
 			<otherwise>
 				NULL,NULL,
 			</otherwise>
-		</choose><choose>
+		</choose>
+		<choose>
 			<when test="quantity10 != 0">
 				,#{material10},#{quantity10}
 			</when>
@@ -77,12 +86,105 @@
 		</choose>
 		)
 		<selectKey keyProperty="estCode" resultType="int">
-			SELECT LAST_INSERT_ID()
+			SELECT
+			LAST_INSERT_ID()
 		</selectKey>
 	</insert>
-	
+
 	<select id="findOne" parameterType="map" resultType="estimate">
-		SELECT * FROM ESTIMATE WHERE EST_CODE = #{index}
+		SELECT *
+		FROM ESTIMATE WHERE EST_CODE = #{index}
 	</select>
+
+	<update id="update" parameterType="estimate">
+		UPDATE ESTIMATE SET
+		<choose>
+			<when test="quantity1 != 0">
+				MATERIAL_1 = #{material1}, QUANTITY_1 = #{quantity1},
+			</when>
+			<otherwise>
+				MATERIAL_1 = NULL,QUANTITY_1 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity2 != 0">
+				MATERIAL_2 = #{material2}, QUANTITY_2 = #{quantity2},
+			</when>
+			<otherwise>
+				MATERIAL_2 = NULL,QUANTITY_2 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity3 != 0">
+				MATERIAL_3 = #{material3}, QUANTITY_3 = #{quantity3},
+			</when>
+			<otherwise>
+				MATERIAL_3 = NULL,QUANTITY_3 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity4 != 0">
+				MATERIAL_4 = #{material4}, QUANTITY_4 = #{quantity4},
+			</when>
+			<otherwise>
+				MATERIAL_4 = NULL,QUANTITY_4 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity5 != 0">
+				MATERIAL_5 = #{material5}, QUANTITY_5= #{quantity5},
+			</when>
+			<otherwise>
+				MATERIAL_5 = NULL,QUANTITY_5 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity6 != 0">
+				MATERIAL_6 = #{material6}, QUANTITY_6 = #{quantity6},
+			</when>
+			<otherwise>
+				MATERIAL_6 = NULL,QUANTITY_6 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity7 != 0">
+				MATERIAL_7 = #{material7}, QUANTITY_7 = #{quantity7},
+			</when>
+			<otherwise>
+				MATERIAL_7 = NULL,QUANTITY_7 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity8 != 0">
+				MATERIAL_8 = #{material8}, QUANTITY_8 = #{quantity8},
+			</when>
+			<otherwise>
+				MATERIAL_8 = NULL,QUANTITY_8 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity9 != 0">
+				MATERIAL_9 = #{material9}, QUANTITY_9 = #{quantity9},
+			</when>
+			<otherwise>
+				MATERIAL_9 = NULL,QUANTITY_9 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity10 != 0">
+				MATERIAL_10 = #{material10}, QUANTITY_10 =
+				#{quantity10}
+			</when>
+			<otherwise>
+				MATERIAL_10 = NULL,QUANTITY_10 = NULL
+			</otherwise>
+		</choose>
+		WHERE EST_CODE = #{estCode}
+
+	</update>
+
+	<delete id="delete">
+		DELETE FROM MATERIAL WHERE MAT_CODE = #{index}
+	</delete>
 
 </mapper>

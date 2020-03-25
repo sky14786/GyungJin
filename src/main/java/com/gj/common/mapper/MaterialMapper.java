@@ -9,4 +9,8 @@ public interface MaterialMapper {
 	public int create(MaterialDTO materials);
 
 	public MaterialDTO findOne(int index);
+
+	public int update(MaterialDTO material);
+
+	public int delete(int index);
 }

@@ -11,4 +11,8 @@
 	<select id="findOne" resultType="material" parameterType="map">
 		SELECT * FROM MATERIAL WHERE MAT_CODE = #{index}
 	</select>
+	
+	<update id="update">
+		UPDATE MATERIAL SET MAT_NAME = #{matName}, MAT_COST=#{matCost}, MAT_SIZE=#{matSize}, MAT_PRICE= #{matPrice} WHERE MAT_CODE = #{matCode} 
+	</update>
 </mapper>

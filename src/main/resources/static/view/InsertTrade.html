@@ -549,19 +549,19 @@
         $("#traCost")
           .val()
           .replace("원", "")
-          .replace(",", "")
+          .replace(/,/gi, "")
       );
       transaction.traTax = Number(
         $("#traTax")
           .val()
           .replace("원", "")
-          .replace(",", "")
+          .replace(/,/gi, "")
       );
       transaction.traPrice = Number(
         $("#traPrice")
           .val()
           .replace("원", "")
-          .replace(",", "")
+          .replace(/,/gi, "")
       );
       transaction.traVisitDate = getVisitDate();
       transaction.traStatus = $("#traStatus").val();

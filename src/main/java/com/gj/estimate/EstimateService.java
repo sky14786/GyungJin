@@ -7,4 +7,6 @@ public interface EstimateService {
 	public String create(EstimateDTO estimate) throws JsonProcessingException;
 
 	public String findOne(int index) throws JsonProcessingException;
+
+	public boolean update(EstimateDTO estimate);
 }

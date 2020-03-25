@@ -96,9 +96,7 @@
           <span>---------------자재---------------</span>
         </div>
 
-        <div class="input-group mb-4">
-          <div class="input-group-prepend mb-4"></div>
-        </div>
+        <div class="input-group mb-4" id="materialDiv"></div>
 
         <div style="text-align: center;" class="mb-4">
           <span>---------------자재---------------</span>
@@ -232,9 +230,8 @@
       tradeCategory = loadTradeCategory();
       createTradeCategory();
       loadTransactionData();
-      // loadEstimate();
     });
-    function loadMaterials(matCode) {
+    function loadMaterials(matCode, count) {
       $.ajax({
         url: "/api/material/" + matCode,
         method: "GET",
@@ -242,7 +239,7 @@
         dataType: "json",
         async: "false",
         success: function(data) {
-          // 받아온것 설정
+          createMaterial(data, count);
         },
         error: function(request, status, error) {
           ajaxError(request, status, error);
@@ -261,7 +258,7 @@
           estimate = data;
           for (var i = 1; i <= 10; i++) {
             if (estimate["quantity" + i] != 0) {
-              loadMaterials(estimate["material" + i])
+              loadMaterials(estimate["material" + i], estimate["quantity" + i]);
             }
           }
         },
@@ -375,6 +372,92 @@
             .text(item.tradeName)
         );
       });
+    }
+
+    function createMaterial(item, count) {
+      var div = $("<div>").attr("class", "input-group-prepend mb-4");
+
+      $(div).append(
+        $("<span>")
+          .attr("class", "input-group-text")
+          .text("사이즈")
+      );
+      $(div).append(
+        $("<input>")
+          .attr("class", "form-control mr-4")
+          .attr("type", "text")
+          .attr("name", "matSize")
+          .val(item.matSize)
+      );
+
+      $(div).append(
+        $("<span>")
+          .attr("class", "input-group-text")
+          .text("자재명")
+      );
+      $(div).append(
+        $("<input>")
+          .attr("class", "form-control mr-4")
+          .attr("type", "text")
+          .attr("name", "matName")
+          .val(item.matName)
+      );
+
+      $(div).append(
+        $("<span>")
+          .attr("class", "input-group-text")
+          .text("원가")
+      );
+      $(div).append(
+        $("<input>")
+          .attr("class", "form-control mr-4")
+          .attr("type", "text")
+          .attr("name", "matCost")
+          .val(item.matCost)
+      );
+
+      $(div).append(
+        $("<span>")
+          .attr("class", "input-group-text")
+          .text("공급가액")
+      );
+      $(div).append(
+        $("<input>")
+          .attr("class", "form-control mr-4")
+          .attr("type", "text")
+          .attr("name", "matPrice")
+          .val(item.matPrice)
+      );
+
+      $(div).append(
+        $("<span>")
+          .attr("class", "input-group-text")
+          .text("수량")
+      );
+      $(div).append(
+        $("<input>")
+          .attr("class", "form-control mr-4")
+          .attr("type", "text")
+          .attr("name", "quantity")
+          .val(count)
+      );
+
+      // $(div).append(
+      //   $("<button>")
+      //     .attr("type", "button")
+      //     .attr("class", "btn btn-warning material-icons mr-4")
+      //     .text("add")
+      //     .attr("onclick", "addMaterial(this)")
+      // );
+      // $(div).append(
+      //   $("<button>")
+      //     .attr("type", "button")
+      //     .attr("class", "btn btn-warning material-icons mr-4")
+      //     .text("remove")
+      //     .attr("onclick", "removeMaterial(this)")
+      // );
+
+      $("#materialDiv").append(div);
     }
   </script>
 

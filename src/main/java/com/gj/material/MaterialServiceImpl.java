@@ -25,6 +25,25 @@ public class MaterialServiceImpl implements MaterialService {
 	}
 
 	@Override
+	public String update(List<MaterialDTO> materials) throws JsonProcessingException {
+		String result = "";
+		for (int i = 0; i < materials.size(); i++) {
+			if (materials.get(i).getMatCode() == 0) {
+				materialMapper.create(materials.get(i));
+			} else {
+				materialMapper.update(materials.get(i));
+			}
+		}
+		result = toJson(materials);
+		return result;
+	}
+
+	@Override
+	public boolean delete(int index) {
+		return materialMapper.delete(index) == 1 ? true : false;
+	}
+
+	@Override
 	public String findOne(int index) throws JsonProcessingException {
 		MaterialDTO material = materialMapper.findOne(index);
 		return toJson(material);

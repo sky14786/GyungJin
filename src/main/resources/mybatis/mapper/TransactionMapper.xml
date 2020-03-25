@@ -37,7 +37,7 @@
 		TRA_TEL = #{traTel}, TRA_CUSTOMER = #{traCustomer},
 		TRA_ADDR = #{traAddr}, TRA_ADDR_DETAIL = #{traAddrDetail},
 		TRA_COST = #{traCost}, TRA_TAX = #{traTax}, TRA_PRICE = #{traPrice},
-		TRA_VISIT_DATE = #{traVisitDate}, TRA_MATERIAL = #{traMaterial},
+		TRA_VISIT_DATE = #{traVisitDate}, TRA_ESTIMATE = #{traEstimate},
 		TRA_MEMO = #{traMemo}, TRA_STATUS = #{traStatus}, TRA_CATEGORY= #{traCategory}
 		WHERE TRA_CODE = #{traCode}
 	</update>

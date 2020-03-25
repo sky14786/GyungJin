@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +26,11 @@ public class EstimateController {
 	public String create(@RequestBody EstimateDTO estimate) throws JsonProcessingException {
 		String result = estimateService.create(estimate);
 		return result;
+	}
+
+	@PutMapping("/estimate")
+	public boolean update(@RequestBody EstimateDTO estimate) throws JsonProcessingException {
+		return estimateService.update(estimate);
 	}
 
 	@GetMapping("/estimate/{index}")
