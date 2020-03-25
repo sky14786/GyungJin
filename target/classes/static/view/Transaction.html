@@ -217,6 +217,18 @@
           })
           .text("삭제")
       );
+      $(td).append(
+        $("<button>")
+          .attr("class", "btn btn-sm")
+          .attr("type", "button")
+          .attr("onclick", "estimateConnection(this)")
+          .css({
+            "background-color": "#17a2b8",
+            color: "white",
+            "margin-left": "10px"
+          })
+          .text("견적서")
+      );
 
       $(tr).append(td);
 
@@ -268,6 +280,18 @@
         .val();
       sessionStorage.setItem("index", index);
       location.href = "TradeDetailView.html";
+    }
+
+    function estimateConnection(item) {
+      var input = $(item)
+        .parent()
+        .parent()
+        .children()[0];
+      var index = $(input)
+        .children("input")
+        .val();
+      sessionStorage.setItem("index", index);
+      window.open("/view/Estimate.htm", "_blank");
     }
 
     function updasteViewConnection(item) {
