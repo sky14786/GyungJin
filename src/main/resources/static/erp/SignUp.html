@@ -196,7 +196,8 @@
 
     <script>
       function btnCencel() {
-        $(location).attr("href", "http://" + $(location).attr("host") + "/");
+        // $(location).attr("href", "http://" + $(location).attr("host") + "/erp");
+        $(location).attr("href", "/erp/");
       }
 
       function btnSignUp() {
@@ -218,10 +219,11 @@
             success: function(data) {
               if (data == true) {
                 alert("회원가입이 완료되었습니다.");
-                $(location).attr(
-                  "href",
-                  "http://" + $(location).attr("host") + "/"
-                );
+                // $(location).attr(
+                //   "href",
+                //   "http://" + $(location).attr("host") + "/"
+                // );
+                $(location).attr("href", "/erp/");
               }
             }
           });

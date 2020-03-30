@@ -139,7 +139,7 @@
       function moveSignUp() {
         $(location).attr(
           "href",
-          "http://" + $(location).attr("host") + "/view/SignUp.html"
+          "http://" + $(location).attr("host") + "/erp/view/SignUp.html"
         );
       }
 
@@ -160,7 +160,7 @@
             $.cookie("refreshToken", data.refreshToken, { path: "/" });
             $(location).attr(
               "href",
-              "http://" + $(location).attr("host") + "/view/Main.html"
+              "http://" + $(location).attr("host") + "/erp/view/Main.html"
             );
           },
           error: function(data) {

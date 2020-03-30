@@ -295,7 +295,7 @@
           success:function(data){
             if(data){
               alert("등록되었습니다.");
-              $(location).attr("href","/view/Main.html");
+              $(location).attr("href","/erp/Main.html");
             }
           },
           error:function(request,status,error){
@@ -322,7 +322,7 @@
           success:function(data){
             if(data){
               alert("등록되었습니다.");
-              $(location).attr("href","/view/Main.html");
+              $(location).attr("href","/erp/Main.html");
             }
           },
           error:function(request,status,error){
@@ -362,9 +362,9 @@
           sessionStorage.setItem("keyword",keyword);
           
           if(category=="거래처"){
-            $(location).attr("href","/view/SearchClient.html");
+            $(location).attr("href","/erp/SearchClient.html");
           }else if(category=="시공일지"){
-            $(location).attr("href","/view/SearchTrade.html");
+            $(location).attr("href","/erp/SearchTrade.html");
           }
       }
     }
@@ -451,7 +451,7 @@
               alert("거래처가 등록되었습니다.");
               $(location).attr(
                 "href",
-                $(location).attr("host") + "/view/Main.html"
+                $(location).attr("host") + "/erp/Main.html"
               );
             } else {
               alert("거래처 등록에 실패했습니다.");

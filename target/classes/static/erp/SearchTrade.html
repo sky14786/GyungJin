@@ -312,7 +312,7 @@
         .children("input")
         .val();
       sessionStorage.setItem("index", index);
-      location.href = "TradeDetailView.html";
+      $(location).attr("href", "/erp/TradeDetailView.html");
     }
 
     function updasteViewConnection(item) {
@@ -324,7 +324,7 @@
         .children("input")
         .val();
       sessionStorage.setItem("index", index);
-      location.href = "UpdateTrade.html";
+      $(location).attr("href", "/erp/UpdateTrade.html");
     }
 
     function loadTradeCategory() {

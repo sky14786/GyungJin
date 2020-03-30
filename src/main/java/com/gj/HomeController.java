@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
-	@GetMapping("/")
+	@GetMapping("/erp/")
 	public String connectionHome() {
-		return "index";
+		return "erpindex";
 	}
 }
