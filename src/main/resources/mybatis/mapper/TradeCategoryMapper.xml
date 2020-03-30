@@ -4,4 +4,8 @@
 	<select id="findAll" resultType="tradecategory">
 		SELECT * FROM TRADE_CATEGORY
 	</select>
+	
+	<insert id="insert" parameterType="map">
+		INSERT INTO TRADE_CATEGORY VALUES(DEFAULT,#{tradeName})
+	</insert>
 </mapper>

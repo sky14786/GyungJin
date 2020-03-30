@@ -9,4 +9,6 @@ import com.gj.common.dto.TradeCategoryDTO;
 @Mapper
 public interface TradeCategoryMapper {
 	public List<TradeCategoryDTO> findAll();
+
+	public int insert(TradeCategoryDTO tradeCategory);
 }

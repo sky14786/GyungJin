@@ -22,6 +22,11 @@ public class TradeCategoryServiceImpl implements TradeCategoryService {
 		return result;
 	}
 
+	@Override
+	public boolean insert(TradeCategoryDTO tradeCategory) {
+		return tcMapper.insert(tradeCategory) == 1 ? true : false;
+	}
+
 	private String toJson(List<TradeCategoryDTO> temp) throws JsonProcessingException {
 		ObjectMapper mapper = new ObjectMapper();
 		String result = mapper.writeValueAsString(temp);

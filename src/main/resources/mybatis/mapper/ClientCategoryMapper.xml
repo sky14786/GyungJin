@@ -6,6 +6,6 @@
 	</select>
 	
 	<insert id="create" parameterType="map">
-		INSERT INTO CLIENT_CATEGORY VALUES (default,#{clientCateName})s
+		INSERT INTO CLIENT_CATEGORY VALUES (default,#{clientCateName})
 	</insert>
 </mapper>
