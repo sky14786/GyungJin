@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>경진 ERP</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/jquery_cookie.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <!-- <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script> -->
+    <!-- <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
+    />
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script> -->
+  </head>
+  <body>
+    <script>
+      $(document).ready(function() {
+        $("#header").load("../common/header.html?ver=2020031801");
+      });
+    </script>
+
+    <style>
+      .container-fluid {
+        font-family: "Noto Sans KR", sans-serif;
+      }
+    </style>
+    <div id="header"></div>
+    <div class="container" style="margin-top: 1%">
+      <div>
+        <div style="font-size: 40px;margin-bottom: 20px;text-align: right;">
+          <span class="text-dark">시공일지 등록</span>
+        </div>
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text">거래명</span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="XX아파트 X동 X호"
+            id="traName"
+            readonly
+          />
+        </div>
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text">연락처</span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="010-XXXX-XXXXX"
+            id="traTel"
+            readonly
+          />
+        </div>
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text">고객명</span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="홍길동"
+            id="traCustomer"
+            readonly
+          />
+        </div>
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text">주소</span>
+          </div>
+          <input type="text" class="form-control" id="traAddr" readonly />
+        </div>
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text">상세주소</span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="XX아파트 XX동 XX호"
+            id="traAddrDetail"
+            readonly
+          />
+        </div>
+        <div style="text-align: center;" class="mb-4">
+          <span>---------------자재---------------</span>
+        </div>
+
+        <div class="input-group mb-4" id="materialDiv"></div>
+
+        <div style="text-align: center;" class="mb-4">
+          <span>---------------자재---------------</span>
+        </div>
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text">원가</span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="40000000"
+            id="traCost"
+            readonly
+          />
+        </div>
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text">세금</span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="40000000"
+            id="traTax"
+            readonly
+          />
+        </div>
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text">거래금액</span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="40000000"
+            id="traPrice"
+            readonly
+          />
+        </div>
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text mr-1">방문일자</span>
+            <select
+              class="form-control"
+              id="year"
+              style="width: 100px;"
+              readonly
+            >
+              <option>선택안함</option>
+            </select>
+            <span class="mr-3 mt-1">년</span>
+
+            <select
+              class="form-control"
+              id="month"
+              style="width: 100px;"
+              readonly
+            >
+              <option>선택안함</option>
+            </select>
+            <span class="mr-3 mt-1">월</span>
+            <select
+              class="form-control"
+              id="day"
+              style="width: 100px;"
+              readonly
+            >
+              <option>선택안함</option>
+            </select>
+            <span class="mr-3 mt-1">일</span>
+            <select
+              class="form-control"
+              id="hour"
+              style="width: 100px;"
+              readonly
+            >
+              <option>선택안함</option>
+            </select>
+            <span class="mr-3 mt-1">시</span>
+            <select
+              class="form-control"
+              id="minute"
+              style="width: 100px;"
+              readonly
+            >
+              <option>선택안함</option>
+            </select>
+            <span class="mr-3 mt-1">분</span>
+          </div>
+        </div>
+        <div class="form-group mb-4">
+          <label for="comment">메모:</label>
+          <textarea
+            class="form-control"
+            rows="3"
+            id="traMemo"
+            readonly
+          ></textarea>
+        </div>
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text mr-1">거래상태</span>
+            <select class="form-control mr-5" id="traStatus" readonly>
+              <option>선택안함</option>
+            </select>
+            <span class="input-group-text mr-1">분류</span>
+            <select class="form-control" id="traCategory" readonly>
+              <option>선택안함</option>
+            </select>
+          </div>
+        </div>
+        <div style="text-align: center;padding: 25px;">
+          <button
+            class="btn  btn-info"
+            style="width: 100px;height: 50px;font-size: 25px;"
+            onclick="history.back();"
+          >
+            뒤로
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    var tradeCategory;
+    var estimate = {};
+    var materials = new Array();
+    $(document).ready(function() {
+      dateSetting();
+      tradeCategory = loadTradeCategory();
+      createTradeCategory();
+      loadTransactionData();
+    });
+    function loadMaterials(matCode, count) {
+      $.ajax({
+        url: "/api/material/" + matCode,
+        method: "GET",
+        contentType: "application/json; charset=UTF-8",
+        dataType: "json",
+        async: "false",
+        success: function(data) {
+          createMaterial(data, count);
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        }
+      });
+    }
+    function loadEstimate(estCode) {
+      $.ajax({
+        url: "/api/estimate/" + estCode,
+        method: "GET",
+        contentType: "application/json; charset=UTF-8",
+        dataType: "json",
+        async: "false",
+        success: function(data) {
+          console.log(data);
+          estimate = data;
+          for (var i = 1; i <= 10; i++) {
+            if (estimate["quantity" + i] != 0) {
+              loadMaterials(estimate["material" + i], estimate["quantity" + i]);
+            }
+          }
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        }
+      });
+    }
+    function loadTransactionData() {
+      var index = sessionStorage.getItem("index");
+      $.ajax({
+        url: "/api/transaction/" + index,
+        method: "GET",
+        contentType: "application/json; charset=UTF-8",
+        dataType: "json",
+        async: "false",
+        success: function(data) {
+          settingTransactionData(data);
+          loadEstimate(data.traEstimate);
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        }
+      });
+    }
+
+    function settingTransactionData(item) {
+      $("#traName").val(item.traName);
+      $("#traTel").val(item.traTel);
+      $("#traCustomer").val(item.traCustomer);
+      $("#traAddr").val(item.traAddr);
+      $("#traAddrDetail").val(item.traAddrDetail);
+      $("#traCost").val(item.traCost.toLocaleString() + "원");
+      $("#traTax").val(item.traTax.toLocaleString() + "원");
+      $("#traPrice").val(item.traPrice.toLocaleString() + "원");
+      $("#traMaterial").text(item.traMaterial);
+      $("#traMemo").text(item.traMemo);
+      $("#traStatus").val(item.traStatus);
+
+      $.each(tradeCategory, function(index, temp) {
+        if (temp.tradeCode == item.traCategory) {
+          $("#traCategory").val(temp.tradeName);
+        }
+      });
+
+      var visitDate = item.traVisitDate.split(" ");
+      $("#year").val(visitDate[0].substr(0, visitDate[0].length - 1));
+      $("#month").val(visitDate[1].substr(0, visitDate[1].length - 1));
+      $("#day").val(visitDate[2].substr(0, visitDate[2].length - 1));
+      $("#hour").val(visitDate[3].substr(0, visitDate[3].length - 1));
+      $("#minute").val(visitDate[4].substr(0, visitDate[4].length - 1));
+    }
+
+    function dateSetting() {
+      for (var i = 0; i < 3; i++) {
+        var option = $("<option>");
+        $(option).text(i + 2020);
+        $("#year").append(option);
+      }
+
+      for (var i = 0; i < 12; i++) {
+        var option = $("<option>");
+        $(option).text(i + 1);
+        $("#month").append(option);
+      }
+
+      for (var i = 0; i < 24; i++) {
+        var option = $("<option>");
+        $(option).text(i + 1);
+        $("#hour").append(option);
+      }
+      for (var i = 0; i < 31; i++) {
+        var option = $("<option>");
+        $(option).text(i + 1);
+        $("#day").append(option);
+      }
+      for (var i = 0; i < 61; i++) {
+        var option = $("<option>");
+        $(option).text(i);
+        $("#minute").append(option);
+      }
+
+      $("#traStatus").append($("<option>").text("예약"));
+      $("#traStatus").append($("<option>").text("완료"));
+    }
+
+    function loadTradeCategory() {
+      var obj = {
+        url: "/api/tradeCategory",
+        method: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        async: false,
+        result: {},
+        success: function(data) {
+          obj.result = data;
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        }
+      };
+      $.ajax(obj);
+      return obj.result;
+    }
+
+    function createTradeCategory() {
+      $.each(tradeCategory, function(index, item) {
+        $("#traCategory").append(
+          $("<option>")
+            .attr("name", item.tradeCode)
+            .text(item.tradeName)
+        );
+      });
+    }
+
+    function createMaterial(item, count) {
+      var div = $("<div>").attr("class", "input-group-prepend mb-4");
+
+      $(div).append(
+        $("<span>")
+          .attr("class", "input-group-text")
+          .text("사이즈")
+      );
+      $(div).append(
+        $("<input>")
+          .attr("class", "form-control mr-4")
+          .attr("type", "text")
+          .attr("name", "matSize")
+          .val(item.matSize)
+      );
+
+      $(div).append(
+        $("<span>")
+          .attr("class", "input-group-text")
+          .text("자재명")
+      );
+      $(div).append(
+        $("<input>")
+          .attr("class", "form-control mr-4")
+          .attr("type", "text")
+          .attr("name", "matName")
+          .val(item.matName)
+      );
+
+      $(div).append(
+        $("<span>")
+          .attr("class", "input-group-text")
+          .text("원가")
+      );
+      $(div).append(
+        $("<input>")
+          .attr("class", "form-control mr-4")
+          .attr("type", "text")
+          .attr("name", "matCost")
+          .val(item.matCost)
+      );
+
+      $(div).append(
+        $("<span>")
+          .attr("class", "input-group-text")
+          .text("공급가액")
+      );
+      $(div).append(
+        $("<input>")
+          .attr("class", "form-control mr-4")
+          .attr("type", "text")
+          .attr("name", "matPrice")
+          .val(item.matPrice)
+      );
+
+      $(div).append(
+        $("<span>")
+          .attr("class", "input-group-text")
+          .text("수량")
+      );
+      $(div).append(
+        $("<input>")
+          .attr("class", "form-control mr-4")
+          .attr("type", "text")
+          .attr("name", "quantity")
+          .val(count)
+      );
+
+      // $(div).append(
+      //   $("<button>")
+      //     .attr("type", "button")
+      //     .attr("class", "btn btn-warning material-icons mr-4")
+      //     .text("add")
+      //     .attr("onclick", "addMaterial(this)")
+      // );
+      // $(div).append(
+      //   $("<button>")
+      //     .attr("type", "button")
+      //     .attr("class", "btn btn-warning material-icons mr-4")
+      //     .text("remove")
+      //     .attr("onclick", "removeMaterial(this)")
+      // );
+
+      $("#materialDiv").append(div);
+    }
+  </script>
+
+  <style>
+    #pageBar > a {
+      color: black !important;
+      margin: 4px !important;
+      font-size: 20px;
+    }
+    #pageBar > .cPage {
+      margin: 4px !important;
+      color: grey !important;
+      font-size: 22px;
+    }
+    .list-padding {
+      padding: 10px 5px;
+    }
+  </style>
+</html>

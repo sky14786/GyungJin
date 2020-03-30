@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "Mapper" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gj.common.mapper.MaterialMapper">
+	<insert id="create" parameterType="material" useGeneratedKeys="true" keyProperty="matCode">
+		INSERT INTO MATERIAL VALUES(DEFAULT,#{matName},#{matSize},#{matPrice},#{matCost})
+		<selectKey keyProperty="matCode" resultType="int">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	
+	<select id="findOne" resultType="material" parameterType="map">
+		SELECT * FROM MATERIAL WHERE MAT_CODE = #{index}
+	</select>
+	
+	<update id="update">
+		UPDATE MATERIAL SET MAT_NAME = #{matName}, MAT_COST=#{matCost}, MAT_SIZE=#{matSize}, MAT_PRICE= #{matPrice} WHERE MAT_CODE = #{matCode} 
+	</update>
+</mapper>

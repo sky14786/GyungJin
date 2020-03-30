@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "Mapper" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gj.common.mapper.RefreshTokenMapper">
+	<insert id="create" parameterType="map">
+		INSERT INTO AUTH_REFRESH VALUES(#{memId},#{memReToken})
+	</insert>
+	
+	<select id="selectOne" resultType="refreshToken" parameterType="map">
+		SELECT * FROM AUTH_REFRESH WHERE MEM_RE_TOKEN = #{refreshToken}
+	</select>
+	
+	<update id="refreshOne" parameterType="map">
+		UPDATE AUTH_REFRESH SET MEM_RE_TOKEN = #{memReToken} WHERE MEM_ID = #{memId}
+	</update>
+	
+	<select id="select" resultType="refreshToken" parameterType="map">
+		SELECT * FROM AUTH_REFRESH WHERE MEM_ID = #{memId}
+	</select>
+</mapper>

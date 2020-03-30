@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>경진 ERP</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/jquery_cookie.js"></script>
+  </head>
+  <body>
+    <script>
+      $(document).ready(function() {
+        $("#header").load("../common/header.html?ver=2020031801");
+      });
+    </script>
+
+    <style>
+      .container-fluid {
+        font-family: "Noto Sans KR", sans-serif;
+      }
+    </style>
+    <div id="header"></div>
+    <div class="container-fluid">
+      <div style="padding: 15px 100px;text-align: center;">
+        <span style="font-size: 40px;" id="titleText"></span>
+
+        <select id="year" style="width: 100px;margin-left: 1000px;">
+          <option>선택안함</option>
+        </select>
+        <span class="mr-3 mt-1">년</span>
+
+        <select id="month" style="width: 100px;">
+          <option>선택안함</option>
+        </select>
+        <span class="mr-3 mt-1">월</span>
+        <button
+          class="btn btn-xm btn-warning"
+          type="button"
+          style="margin-bottom: 8px;"
+          onclick="searchMonthStat();"
+        >
+          검색
+        </button>
+      </div>
+      <table class="table">
+        <thead class="thead-light">
+          <tr style="text-align:center;">
+            <th>원금</th>
+            <th>세금</th>
+            <th>매출</th>
+            <th>순수익</th>
+          </tr>
+        </thead>
+        <tbody id="statTbody" style="text-align: center;"></tbody>
+      </table>
+      <table class="table">
+        <thead class="thead-light">
+          <tr style="text-align:center;">
+            <th>분류</th>
+            <th>주소</th>
+            <th>고객명</th>
+            <th>연락처</th>
+            <th>방문일</th>
+            <th>금액</th>
+            <th>등록일</th>
+            <th>상세정보</th>
+          </tr>
+        </thead>
+        <tbody id="rowTbody" style="text-align: center;"></tbody>
+      </table>
+      <ul
+        id="pageBar"
+        class="pagination justify-content-center"
+        style="margin:20px 0"
+      ></ul>
+    </div>
+  </body>
+  <script>
+    var tradeCategory;
+    $(document).ready(function() {
+      dateSetting();
+      loadMonthStats(new Date().getFullYear(), new Date().getMonth() + 1, 1);
+    });
+
+    function searchMonthStat() {
+      var year = $("#year").val();
+      var month = $("#month").val();
+      loadMonthStats(year, month, 1);
+    }
+
+    function loadMonthStats(year, month, page) {
+      $("#titleText").text(year + "년 " + month + "월 매출");
+      $("#year").val(year);
+      $("#month").val(month);
+      $("#statTbody").empty();
+      $("#rowTbody").empty();
+      $.ajax({
+        url: "/api/stat?year=" + year + "&month=" + month + "&page=" + page,
+        method: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        success: function(data) {
+          if (data.length != 1) {
+            var count = data[data.length - 1].count;
+            tradeCategory = loadTradeCategory();
+            statSetting(data[data.length - 2]);
+            $.each(data, function(index, item) {
+              if (index < data.length - 2) {
+                createRow(item);
+              }
+            });
+            createPageBar(count, page, year, month);
+          } else {
+            alert("검색 결과가 없습니다.");
+          }
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        }
+      });
+    }
+
+    function statSetting(stat) {
+      console.log(stat);
+      var tbody = $("#statTbody");
+      var tr = $("<tr>");
+      $(tr).append($("<td>").text("￦" + stat.TRA_COST.toLocaleString()));
+      $(tr).append($("<td>").text("￦" + stat.TRA_TAX.toLocaleString()));
+      $(tr).append($("<td>").text("￦" + stat.TRA_PRICE.toLocaleString()));
+      $(tr).append(
+        $("<td>").text(
+          "￦" +
+            (stat.TRA_PRICE - stat.TRA_TAX - stat.TRA_COST).toLocaleString()
+        )
+      );
+
+      $(tbody).append(tr);
+    }
+
+    function createPageBar(count, nowPage, year, month) {
+      var countPerPageBar = 10;
+      $("#pageBar").empty();
+      var prePageNum =
+        Math.ceil(nowPage / countPerPageBar) * countPerPageBar -
+        countPerPageBar;
+      var postPageNum =
+        Math.ceil(nowPage / countPerPageBar) * countPerPageBar + 1;
+
+      var pageBarCount = Math.ceil(count / countPerPageBar);
+      var range =
+        postPageNum - 1 < pageBarCount ? postPageNum - 1 : pageBarCount;
+      if (nowPage > countPerPageBar) {
+        $("#pageBar").append(
+          $("<li>")
+            .append(
+              $("<a>")
+                .attr("class", "page-link")
+                .attr(
+                  "href",
+                  "javascript:loadMonthStats('" +
+                    year +
+                    "','" +
+                    month +
+                    "'," +
+                    prePageNum +
+                    ")"
+                )
+                .text("이전")
+            )
+            .attr("class", "page-item")
+        );
+      }
+
+      for (var i = prePageNum + 1; i <= range; i++) {
+        if (i == nowPage) {
+          $("#pageBar").append(
+            $("<li>")
+              .append(
+                $("<a>")
+                  .attr("class", "page-link")
+                  .attr(
+                    "href",
+                    "javascript:loadMonthStats('" +
+                      year +
+                      "','" +
+                      month +
+                      "'," +
+                      i +
+                      ")"
+                  )
+                  .text(i)
+              )
+              .attr("class", "page-item disabled")
+          );
+        } else {
+          $("#pageBar").append(
+            $("<li>")
+              .append(
+                $("<a>")
+                  .attr("class", "page-link")
+                  .attr(
+                    "href",
+                    "javascript:loadMonthStats('" +
+                      year +
+                      "','" +
+                      month +
+                      "'," +
+                      i +
+                      ")"
+                  )
+                  .text(i)
+              )
+              .attr("class", "page-item")
+          );
+        }
+      }
+      if (count - postPageNum * countPerPageBar > 0) {
+        $("#pageBar").append(
+          $("<li>")
+            .append(
+              $("<a>")
+                .attr("class", "page-link")
+                .attr(
+                  "href",
+                  "javascript:loadMonthStats('" +
+                    year +
+                    "','" +
+                    month +
+                    "'," +
+                    postPageNum +
+                    ")"
+                )
+                .text("다음")
+            )
+            .attr("class", "page-item")
+        );
+      }
+    }
+
+    function createRow(item) {
+      var tbody = $("#rowTbody");
+      var tr = $("<tr>");
+
+      $.each(tradeCategory, function(index, result) {
+        if (result.tradeCode == item.traCategory) {
+          $(tr).append(
+            $("<td>")
+              .text(result.tradeName)
+              .append(
+                $("<input>")
+                  .attr("type", "hidden")
+                  .val(item.traCode)
+              )
+          );
+        }
+      });
+      $(tr).append($("<td>").text(item.traAddr + " / " + item.traAddrDetail));
+      $(tr).append($("<td>").text(item.traCustomer));
+      $(tr).append($("<td>").text(item.traTel));
+      $(tr).append($("<td>").text(item.traVisitDate));
+      $(tr).append($("<td>").text(item.traPrice.toLocaleString() + "원"));
+
+      $(tr).append(
+        $("<td>").text(
+          item.regDate.year +
+            "-" +
+            item.regDate.monthValue +
+            "-" +
+            item.regDate.dayOfMonth +
+            " / " +
+            item.regDate.hour +
+            "시 " +
+            item.regDate.minute +
+            "분"
+        )
+      );
+
+      var td = $("<td>");
+      $(td).append(
+        $("<button>")
+          .attr("class", "btn btn-sm")
+          .attr("type", "button")
+          .attr("onclick", "detailViewConnection(this)")
+          .css({
+            "background-color": "#17a2b8",
+            color: "white"
+          })
+          .text("보기")
+      );
+      $(td).append(
+        $("<button>")
+          .attr("class", "btn btn-sm")
+          .attr("type", "button")
+          .attr("onclick", "updasteViewConnection(this)")
+          .css({
+            "background-color": "#17a2b8",
+            color: "white",
+            "margin-left": "10px"
+          })
+          .text("수정")
+      );
+      $(td).append(
+        $("<button>")
+          .attr("class", "btn btn-sm")
+          .attr("type", "button")
+          .attr("onclick", "deleteClient(this)")
+          .css({
+            "background-color": "#17a2b8",
+            color: "white",
+            "margin-left": "10px"
+          })
+          .text("삭제")
+      );
+
+      $(tr).append(td);
+
+      $(tbody).append(tr);
+    }
+
+    function dateSetting() {
+      for (var i = 0; i < 3; i++) {
+        var option = $("<option>");
+        $(option).text(i + 2020);
+        $("#year").append(option);
+      }
+
+      for (var i = 0; i < 12; i++) {
+        var option = $("<option>");
+        $(option).text(i + 1);
+        $("#month").append(option);
+      }
+    }
+    function loadTradeCategory() {
+      var obj = {
+        url: "/api/tradeCategory",
+        method: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        async: false,
+        result: {},
+        success: function(data) {
+          obj.result = data;
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        }
+      };
+      $.ajax(obj);
+      return obj.result;
+    }
+    function deleteClient(item) {
+      if (confirm("삭제하시겠습니까?")) {
+        var input = $(item)
+          .parent()
+          .parent()
+          .children()[0];
+        var index = $(input)
+          .children("input")
+          .val();
+        $.ajax({
+          url: "/api/transaction/" + index,
+          method: "DELETE",
+          dataType: "text",
+          contentType: "application/json; charset=UTF-8",
+          success: function(data) {
+            if (data == "true") {
+              alert("삭제되었습니다.");
+            } else {
+              alert("삭제 실패!");
+            }
+          },
+          erorr: function(request, status, error) {
+            ajaxError(request, status, error);
+          },
+          beforeSend: function() {
+            loadingDisplayOn();
+          },
+          complete: function() {
+            loadingDisplayOff();
+            $(location).attr("href", $(location).attr("href"));
+          }
+        });
+      }
+    }
+
+    function detailViewConnection(item) {
+      var input = $(item)
+        .parent()
+        .parent()
+        .children()[0];
+      var index = $(input)
+        .children("input")
+        .val();
+      sessionStorage.setItem("index", index);
+      $(location).attr("href", "/erp/TradeDetailView.html");
+    }
+
+    function updasteViewConnection(item) {
+      var input = $(item)
+        .parent()
+        .parent()
+        .children()[0];
+      var index = $(input)
+        .children("input")
+        .val();
+      sessionStorage.setItem("index", index);
+      $(location).attr("href", "/erp/UpdateTrade.html");
+    }
+  </script>
+
+  <style>
+    #pageBar > a {
+      color: black !important;
+      margin: 4px !important;
+      font-size: 20px;
+    }
+    #pageBar > .cPage {
+      margin: 4px !important;
+      color: grey !important;
+      font-size: 22px;
+    }
+    .list-padding {
+      padding: 10px 5px;
+    }
+  </style>
+</html>

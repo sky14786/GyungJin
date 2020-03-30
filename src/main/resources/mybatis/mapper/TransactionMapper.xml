@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "Mapper" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gj.common.mapper.TransactionMapper">
+	<select id="findAll" resultType="transaction">
+		SELECT * FROM TRANSACTION WHERE USE_YN = 'Y' ORDER BY TRA_CODE DESC
+	</select>
+	
+	<select id="findOne" resultType="transaction" parameterType="map">
+		SELECT * FROM TRANSACTION WHERE USE_YN = 'Y' AND TRA_CODE = #{index}
+	</select>
+	
+	<update id="delete" parameterType="map">
+		UPDATE TRANSACTION SET USE_YN = 'N' WHERE TRA_CODE = #{index}
+	</update>
+	
+	<insert id="create" parameterType="map">
+		INSERT INTO TRANSACTION VALUES(DEFAULT,#{traCategory},#{traName},#{traTel},#{traCustomer},#{traAddr},#{traAddrDetail},DEFAULT,DEFAULT,DEFAULT,#{updUser},#{traCost},#{traPrice},#{traTax},#{traMemo},#{traEstimate},#{traVisitDate},#{traStatus})
+	</insert>
+	
+	<select id="search" resultType="transaction" parameterType="map">
+		SELECT * FROM TRANSACTION WHERE USE_YN ='Y' 
+		<if test='type != null and type == "traTel"'>
+			AND TRA_TEL LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		 <if test='type != null and type == "traAddr"'>
+		 	AND TRA_ADDR LIKE CONCAT('%', #{keyword}, '%')
+		 	OR TRA_ADDR_DETAIL LIKE CONCAT('%', #{keyword}, '%')
+		 </if>
+		 <if test='type != null and type == "traVisitDate"'>
+		 	AND TRA_VISIT_DATE LIKE CONCAT('%',#{keyword},'%')
+		 </if>
+	</select>
+	
+	
+	<update id="update" parameterType="map">
+		UPDATE TRANSACTION SET TRA_NAME = #{traName},
+		TRA_TEL = #{traTel}, TRA_CUSTOMER = #{traCustomer},
+		TRA_ADDR = #{traAddr}, TRA_ADDR_DETAIL = #{traAddrDetail},
+		TRA_COST = #{traCost}, TRA_TAX = #{traTax}, TRA_PRICE = #{traPrice},
+		TRA_VISIT_DATE = #{traVisitDate}, TRA_ESTIMATE = #{traEstimate},
+		TRA_MEMO = #{traMemo}, TRA_STATUS = #{traStatus}, TRA_CATEGORY= #{traCategory}
+		WHERE TRA_CODE = #{traCode}
+	</update>
+	
+	<select id="monthStat" parameterType="map" resultType="map">
+		SELECT SUM(TRA_COST) AS TRA_COST, SUM(TRA_PRICE) AS TRA_PRICE, SUM(TRA_TAX) AS TRA_TAX FROM TRANSACTION WHERE USE_YN = 'Y' AND TRA_VISIT_DATE LIKE CONCAT('%',#{parameter},'%')
+	</select>
+	
+	<select id="dateSearch" resultType="transaction" parameterType="map">
+		SELECT * FROM TRANSACTION WHERE USE_YN = 'Y' AND TRA_VISIT_DATE LIKE CONCAT('%',#{parameter},'%')
+	</select>
+	
+	
+</mapper>

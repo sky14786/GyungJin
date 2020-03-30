@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script type="text/javascript" src="../js/jwt.js?ver=2020031001"></script>
+    <!-- <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/jquery_cookie.js"></script> -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+    <!-- <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"
+  />
+  <script
+    defer
+    src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+  ></script> -->
+  </head>
+
+    <nav
+      class="navbar navbar-expand-xl"
+      style="height: 100px;background-color: #e4e4e4; padding: 0px 50px;"
+    >
+      <!-- <ul class="navbar-nav"> -->
+      <div class="dropdown" style="margin-right: 20px;">
+        <button
+          type="button"
+          class="btn btn-primary btn-lg dropdown-toggle"
+          data-toggle="dropdown"
+        >
+          거래처관리
+        </button>
+        <div class="dropdown-menu">
+          <a href="/erp/Main.html" class="dropdown-item">보기</a>
+          <button
+            type="button"
+            class="dropdown-item"
+            data-toggle="modal"
+            data-target="#clientCreateModal"
+          >
+            등록
+          </button>
+        </div>
+      </div>
+      <div class="dropdown" style="margin-right: 20px;">
+        <button
+          type="button"
+          class="btn btn-primary btn-lg dropdown-toggle"
+          data-toggle="dropdown"
+        >
+          시공일지
+        </button>
+        <div class="dropdown-menu">
+          <a href="/erp/Transaction.html" class="dropdown-item">보기</a>
+          <a href="/erp/InsertTrade.html" class="dropdown-item">등록</a>
+        </div>
+      </div>
+      <div class="dropdown" style="margin-right: 40px;">
+        <button
+          type="button"
+          class="btn btn-primary btn-lg dropdown-toggle"
+          data-toggle="dropdown"
+        >
+          매출관리
+        </button>
+        <div class="dropdown-menu" >
+          <a href="/erp/MonthStats.html" class="dropdown-item">월별매출</a>
+        </div>
+      </div>
+
+      <div style="padding-left: 100px;">
+
+        <select id="searchCategory" style="width:90px;height: 48px;"> 
+          <option >거래처</option>
+          <option>시공일지</option>
+        </select>
+        <select id="searchType" style="width:90px;height: 48px;"> 
+          <option >선택안함</option>
+          <option name="clientName">거래처명</option>
+          <option name="clientCustomer">담당자</option>
+        </select>
+        <input id="searchKeyword"type="text" style="width:300px;height: 48px;">
+
+        <button type="button" class="btn btn-lg btn-primary" style="margin-bottom: 5px;" onclick="searching();">검색</button>
+    </div>
+        <div class="dropdown" style="margin-left: 135px;margin-bottom: 3px;">
+          <button
+            type="button"
+            class="btn btn-primary btn-lg dropdown-toggle"
+            data-toggle="dropdown"
+          >
+            카테고리관리
+          </button>
+          <div class="dropdown-menu" >
+            <button
+            type="button"
+            class="dropdown-item"
+            data-toggle="modal"
+            data-target="#clientCategoryModal"
+            >
+            거래처분류
+            </button>
+          
+            
+            <button
+            type="button"
+            class="dropdown-item"
+            data-toggle="modal"
+            data-target="#tradeCateModal"
+          >
+            시공일지분류
+          </button>
+        </div>
+      </div>
+    </nav>
+    <div class="modal" id="clientCreateModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">거래처 등록</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+
+          <div class="modal-body" style="padding:45px 85px;">
+            <div id="clientContent">
+              거래처명 :
+              <input
+                type="text"
+                name="clientName"
+                size="25"
+                style="margin-left:25px;"
+              /><br /><br />
+              담당자 :
+              <input
+                type="text"
+                name="clientCustomer"
+                size="25"
+                style="margin-left:39px;"
+              /><br /><br />
+              연락처 :
+              <input
+                type="text"
+                name="clientTel"
+                size="25"
+                style="margin-left:39px;"
+              /><br /><br />
+              종류 :
+              <select
+                id="client_category"
+                name="clientCategory"
+                style="margin-left: 52px;width:216px;height: 30px;"
+              >
+                <option>선택안함</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="createClient();"
+            >
+              등록
+            </button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              닫기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="clientCategoryModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">거래처 분류 등록</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+
+          <div class="modal-body" style="padding:45px 85px;">
+            <div>
+              분류명 : 
+              <input
+                type="text"
+                name="clientCateName"
+                size="25"
+                style="margin-left:25px;"
+              /><br /><br />
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="insertClientCategory();"
+            >
+              등록
+            </button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              닫기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+  <div class="modal" id="tradeCateModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">시공일지 분류 등록</h4>
+          <button type="button" class="close" data-dismiss="modal">
+            &times;
+          </button>
+        </div>
+
+        <div class="modal-body" style="padding:45px 85px;">
+          <div>
+            분류명 : 
+            <input
+              type="text"
+              name="tradeName"
+              size="25"
+              style="margin-left:25px;"
+            /><br /><br />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-primary"
+            onclick="insertTradeCategory();"
+          >
+            등록
+          </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">
+            닫기
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </body>
+
+  <script>
+    $(document).ready(function() {
+      loadClientCategory();
+      settingSearchType();
+      settingSearchKeyword();
+    });
+
+    function insertClientCategory(){
+      if(confirm("등록하시겠습니까?")){
+        var clientCategoryName = $("input[name=clientCateName").val();
+        clientCategoryName.replace(/(\s*)/g, "") ;
+
+        var temp ={};
+        temp.clientCateName=clientCategoryName;
+
+        $.ajax({
+          url:"/api/clientcategory",
+          method:"POST",
+          dataType:"text",
+          data:JSON.stringify(temp),
+          contentType:"application/json; charset-UTF-8",
+          success:function(data){
+            if(data){
+              alert("등록되었습니다.");
+              $(location).attr("href","/erp/Main.html");
+            }
+          },
+          error:function(request,status,error){
+            ajaxError(request,status,error);
+          }
+        });
+      }
+    }
+
+    function insertTradeCategory(){
+      if(confirm("등록하시겠습니까?")){
+        var tradeCategoryName = $("input[name=clientCateName").val();
+        tradeCategoryName.replace(/(\s*)/g, "") ;
+
+        var temp ={};
+        temp.tradeCategoryName=tradeCategoryName;
+
+        $.ajax({
+          url:"/api/tradeCategory",
+          method:"POST",
+          dataType:"text",
+          data:JSON.stringify(temp),
+          contentType:"application/json; charset-UTF-8",
+          success:function(data){
+            if(data){
+              alert("등록되었습니다.");
+              $(location).attr("href","/erp/Main.html");
+            }
+          },
+          error:function(request,status,error){
+            ajaxError(request,status,error);
+          }
+        });
+      }
+    }
+
+    function searchingValidating(){
+      if($("#searchType").val()=="선택안함"){
+        alert("검색 타입을 선택해 주세요.");
+        return false;
+      }
+      if($("#searchKeyword").val()==""){
+        alert("검색어를 입력해 주세요.");
+        return false;
+      }
+      return true;
+    }
+
+    function searching(){
+      if(searchingValidating()){
+        var type;
+         $.each($("#searchType").children(),function(index,item){
+         if($("#searchType").val()==$(item).val()){
+           type = $(item).attr("name");
+          }  
+        });
+          var category = $("#searchCategory").val();
+          var keyword = $("#searchKeyword").val();
+          
+          sessionStorage.removeItem("type");
+          sessionStorage.removeItem("keyword");
+
+          sessionStorage.setItem("type",type);
+          sessionStorage.setItem("keyword",keyword);
+          
+          if(category=="거래처"){
+            $(location).attr("href","/erp/SearchClient.html");
+          }else if(category=="시공일지"){
+            $(location).attr("href","/erp/SearchTrade.html");
+          }
+      }
+    }
+
+    function settingSearchType(){
+      $("#searchCategory").change(function(){
+        $("#searchType").empty();
+        if($("#searchCategory").val()=="거래처"){
+          $("#searchType").append($("<option>").text("선택안함"));
+          $("#searchType").append($("<option>").attr("name","clientName").text("거래처명"));
+          $("#searchType").append($("<option>").attr("name","clientCustomer").text("담당자"));
+        }
+        if($("#searchCategory").val()=="시공일지"){
+          $("#searchType").append($("<option>").text("선택안함"));
+          $("#searchType").append($("<option>").attr("name","traTel").text("연락처"));
+          $("#searchType").append($("<option>").attr("name","traAddr").text("주소"));
+          $("#searchType").append($("<option>").attr("name","traVisitDate").text("방문일자"));
+        }
+      });
+    }
+
+    function settingSearchKeyword(){
+      $("#searchType").change(function(){
+        if($("#searchType").val()=="거래처명"){
+          $("#searchKeyword").attr("placeholder","경진");
+        }
+        if($("#searchType").val()=="담당자"){
+          $("#searchKeyword").attr("placeholder","김정덕");
+        }
+        if($("#searchType").val()=="연락처"){
+          $("#searchKeyword").attr("placeholder","010-6332-3652");
+        }
+        if($("#searchType").val()=="주소"){
+          $("#searchKeyword").attr("placeholder","XX시 또는 XX동");
+        }
+        if($("#searchType").val()=="방문일자"){
+          $("#searchKeyword").attr("placeholder","XXXX년 또는 XX월 XX일");
+        }
+      })
+    }
+
+    function clienctValidatingCheck() {
+      if ($("input[name=clientName]").val() == "") {
+        alert("거래처명을 입력해주세요.");
+        return false;
+      }
+      if ($("input[name=clientCustomer]").val() == "") {
+        alert("담당자를 입력해주세요.");
+        return false;
+      }
+      if ($("input[name=clientTel]").val() == "") {
+        alert("연락처를 입력해주세요.");
+        return false;
+      }
+      if ($("select[name=clientCategory]").val() == "선택안함") {
+        alert("거래처 종류를 선택해주세요.");
+        return false;
+      }
+      return true;
+    }
+
+    function createClient() {
+      if (clienctValidatingCheck()) {
+        var temp = {};
+        $.each($("#clientContent").children("input"), function(index, item) {
+          if ($(item).val() != "") {
+            temp[$(item).attr("name")] = $(item).val();
+          }
+        });
+        $.each($("#client_category").children("option"), function(index, item) {
+          if ($(item).val() == $("#client_category").val()) {
+            temp[$("#client_category").attr("name")] = $(item).attr("name");
+          }
+        });
+
+        $.ajax({
+          url: "/api/client",
+          method: "POST",
+          dataType: "json",
+          data: JSON.stringify(temp),
+          contentType: "application/json; charset=UTF-8",
+          success: function(data) {
+            if (data) {
+              alert("거래처가 등록되었습니다.");
+              $(location).attr(
+                "href",
+                $(location).attr("host") + "/erp/Main.html"
+              );
+            } else {
+              alert("거래처 등록에 실패했습니다.");
+              location.reload();
+            }
+          },
+          beforeSend: function() {
+            loadingDisplayOn();
+          },
+          complete: function() {
+            loadingDisplayOff();
+          }
+        });
+      }
+    }
+
+    function loadClientCategory() {
+      var obj = {
+        url: "/api/clientcategory",
+        method: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        result: {},
+        async: false,
+        success: function(data) {
+          if (data != null) {
+            obj.result = data;
+            // console.log(data.length);
+            // console.log($("#client_category").children().length);
+            if (data.length >= $("#client_category").children().length) {
+              $.each(data, function(index, item) {
+                clientCategoryCreate(item);
+              });
+            }
+          }
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        },
+        beforeSend: function() {
+          loadingDisplayOn();
+        },
+        complete: function() {
+          loadingDisplayOff();
+        }
+      };
+
+      $.ajax(obj);
+
+      return obj.result;
+    }
+
+    function clientCategoryCreate(item) {
+      $("#client_category").append(
+        "<option name='" +
+          item.clientCateCode +
+          "'>" +
+          item.clientCateName +
+          "</option>"
+      );
+    }
+
+    function loadingDisplayOff() {
+      // $(".wrap-loading").addClass("display-none");
+      $("#div_ajax_load_image").hide();
+    }
+
+    function loadingDisplayOn() {
+      // $(".wrap-loading").removeClass("display-none");
+
+      var width = 0;
+      var height = 0;
+      var left = 0;
+      var top = 0;
+
+      width = 50;
+      height = 50;
+
+      top = ($(window).height() - height) / 2 + $(window).scrollTop();
+      left = ($(window).width() - width) / 2 + $(window).scrollLeft();
+
+      if ($("#div_ajax_load_image").length != 0) {
+        $("#div_ajax_load_image").css({
+          top: top + "px",
+          left: left + "px"
+        });
+        $("#div_ajax_load_image").show();
+      } else {
+        $("body").append(
+          '<div id="div_ajax_load_image" style="position:absolute; top:' +
+            top +
+            "px; left:" +
+            left +
+            "px; width:" +
+            width +
+            "px; height:" +
+            height +
+            'px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; "><img src="../images/loading.gif" style="width:50px; height:50px;"></div>'
+        );
+      }
+    }
+
+
+    
+  </script>
+  <style>
+    .wrap-loading {
+      /*화면 전체를 어둡게 합니다.*/
+
+      position: fixed;
+
+      left: 0;
+
+      right: 0;
+
+      top: 0;
+
+      bottom: 0;
+
+      background: rgba(0, 0, 0, 0.2); /*not in ie */
+
+      filter: progid:DXImageTransform.Microsoft.Gradient(startColorstr='#20000000', endColorstr='#20000000'); /* ie */
+    }
+
+    .wrap-loading div {
+      /*로딩 이미지*/
+
+      position: fixed;
+
+      top: 50%;
+
+      left: 50%;
+
+      margin-left: -21px;
+
+      margin-top: -21px;
+    }
+
+    .display-none {
+      /*감추기*/
+
+      display: none;
+    }
+  </style>
+</html>

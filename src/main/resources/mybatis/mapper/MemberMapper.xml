@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "Mapper" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gj.common.mapper.MemberMapper">
+	<select id="findAll" resultType="member">
+		SELECT * FROM MEMBER
+	</select>
+	
+	<select id="findOne" resultType="member">
+		SELECT * FROM MEMBER WHERE MEM_ID = #{email} AND USE_YN = 'Y'
+	</select>
+	
+	<select id="login" resultType="member" parameterType="map">
+		SELECT * FROM MEMBER WHERE MEM_ID = #{memId} AND MEM_PWD = #{memPwd} AND USE_YN = 'Y'	
+	</select>
+	
+	<insert id="create" parameterType="map">
+		INSERT INTO MEMBER VALUES(DEFAULT,#{memName},#{memId},#{memPwd},#{memTel},#{memBirth},DEFAULT,DEFAULT,"Y",DEFAULT,#{updUser},#{mailYn},#{smsYn},#{memNick})
+	</insert>
+	
+	<update id="update" parameterType="map">
+		UPDATE MEMBER SET 
+		<if test="memPwd != null">
+			MEM_PWD = #{memPwd}
+		</if>
+		<if test="memTel != null">
+			, MEM_TEL = #{memTel}
+		</if>
+		<if test="mailYn != null">
+			, MAIL_YN = #{mailYn}
+		</if>
+		<if test="snsYn != null">
+			, SNS_YN = #{snsYn}
+		</if>
+		,UPD_USER = #{updUser}, UPD_DATE = DEFAULT WHERE MEM_ID = #{memId}		
+	</update>
+	
+	<update id="delete" parameterType="map">
+		UPDATE MEMBER SET USE_YN = 0, UPD_USER = #{updUser}, UPD_DATE = DEFAULT WHERE MEM_ID = #{memId}
+	</update>
+	
+</mapper>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>경진 ERP</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/jquery_cookie.js"></script>
+  </head>
+  <body>
+    <script>
+      $(document).ready(function() {
+        $("#header").load("../common/header.html?ver=2020033001");
+      });
+    </script>
+
+    <style>
+      .container-fluid {
+        font-family: "Noto Sans KR", sans-serif;
+      }
+    </style>
+    <div id="header"></div>
+    <div class="container-fluid" style="margin-top: 1%">
+      <table class="table">
+        <thead class="thead-light">
+          <tr style="text-align:center;">
+            <th>거래처번호</th>
+            <th>거래처명</th>
+            <th>담당자</th>
+            <th>연락처</th>
+            <th>종류</th>
+            <th>등록일</th>
+            <th>상세정보</th>
+          </tr>
+        </thead>
+        <tbody id="tbody" style="text-align: center;"></tbody>
+      </table>
+      <ul
+        id="pageBar"
+        class="pagination justify-content-center"
+        style="margin:20px 0"
+      ></ul>
+    </div>
+    <div class="modal" id="clientUpdateModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">거래처 수정</h4>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+
+          <div class="modal-body" style="padding:45px 85px;">
+            <div id="clientContent">
+              <input type="hidden" name="clientUpdateCode" />
+              거래처명 :
+              <input
+                type="text"
+                name="clientUpdateName"
+                size="25"
+                style="margin-left:25px;"
+              /><br /><br />
+              담당자 :
+              <input
+                type="text"
+                name="clientUpdateCustomer"
+                size="25"
+                style="margin-left:39px;"
+              /><br /><br />
+              연락처 :
+              <input
+                type="text"
+                name="clientUpdateTel"
+                size="25"
+                style="margin-left:39px;"
+              /><br /><br />
+              종류 :
+              <select
+                id="client_category"
+                name="clientUpdateCategory"
+                style="margin-left: 52px;width:216px;height: 30px;"
+              >
+                <option>선택안함</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="updateClient();"
+            >
+              수정
+            </button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              닫기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script>
+    var clientCategory;
+    $(document).ready(function() {
+      validationToken();
+      loadClient(1);
+    });
+
+    // $("#clientUpdateModal").on("hide.bs.modal", updateModalReset());
+
+    function loadClient(page) {
+      $("#tbody").empty();
+      $.ajax({
+        url: "/api/client?page=" + page,
+        method: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        success: function(data) {
+          var count = data[data.length - 1].count;
+          clientCategory = loadClientCategory();
+          $.each(data, function(index, item) {
+            if (index != data.length - 1) {
+              createRow(item);
+            }
+          });
+          createPageBar(count, page);
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        }
+      });
+    }
+
+    function createPageBar(count, nowPage) {
+      var countPerPageBar = 10;
+      $("#pageBar").empty();
+      var prePageNum =
+        Math.ceil(nowPage / countPerPageBar) * countPerPageBar -
+        countPerPageBar;
+      var postPageNum =
+        Math.ceil(nowPage / countPerPageBar) * countPerPageBar + 1;
+
+      var pageBarCount = Math.ceil(count / countPerPageBar);
+      var range =
+        postPageNum - 1 < pageBarCount ? postPageNum - 1 : pageBarCount;
+      if (nowPage > countPerPageBar) {
+        $("#pageBar").append(
+          $("<li>")
+            .append(
+              $("<a>")
+                .attr("class", "page-link")
+                .attr("href", "javascript:loadClient(" + prePageNum + ")")
+                .text("이전")
+            )
+            .attr("class", "page-item")
+        );
+      }
+
+      for (var i = prePageNum + 1; i <= range; i++) {
+        if (i == nowPage) {
+          $("#pageBar").append(
+            $("<li>")
+              .append(
+                $("<a>")
+                  .attr("class", "page-link")
+                  .attr("href", "javascript:loadClient(" + i + ")")
+                  .text(i)
+              )
+              .attr("class", "page-item disabled")
+          );
+        } else {
+          $("#pageBar").append(
+            $("<li>")
+              .append(
+                $("<a>")
+                  .attr("class", "page-link")
+                  .attr("href", "javascript:loadClient(" + i + ")")
+                  .text(i)
+              )
+              .attr("class", "page-item")
+          );
+        }
+      }
+      if (count - postPageNum * countPerPageBar > 0) {
+        $("#pageBar").append(
+          $("<li>")
+            .append(
+              $("<a>")
+                .attr("class", "page-link")
+                .attr("href", "javascript:loadClient(" + postPageNum + ")")
+                .text("다음")
+            )
+            .attr("class", "page-item")
+        );
+      }
+    }
+
+    function createRow(item) {
+      var tbody = $("#tbody");
+      var tr = $("<tr>");
+
+      $(tr).append($("<td>").text(item.clientCode));
+      $(tr).append($("<td>").text(item.clientName));
+      $(tr).append($("<td>").text(item.clientCustomer));
+      $(tr).append($("<td>").text(item.clientTel));
+
+      // temp = loadClientCategory();
+      // console.log(clientCategory);
+      $.each(clientCategory, function(index, result) {
+        if (result.clientCateCode == item.clientCategory) {
+          $(tr).append($("<td>").text(result.clientCateName));
+        }
+      });
+
+      $(tr).append(
+        $("<td>").text(
+          item.regDate.year +
+            "-" +
+            item.regDate.monthValue +
+            "-" +
+            item.regDate.dayOfMonth +
+            " / " +
+            item.regDate.hour +
+            "시 " +
+            item.regDate.minute +
+            "분"
+        )
+      );
+
+      var td = $("<td>");
+      $(td).append(
+        $("<button>")
+          .attr("class", "btn btn-sm")
+          .attr("type", "button")
+          // .attr("data-toggle", "modal")
+          // .attr("data-target", "#client_modal")
+          .attr("onclick", "updateModalOn(this)")
+          .css({
+            "background-color": "#17a2b8",
+            color: "white"
+          })
+          .text("수정")
+      );
+      $(td).append(
+        $("<button>")
+          .attr("class", "btn btn-sm")
+          .attr("type", "button")
+          .attr("onclick", "deleteClient(this)")
+          .css({
+            "background-color": "#17a2b8",
+            color: "white",
+            "margin-left": "10px"
+          })
+          .text("삭제")
+      );
+
+      $(tr).append(td);
+
+      $(tbody).append(tr);
+    }
+
+    function updateModalOn(temp) {
+      $("select[name=clientUpdateCategory]")
+        .children()
+        .remove();
+
+      var clientCode = $(temp)
+        .parent()
+        .parent()
+        .children()[0].innerText;
+      var clientName = $(temp)
+        .parent()
+        .parent()
+        .children()[1].innerText;
+      var clientCustomer = $(temp)
+        .parent()
+        .parent()
+        .children()[2].innerText;
+      var clientTel = $(temp)
+        .parent()
+        .parent()
+        .children()[3].innerText;
+      var clientCategory = $(temp)
+        .parent()
+        .parent()
+        .children()[4].innerText;
+      $("input[name=clientUpdateCode]").val(clientCode);
+      $("input[name=clientUpdateName]").val(clientName);
+      $("input[name=clientUpdateCustomer]").val(clientCustomer);
+      $("input[name=clientUpdateTel]").val(clientTel);
+
+      $.each(this.clientCategory, function(index, item) {
+        $("select[name=clientUpdateCategory]").append(
+          "<option name='" +
+            item.clientCateCode +
+            "'>" +
+            item.clientCateName +
+            "</option>"
+        );
+      });
+
+      $("select[name=clientUpdateCategory]").val(clientCategory);
+
+      $("#clientUpdateModal").modal("show");
+    }
+
+    function deleteClient(item) {
+      if (confirm("정말 삭제하시겠습니까?")) {
+        var index = $(item)
+          .parent()
+          .parent()
+          .children()[0];
+        $.ajax({
+          url: "/api/client/" + $(index).text(),
+          method: "DELETE",
+          dataType: "text",
+          contentType: "application/json; charset=UTF-8",
+          success: function(data) {
+            if (data == "true") {
+              alert("삭제되었습니다.");
+            } else {
+              alert("삭제 실패!");
+            }
+          },
+          erorr: function(request, status, error) {
+            ajaxError(request, status, error);
+          },
+          beforeSend: function() {
+            loadingDisplayOn();
+          },
+          complete: function() {
+            loadingDisplayOff();
+            $(location).attr("href", $(location).attr("href"));
+          }
+        });
+      }
+    }
+
+    function updateClient() {
+      var client = {};
+      client.clientName = $("input[name=clientUpdateName]").val();
+      client.clientCustomer = $("input[name=clientUpdateCustomer]").val();
+      client.clientTel = $("input[name=clientUpdateTel]").val();
+      client.clientCategory = -1;
+      $.each($("select[name=clientUpdateCategory]").children(), function(
+        index,
+        item
+      ) {
+        if (item.innerText == $("select[name=clientUpdateCategory]").val()) {
+          client.clientCategory = $(item).attr("name");
+        }
+      });
+
+      $.ajax({
+        url: "/api/client/" + $("input[name=clientUpdateCode]").val(),
+        method: "PUT",
+        dataType: "text",
+        data: JSON.stringify(client),
+        contentType: "application/json; charset=UTF-8",
+        success: function(data) {
+          if (data == "true") {
+            alert("수정했습니다.");
+          } else {
+            alert("수정에 실패했습니다.");
+          }
+        },
+        error: function(request, status, error) {
+          alert("수정에 실패했습니다.");
+          ajaxError(request, status, error);
+        },
+        beforeSend: function() {
+          loadingDisplayOn();
+        },
+        complete: function() {
+          loadingDisplayOff();
+          location.reload();
+        }
+      });
+    }
+
+    function updateModalReset() {
+      $("input[name=clientUpdateName]").val("");
+      $("input[name=clientUpdateCustomer]").val("");
+      $("input[name=clientUpdateTel]").val("");
+    }
+  </script>
+
+  <style>
+    #pageBar > a {
+      color: black !important;
+      margin: 4px !important;
+      font-size: 20px;
+    }
+    #pageBar > .cPage {
+      margin: 4px !important;
+      color: grey !important;
+      font-size: 22px;
+    }
+    .list-padding {
+      padding: 10px 5px;
+    }
+  </style>
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>경진 ERP</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/jquery_cookie.js"></script>
+  </head>
+  <body>
+    <script>
+      $(document).ready(function() {
+        $("#header").load("../common/header.html?ver=2020031801");
+      });
+    </script>
+
+    <style>
+      .container-fluid {
+        font-family: "Noto Sans KR", sans-serif;
+      }
+    </style>
+    <div id="header"></div>
+    <div class="container-fluid" style="margin-top: 1%">
+      <table class="table">
+        <thead class="thead-light">
+          <tr style="text-align:center;">
+            <th>분류</th>
+            <th>주소</th>
+            <th>고객명</th>
+            <th>연락처</th>
+            <th>방문일</th>
+            <th>금액</th>
+            <th>등록일</th>
+            <th>상세정보</th>
+          </tr>
+        </thead>
+        <tbody id="tbody" style="text-align: center;"></tbody>
+      </table>
+      <ul
+        id="pageBar"
+        class="pagination justify-content-center"
+        style="margin:20px 0"
+      ></ul>
+    </div>
+  </body>
+  <script>
+    var tradeCategory;
+    $(document).ready(function() {
+      loadTransaction(
+        sessionStorage.getItem("keyword"),
+        sessionStorage.getItem("type"),
+        1
+      );
+    });
+
+    function loadTransaction(keyword, type, page) {
+      $("#tbody").empty();
+      $.ajax({
+        url:
+          "/api/transaction?keyword=" +
+          keyword +
+          "&type=" +
+          type +
+          "&page=" +
+          page,
+        method: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        async: false,
+        success: function(data) {
+          if (data.length != 1) {
+            var count = data[data.length - 1].count;
+            console.log(data);
+            tradeCategory = loadTradeCategory();
+            $.each(data, function(index, item) {
+              if (index != data.length - 1) {
+                createRow(item);
+              }
+            });
+            createPageBar(count, page);
+          } else {
+            alert("검색 결과가 없습니다.");
+          }
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        }
+      });
+    }
+
+    function createPageBar(count, nowPage) {
+      var countPerPageBar = 10;
+      $("#pageBar").empty();
+      var prePageNum =
+        Math.ceil(nowPage / countPerPageBar) * countPerPageBar -
+        countPerPageBar;
+      var postPageNum =
+        Math.ceil(nowPage / countPerPageBar) * countPerPageBar + 1;
+
+      var pageBarCount = Math.ceil(count / countPerPageBar);
+      var range =
+        postPageNum - 1 < pageBarCount ? postPageNum - 1 : pageBarCount;
+      if (nowPage > countPerPageBar) {
+        $("#pageBar").append(
+          $("<li>")
+            .append(
+              $("<a>")
+                .attr("class", "page-link")
+                .attr(
+                  "href",
+                  "javascript:loadTransaction('" +
+                    sessionStorage.getItem("keyword") +
+                    "','" +
+                    sessionStorage.getItem("type") +
+                    "'," +
+                    prePageNum +
+                    ")"
+                )
+                .text("이전")
+            )
+            .attr("class", "page-item")
+        );
+      }
+
+      for (var i = prePageNum + 1; i <= range; i++) {
+        if (i == nowPage) {
+          $("#pageBar").append(
+            $("<li>")
+              .append(
+                $("<a>")
+                  .attr("class", "page-link")
+                  .attr(
+                    "href",
+                    "javascript:loadTransaction('" +
+                      sessionStorage.getItem("keyword") +
+                      "','" +
+                      sessionStorage.getItem("type") +
+                      "'," +
+                      i +
+                      ")"
+                  )
+                  .text(i)
+              )
+              .attr("class", "page-item disabled")
+          );
+        } else {
+          $("#pageBar").append(
+            $("<li>")
+              .append(
+                $("<a>")
+                  .attr("class", "page-link")
+                  .attr(
+                    "href",
+                    "javascript:loadTransaction('" +
+                      sessionStorage.getItem("keyword") +
+                      "','" +
+                      sessionStorage.getItem("type") +
+                      "'," +
+                      i +
+                      ")"
+                  )
+                  .text(i)
+              )
+              .attr("class", "page-item")
+          );
+        }
+      }
+      if (count - postPageNum * countPerPageBar > 0) {
+        $("#pageBar").append(
+          $("<li>")
+            .append(
+              $("<a>")
+                .attr("class", "page-link")
+                .attr(
+                  "href",
+                  "javascript:loadTransaction('" +
+                    sessionStorage.getItem("keyword") +
+                    "','" +
+                    sessionStorage.getItem("type") +
+                    "'," +
+                    postPageNum +
+                    ")"
+                )
+                .text("다음")
+            )
+            .attr("class", "page-item")
+        );
+      }
+    }
+
+    function createRow(item) {
+      var tbody = $("#tbody");
+      var tr = $("<tr>");
+
+      $.each(tradeCategory, function(index, result) {
+        if (result.tradeCode == item.traCategory) {
+          $(tr).append(
+            $("<td>")
+              .text(result.tradeName)
+              .append(
+                $("<input>")
+                  .attr("type", "hidden")
+                  .val(item.traCode)
+              )
+          );
+        }
+      });
+      $(tr).append($("<td>").text(item.traAddr + " / " + item.traAddrDetail));
+      $(tr).append($("<td>").text(item.traCustomer));
+      $(tr).append($("<td>").text(item.traTel));
+      $(tr).append($("<td>").text(item.traVisitDate));
+      $(tr).append($("<td>").text(item.traPrice.toLocaleString() + "원"));
+
+      $(tr).append(
+        $("<td>").text(
+          item.regDate.year +
+            "-" +
+            item.regDate.monthValue +
+            "-" +
+            item.regDate.dayOfMonth +
+            " / " +
+            item.regDate.hour +
+            "시 " +
+            item.regDate.minute +
+            "분"
+        )
+      );
+
+      var td = $("<td>");
+      $(td).append(
+        $("<button>")
+          .attr("class", "btn btn-sm")
+          .attr("type", "button")
+          .attr("onclick", "detailViewConnection(this)")
+          .css({
+            "background-color": "#17a2b8",
+            color: "white"
+          })
+          .text("보기")
+      );
+      $(td).append(
+        $("<button>")
+          .attr("class", "btn btn-sm")
+          .attr("type", "button")
+          .attr("onclick", "updasteViewConnection(this)")
+          .css({
+            "background-color": "#17a2b8",
+            color: "white",
+            "margin-left": "10px"
+          })
+          .text("수정")
+      );
+      $(td).append(
+        $("<button>")
+          .attr("class", "btn btn-sm")
+          .attr("type", "button")
+          .attr("onclick", "deleteClient(this)")
+          .css({
+            "background-color": "#17a2b8",
+            color: "white",
+            "margin-left": "10px"
+          })
+          .text("삭제")
+      );
+
+      $(tr).append(td);
+
+      $(tbody).append(tr);
+    }
+
+    function deleteClient(item) {
+      if (confirm("삭제하시겠습니까?")) {
+        var input = $(item)
+          .parent()
+          .parent()
+          .children()[0];
+        var index = $(input)
+          .children("input")
+          .val();
+        $.ajax({
+          url: "/api/transaction/" + index,
+          method: "DELETE",
+          dataType: "text",
+          contentType: "application/json; charset=UTF-8",
+          success: function(data) {
+            if (data == "true") {
+              alert("삭제되었습니다.");
+            } else {
+              alert("삭제 실패!");
+            }
+          },
+          erorr: function(request, status, error) {
+            ajaxError(request, status, error);
+          },
+          beforeSend: function() {
+            loadingDisplayOn();
+          },
+          complete: function() {
+            loadingDisplayOff();
+            $(location).attr("href", $(location).attr("href"));
+          }
+        });
+      }
+    }
+
+    function detailViewConnection(item) {
+      var input = $(item)
+        .parent()
+        .parent()
+        .children()[0];
+      var index = $(input)
+        .children("input")
+        .val();
+      sessionStorage.setItem("index", index);
+      $(location).attr("href", "/erp/TradeDetailView.html");
+    }
+
+    function updasteViewConnection(item) {
+      var input = $(item)
+        .parent()
+        .parent()
+        .children()[0];
+      var index = $(input)
+        .children("input")
+        .val();
+      sessionStorage.setItem("index", index);
+      $(location).attr("href", "/erp/UpdateTrade.html");
+    }
+
+    function loadTradeCategory() {
+      var obj = {
+        url: "/api/tradeCategory",
+        method: "GET",
+        dataType: "json",
+        contentType: "application/json; charset=UTF-8",
+        async: false,
+        result: {},
+        success: function(data) {
+          obj.result = data;
+        },
+        error: function(request, status, error) {
+          ajaxError(request, status, error);
+        }
+      };
+      $.ajax(obj);
+      return obj.result;
+    }
+  </script>
+
+  <style>
+    #pageBar > a {
+      color: black !important;
+      margin: 4px !important;
+      font-size: 20px;
+    }
+    #pageBar > .cPage {
+      margin: 4px !important;
+      color: grey !important;
+      font-size: 22px;
+    }
+    .list-padding {
+      padding: 10px 5px;
+    }
+  </style>
+</html>

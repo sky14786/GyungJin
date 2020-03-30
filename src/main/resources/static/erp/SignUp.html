@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>경진 ERP</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <link
+      rel="icon"
+      type="image/png"
+      href="../login/images/icons/favicon.ico"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../login/vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../login/fonts/font-awesome-4.7.0/css/font-awesome.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../login/vendor/animate/animate.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../login/vendor/css-hamburgers/hamburgers.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../login/vendor/animsition/css/animsition.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../login/vendor/select2/select2.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="../login/vendor/daterangepicker/daterangepicker.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../login/css/util.css" />
+    <link rel="stylesheet" type="text/css" href="../login/css/main.css" />
+    <!--===============================================================================================-->
+  </head>
+  <body>
+    <div class="limiter">
+      <div
+        class="container-login100"
+        style="background-image: url('../login/images/bg-01.jpg');"
+      >
+        <div class="wrap-login100 p-t-30 p-b-50">
+          <span class="login100-form-title p-b-41">
+            회원가입
+          </span>
+          <div class="login100-form p-b-33 p-t-5" id="form">
+            <div class="wrap-input100">
+              <input
+                class="input100"
+                type="text"
+                name="memId"
+                placeholder="이메일(아이디)"
+              />
+              <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+            </div>
+
+            <div class="wrap-input100">
+              <input
+                class="input100"
+                type="password"
+                id="memPwd"
+                name="memPwd"
+                placeholder="패스워드"
+              />
+              <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+            </div>
+
+            <div class="wrap-input100">
+              <input
+                class="input100"
+                type="password"
+                id="memPwdChk"
+                name="memPwd"
+                placeholder="패스워드확인"
+              />
+              <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+            </div>
+
+            <div class="wrap-input100">
+              <input
+                class="input100"
+                type="text"
+                name="memName"
+                placeholder="이름"
+              />
+              <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+            </div>
+
+            <div class="wrap-input100">
+              <input
+                class="input100"
+                type="text"
+                name="memNick"
+                placeholder="닉네임"
+              />
+              <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+            </div>
+
+            <div class="wrap-input100">
+              <input
+                class="input100"
+                type="text"
+                name="memTel"
+                placeholder="연락처 ex)010-1111-2222"
+              />
+              <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+            </div>
+
+            <div class="wrap-input100">
+              <input
+                class="input100"
+                type="text"
+                name="memBirth"
+                placeholder="생년월일 ex)1999-04-12"
+              />
+              <span class="focus-input100" data-placeholder="&#xe82a;"></span>
+            </div>
+
+            <div class="wrap-input100" style="text-align:center">
+              Mail
+              <input
+                class="input"
+                type="checkbox"
+                name="mailYn"
+                value="Y"
+                style="margin-right:100px"
+              />
+              SMS <input class="input" type="checkbox" name="smsYn" value="Y" />
+            </div>
+
+            <div class="container-login100-form-btn m-t-32">
+              <button class="login100-form-btn" onclick="btnSignUp();">
+                SignUp
+              </button>
+              <button
+                class="login100-form-btn"
+                style="margin-left:10px"
+                onclick="btnCencel();"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="dropDownSelect1"></div>
+
+    <!--===============================================================================================-->
+    <script src="../login/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="../login/vendor/animsition/js/animsition.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="../login/vendor/bootstrap/js/popper.js"></script>
+    <script src="../login/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="../login/vendor/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="../login/vendor/daterangepicker/moment.min.js"></script>
+    <script src="../login/vendor/daterangepicker/daterangepicker.js"></script>
+    <!--===============================================================================================-->
+    <script src="../login/vendor/countdowntime/countdowntime.js"></script>
+    <!--===============================================================================================-->
+    <script src="../login/js/main.js"></script>
+
+    <script>
+      function btnCencel() {
+        // $(location).attr("href", "http://" + $(location).attr("host") + "/erp");
+        $(location).attr("href", "/erp/");
+      }
+
+      function btnSignUp() {
+        if (dataValidate()) {
+          var temp = {};
+          $.each($("input"), function(index, item) {
+            if ($(item).attr("type") != "checkbox") {
+              temp[$(item).attr("name")] = $(item).val();
+            } else {
+              temp[$(item).attr("name")] = $(item).is(":checked") ? "Y" : "N";
+            }
+          });
+          $.ajax({
+            url: "/api/member",
+            data: JSON.stringify(temp),
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=UTF-8",
+            success: function(data) {
+              if (data == true) {
+                alert("회원가입이 완료되었습니다.");
+                // $(location).attr(
+                //   "href",
+                //   "http://" + $(location).attr("host") + "/"
+                // );
+                $(location).attr("href", "/erp/");
+              }
+            }
+          });
+        }
+      }
+
+      function dataValidate() {
+        if (!emailValidation($("input[name=memId]").val())) return false;
+        if (!passwordValidation($("#memPwd").val())) return false;
+        if (!nameValidation($("input[name=memName").val())) return false;
+        if (!nickValidation($("input[name=memNick]").val())) return false;
+        if (!telValidation($("input[name=memTel").val())) return false;
+        if (!birthValidation($("input[name=memBirth").val())) return false;
+        return true;
+      }
+
+      function emailValidation(inputEmail) {
+        // ID(EMAIL) Validation Check
+        if (inputEmail != "") {
+          var emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+          if (!emailRule.test(inputEmail)) {
+            alert("이메일을 형식에 맞게 작성하세요.");
+            return false;
+          } else {
+            $.ajax({
+              url: "/api/member/" + inputEmail,
+              dataType: "json",
+              method: "GET",
+              contentType: "application/json; charset=UTF-8",
+              success: function(data) {
+                console.log(data);
+                if (data != null) {
+                  alert("사용중인 아이디 입니다.");
+                  return false;
+                }
+              }
+            });
+          }
+        } else {
+          alert("이메일을 입력하세요.");
+          return false;
+        }
+        return true;
+      }
+
+      function passwordValidation(inputPwd) {
+        // Password Validation Check
+        if (inputPwd != "") {
+          var passwordRule = /^.*(?=^.{8,15}$)(?=.*\d)(?=.*[a-zA-Z])(?=.*[!@#$%^&+=]).*$/;
+          if (!passwordRule.test(inputPwd)) {
+            alert(
+              "비밀번호 형식은 특수문자, 문자, 숫자를 포함한 8~15자리입니다."
+            );
+            return false;
+          }
+          if (inputPwd != $("#memPwdChk").val()) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return false;
+          }
+        } else {
+          alert("비밀번호를 입력하세요.");
+          return false;
+        }
+        return true;
+      }
+
+      function nameValidation(inputName) {
+        if (inputName == "") {
+          alert("이름을 입력해주세요.");
+          return false;
+        }
+        return true;
+      }
+
+      function nickValidation(inputNick) {
+        var nicknameRule = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|\*]+$/;
+        if (inputNick == "") {
+          alert("닉네임을 입력해주세요.");
+          return false;
+        } else if (!nicknameRule.test(inputNick)) {
+          alert("닉네임은 한글, 숫자, 영문만 입력가능합니다.");
+          return false;
+        }
+        return true;
+      }
+
+      function telValidation(inputTel) {
+        var telRule = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+        if (inputTel == "") {
+          alert("연락처를 입력해주세요.");
+          return false;
+        }
+        if (!telRule.test(inputTel)) {
+          alert("연락처 입력이 잘못되었습니다.");
+          return false;
+        }
+        return true;
+      }
+
+      function birthValidation(inputBirth) {
+        var birthRule = /^(19[0-9][0-9]|20\d{2})-(0[0-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
+        if (inputBirth == "") {
+          alert("생년월일을 입력해 주세요.");
+          return false;
+        }
+        if (!birthRule.test(inputBirth)) {
+          alert("생년월일 형식이 잘못되었습니다.");
+          return false;
+        }
+        return true;
+      }
+    </script>
+  </body>
+</html>

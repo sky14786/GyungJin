@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "Mapper" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gj.common.mapper.ClientMapper">
+	<select id="findAll" resultType="client">
+		SELECT * FROM CLIENT WHERE USE_YN = 'Y'
+	</select>
+	
+	<insert id="create" parameterType="map">
+		INSERT INTO CLIENT VALUES (DEFAULT, #{clientCategory}, #{clientName}, #{clientCustomer}, #{clientTel},default,default,default,#{updUser})
+	</insert>
+	
+	<update id="delete" parameterType="map">
+		UPDATE CLIENT SET USE_YN = 'N' WHERE CLIENT_CODE = #{index}
+	</update>
+	
+	<select id="search" resultType="client" parameterType="map">
+		SELECT * FROM CLIENT WHERE USE_YN ='Y' 
+		<if test='type != null and type == "clientName"'>
+			AND CLIENT_NAME LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		 <if test='type != null and type == "clientCustomer"'>
+		 	AND CLIENT_CUSTOMER LIKE CONCAT('%', #{keyword}, '%')
+		 </if>
+	</select>
+	
+	<update id="update" parameterType="map">
+		UPDATE CLIENT SET CLIENT_CATEGORY = #{clientCategory}, CLIENT_NAME = #{clientName}, CLIENT_CUSTOMER=#{clientCustomer}, CLIENT_TEL = #{clientTel}, UPD_DATE = DEFAULT , UPD_USER = #{updUser} WHERE CLIENT_CODE = #{clientCode} 
+	</update>
+</mapper>
