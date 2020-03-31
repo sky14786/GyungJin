@@ -37,6 +37,12 @@ function validationToken() {
       },
       error: function(request, status, error) {
         ajaxError(request, status, error);
+      },
+      beforeSend: function() {
+        loadingDisplayOn();
+      },
+      complete: function() {
+        loadingDisplayOff();
       }
     });
     return true;
