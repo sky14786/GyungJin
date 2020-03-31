@@ -25,16 +25,18 @@ public class JwtInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		String result = "Null";
 		Cookie[] cookies = request.getCookies();
-		for (int i = 0; i < cookies.length; i++) {
-			System.out.println(cookies[i].getName());
-			System.out.println(cookies[i].getValue());
-			if (cookies[i].getName().equals("accessToken")) {
-				result = "Effective";
-				if (validateToken(cookies[i].getValue()).equals("Expiration")) {
-					result = "Expiration";
-				}
-				if (validateToken(cookies[i].getValue()).equals("Modulation")) {
-					result = "Modulation";
+		if (cookies != null) {
+			for (int i = 0; i < cookies.length; i++) {
+				System.out.println(cookies[i].getName());
+				System.out.println(cookies[i].getValue());
+				if (cookies[i].getName().equals("accessToken")) {
+					result = "Effective";
+					if (validateToken(cookies[i].getValue()).equals("Expiration")) {
+						result = "Expiration";
+					}
+					if (validateToken(cookies[i].getValue()).equals("Modulation")) {
+						result = "Modulation";
+					}
 				}
 			}
 		}

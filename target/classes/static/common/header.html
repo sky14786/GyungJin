@@ -307,8 +307,8 @@
 
     function insertTradeCategory(){
       if(confirm("등록하시겠습니까?")){
-        var tradeCategoryName = $("input[name=clientCateName").val();
-        tradeCategoryName.replace(/(\s*)/g, "") ;
+        var tradeCategoryName = $("input[name=tradeName").val();
+        tradeCategoryName.replace(/(\s*)/g, "");
 
         var temp ={};
         temp.tradeName=tradeCategoryName;
