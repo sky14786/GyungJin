@@ -15,4 +15,8 @@
 	<update id="update">
 		UPDATE MATERIAL SET MAT_NAME = #{matName}, MAT_COST=#{matCost}, MAT_SIZE=#{matSize}, MAT_PRICE= #{matPrice} WHERE MAT_CODE = #{matCode} 
 	</update>
+	
+	<delete id="delete" parameterType="map">
+		DELETE FROM MATERIAL WHERE MAT_CODE = #{index} 
+	</delete>
 </mapper>

@@ -693,13 +693,13 @@ div.HStyle11
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;font-family:"굴림";line-height:160%'>&nbsp;</SPAN></P>
 	</TD>
 	<TD colspan="3" valign="middle" style='width:102;height:28;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='margin-right:10.0pt;text-align:center;'><SPAN STYLE='font-size:12.0pt;font-family:"굴림";line-height:160%'>&nbsp;</SPAN></P>
+	<P CLASS=HStyle0 STYLE='margin-right:10.0pt;text-align:center;'><SPAN STYLE='font-size:12.0pt;font-family:"굴림";line-height:160%' name="sumUnitPrice">&nbsp;</SPAN></P>
 	</TD>
 	<TD colspan="4" valign="middle" style='width:102;height:28;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='margin-right:10.0pt;text-align:center;'><SPAN STYLE='font-size:12.0pt;font-family:"굴림";line-height:160%'>&nbsp;</SPAN></P>
+	<P CLASS=HStyle0 STYLE='margin-right:10.0pt;text-align:center;'><SPAN STYLE='font-size:12.0pt;font-family:"굴림";line-height:160%' name="sumPrice">&nbsp;</SPAN></P>
 	</TD>
 	<TD colspan="2" valign="middle" style='width:102;height:28;border-left:solid #000000 0.4pt;border-right:solid #000000 0.4pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='margin-right:10.0pt;text-align:center;'><SPAN STYLE='font-size:12.0pt;font-family:"굴림";line-height:160%'>&nbsp;</SPAN></P>
+	<P CLASS=HStyle0 STYLE='margin-right:10.0pt;text-align:center;'><SPAN STYLE='font-size:12.0pt;font-family:"굴림";line-height:160%' name="sumCost">&nbsp;</SPAN></P>
 	</TD>
 	<TD valign="middle" style='width:54;height:28;border-left:solid #000000 0.4pt;border-right:double #000000 2.0pt;border-top:solid #000000 1.1pt;border-bottom:solid #000000 1.1pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-size:12.0pt;font-family:"굴림";line-height:160%'>&nbsp;</SPAN></P>
@@ -718,9 +718,14 @@ div.HStyle11
 
 </BODY>
 <script>
+	var sumUnitPrice=0;
+	var sumPrice=0;
+	var sumCost=0;
   $(document).ready(function(){
     loadTransactionData();
+
   });
+
   function loadMaterials(matCode, count,i) {
       $.ajax({
         url: "/api/material/" + matCode,
@@ -743,6 +748,14 @@ div.HStyle11
           $("span[name=unitPrice"+i+"]").text(((data.matPrice + (data.matPrice*0.1)) * count).toLocaleString());
           $("span[name=matPrice"+i+"]").text(data.matPrice.toLocaleString());
           $("span[name=matTax"+i+"]").text((data.matPrice*0.1).toLocaleString());
+		  
+		  sumUnitPrice+= (data.matPrice + data.matPrice*0.1 * count);
+		  sumPrice+=(data.matPrice * count);
+		  sumCost+=(data.matPrice* 0.1 * count); 
+
+		  $("span[name=sumUnitPrice]").text(sumUnitPrice.toLocaleString());
+		  $("span[name=sumPrice]").text(sumPrice.toLocaleString());
+		  $("span[name=sumCost]").text(sumCost.toLocaleString());
     }
 
     function loadEstimate(estCode) {

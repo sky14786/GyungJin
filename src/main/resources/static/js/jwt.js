@@ -23,11 +23,17 @@ function validationToken() {
       success: function(data) {
         if (data == "Modulation") {
           alert("다시 로그인해 주세요.");
-          $(location).attr("href", "http://" + $(location).attr("host") + "/");
+          $(location).attr(
+            "href",
+            "http://" + $(location).attr("host") + "/erp"
+          );
           return false;
         } else if (data == "false") {
           alert("다시 로그인해 주세요.");
-          $(location).attr("href", "http://" + $(location).attr("host") + "/");
+          $(location).attr(
+            "href",
+            "http://" + $(location).attr("host") + "/erp"
+          );
           return false;
         } else {
           $.removeCookie("accessToken", { path: "/" });
@@ -49,7 +55,7 @@ function validationToken() {
   } else if (expiredTime <= -600) {
     $.removeCookie("accessToken", { path: "/" });
     alert("다시 로그인해 주세요.");
-    $(location).attr("href", "http://" + $(location).attr("host") + "/");
+    $(location).attr("href", "/erp");
   }
 }
 
@@ -83,6 +89,6 @@ function ajaxError(request, status, error) {
   if (request.responseJSON.status == 400) {
     $.removeCookie("accessToken", { path: "/" });
     alert("다시 로그인해 주세요.");
-    $(location).attr("href", "http://" + $(location).attr("host") + "/");
+    $(location).attr("href", "/erp");
   }
 }

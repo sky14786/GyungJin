@@ -25,6 +25,12 @@ public class ClientCategoryServiceImpl implements ClientCategoryService {
 
 	@Override
 	public boolean create(ClientCategoryDTO clientCategoryDTO) {
+		List<ClientCategoryDTO> list = mapper.findAll();
+		for(int i = 0 ; i<list.size();i++) {
+			if(list.get(i).getClientCateName().equals(clientCategoryDTO.getClientCateName())) {
+				return false;
+			}
+		}
 		return validatingCheck(clientCategoryDTO) ? (mapper.create(clientCategoryDTO) == 1 ? true : false) : false;
 	}
 

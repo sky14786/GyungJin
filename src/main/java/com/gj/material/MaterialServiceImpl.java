@@ -34,6 +34,7 @@ public class MaterialServiceImpl implements MaterialService {
 				materialMapper.update(materials.get(i));
 			}
 		}
+		System.out.println("materials : "+materials);
 		result = toJson(materials);
 		return result;
 	}

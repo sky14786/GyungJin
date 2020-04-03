@@ -23,7 +23,7 @@
   <body>
     <script>
       $(document).ready(function() {
-        $("#header").load("../common/header.html?ver=2020031801");
+        $("#header").load("../common/header.html?ver=2020040301");
       });
     </script>
 
@@ -426,8 +426,9 @@
       }
       var materials = new Array();
       $.each($("input[name=matName]"), function(index, item) {
+        console.log($("input[name=matCode]")[index].value == null);
         var temp = {};
-        temp.matCode = $("input[name=matCode")[index].value;
+        temp.matCode = $("input[name=matCode]")[index].value;
         temp.matSize = $("input[name=matSize]")[index].value;
         temp.matName = $(item).val();
         temp.matCost = $("input[name=matCost]")[index].value;
@@ -640,6 +641,12 @@
     function addMaterial(item) {
       if (materialCount < 10) {
         var div = $("<div>").attr("class", "input-group-prepend mb-4");
+
+        $(div).append(
+          $("<input>")
+            .attr("type", "hidden")
+            .attr("name", "matCode")
+        );
 
         $(div).append(
           $("<span>")

@@ -24,6 +24,12 @@ public class TradeCategoryServiceImpl implements TradeCategoryService {
 
 	@Override
 	public boolean insert(TradeCategoryDTO tradeCategory) {
+		List<TradeCategoryDTO> list = tcMapper.findAll();
+		for(int i = 0 ; i <list.size();i++) {
+			if(list.get(i).getTradeName().equals(tradeCategory.getTradeName())) {
+				return false;
+			}
+		}
 		return tcMapper.insert(tradeCategory) == 1 ? true : false;
 	}
 
