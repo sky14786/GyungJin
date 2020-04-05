@@ -749,7 +749,7 @@ div.HStyle11
           $("span[name=matPrice"+i+"]").text(data.matPrice.toLocaleString());
           $("span[name=matTax"+i+"]").text((data.matPrice*0.1).toLocaleString());
 		  
-		  sumUnitPrice+= (data.matPrice + data.matPrice*0.1 * count);
+		  sumUnitPrice+= ((data.matPrice + (data.matPrice*0.1)) * count);
 		  sumPrice+=(data.matPrice * count);
 		  sumCost+=(data.matPrice* 0.1 * count); 
 

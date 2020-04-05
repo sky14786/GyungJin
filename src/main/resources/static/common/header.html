@@ -75,7 +75,7 @@
           <a href="/erp/InsertTrade.html" class="dropdown-item">등록</a>
         </div>
       </div>
-      <div class="dropdown" style="margin-right: 40px;">
+      <div class="dropdown" style="margin-right: 20px;">
         <button
           type="button"
           class="btn btn-primary btn-lg dropdown-toggle"
@@ -88,7 +88,7 @@
         </div>
       </div>
 
-      <div style="padding-left: 100px;">
+      <div style="padding-left: 50px;">
 
         <select id="searchCategory" style="width:90px;height: 48px;"> 
           <option >거래처</option>
@@ -322,7 +322,8 @@
           data:JSON.stringify(temp),
           contentType:"application/json; charset-UTF-8",
           success:function(data){
-            if(data==true){
+            console.log(data);
+            if(data=='true'){
               alert("등록되었습니다.");
               $(location).attr("href","/erp/Main.html");
             }else{

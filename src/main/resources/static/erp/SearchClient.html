@@ -9,8 +9,8 @@
   </head>
   <body>
     <script>
-      $(document).ready(function() {
-        $("#header").load("../common/header.html?ver=2020040301");
+      $(document).ready(function () {
+        $("#header").load("../common/header.html?ver=2020040501");
       });
     </script>
 
@@ -20,10 +20,10 @@
       }
     </style>
     <div id="header"></div>
-    <div class="container-fluid" style="margin-top: 1%">
+    <div class="container-fluid" style="margin-top: 1%;">
       <table class="table">
         <thead class="thead-light">
-          <tr style="text-align:center;">
+          <tr style="text-align: center;">
             <th>거래처번호</th>
             <th>거래처명</th>
             <th>담당자</th>
@@ -38,7 +38,7 @@
       <ul
         id="pageBar"
         class="pagination justify-content-center"
-        style="margin:20px 0"
+        style="margin: 20px 0;"
       ></ul>
     </div>
     <div class="modal" id="clientUpdateModal">
@@ -51,7 +51,7 @@
             </button>
           </div>
 
-          <div class="modal-body" style="padding:45px 85px;">
+          <div class="modal-body" style="padding: 45px 85px;">
             <div id="clientContent">
               <input type="hidden" name="clientUpdateCode" />
               거래처명 :
@@ -59,27 +59,27 @@
                 type="text"
                 name="clientUpdateName"
                 size="25"
-                style="margin-left:25px;"
+                style="margin-left: 25px;"
               /><br /><br />
               담당자 :
               <input
                 type="text"
                 name="clientUpdateCustomer"
                 size="25"
-                style="margin-left:39px;"
+                style="margin-left: 39px;"
               /><br /><br />
               연락처 :
               <input
                 type="text"
                 name="clientUpdateTel"
                 size="25"
-                style="margin-left:39px;"
+                style="margin-left: 39px;"
               /><br /><br />
               종류 :
               <select
                 id="client_category"
                 name="clientUpdateCategory"
-                style="margin-left: 52px;width:216px;height: 30px;"
+                style="margin-left: 52px; width: 216px; height: 30px;"
               >
                 <option>선택안함</option>
               </select>
@@ -104,7 +104,7 @@
   </body>
   <script>
     var clientCategory;
-    $(document).ready(function() {
+    $(document).ready(function () {
       loadClient(
         sessionStorage.getItem("keyword"),
         sessionStorage.getItem("type"),
@@ -122,11 +122,11 @@
         method: "GET",
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
-        success: function(data) {
+        success: function (data) {
           if (data.length != 1) {
             var count = data[data.length - 1].count;
             clientCategory = loadClientCategory();
-            $.each(data, function(index, item) {
+            $.each(data, function (index, item) {
               if (index != data.length - 1) {
                 createRow(item);
               }
@@ -136,9 +136,9 @@
             alert("검색 결과가 없습니다.");
           }
         },
-        error: function(request, status, error) {
+        error: function (request, status, error) {
           ajaxError(request, status, error);
-        }
+        },
       });
     }
 
@@ -253,7 +253,7 @@
 
       // temp = loadClientCategory();
       // console.log(clientCategory);
-      $.each(clientCategory, function(index, result) {
+      $.each(clientCategory, function (index, result) {
         if (result.clientCateCode == item.clientCategory) {
           $(tr).append($("<td>").text(result.clientCateName));
         }
@@ -284,7 +284,7 @@
           .attr("onclick", "updateModalOn(this)")
           .css({
             "background-color": "#17a2b8",
-            color: "white"
+            color: "white",
           })
           .text("수정")
       );
@@ -296,7 +296,7 @@
           .css({
             "background-color": "#17a2b8",
             color: "white",
-            "margin-left": "10px"
+            "margin-left": "10px",
           })
           .text("삭제")
       );
@@ -307,36 +307,19 @@
     }
 
     function updateModalOn(temp) {
-      $("select[name=clientUpdateCategory]")
-        .children()
-        .remove();
+      $("select[name=clientUpdateCategory]").children().remove();
 
-      var clientCode = $(temp)
-        .parent()
-        .parent()
-        .children()[0].innerText;
-      var clientName = $(temp)
-        .parent()
-        .parent()
-        .children()[1].innerText;
-      var clientCustomer = $(temp)
-        .parent()
-        .parent()
-        .children()[2].innerText;
-      var clientTel = $(temp)
-        .parent()
-        .parent()
-        .children()[3].innerText;
-      var clientCategory = $(temp)
-        .parent()
-        .parent()
-        .children()[4].innerText;
+      var clientCode = $(temp).parent().parent().children()[0].innerText;
+      var clientName = $(temp).parent().parent().children()[1].innerText;
+      var clientCustomer = $(temp).parent().parent().children()[2].innerText;
+      var clientTel = $(temp).parent().parent().children()[3].innerText;
+      var clientCategory = $(temp).parent().parent().children()[4].innerText;
       $("input[name=clientUpdateCode]").val(clientCode);
       $("input[name=clientUpdateName]").val(clientName);
       $("input[name=clientUpdateCustomer]").val(clientCustomer);
       $("input[name=clientUpdateTel]").val(clientTel);
 
-      $.each(this.clientCategory, function(index, item) {
+      $.each(this.clientCategory, function (index, item) {
         $("select[name=clientUpdateCategory]").append(
           "<option name='" +
             item.clientCateCode +
@@ -353,32 +336,29 @@
 
     function deleteClient(item) {
       if (confirm("정말 삭제하시겠습니까?")) {
-        var index = $(item)
-          .parent()
-          .parent()
-          .children()[0];
+        var index = $(item).parent().parent().children()[0];
         $.ajax({
           url: "/api/client/" + $(index).text(),
           method: "DELETE",
           dataType: "text",
           contentType: "application/json; charset=UTF-8",
-          success: function(data) {
+          success: function (data) {
             if (data == "true") {
               alert("삭제되었습니다.");
             } else {
               alert("삭제 실패!");
             }
           },
-          erorr: function(request, status, error) {
+          erorr: function (request, status, error) {
             ajaxError(request, status, error);
           },
-          beforeSend: function() {
+          beforeSend: function () {
             loadingDisplayOn();
           },
-          complete: function() {
+          complete: function () {
             loadingDisplayOff();
             $(location).attr("href", $(location).attr("href"));
-          }
+          },
         });
       }
     }
@@ -389,7 +369,7 @@
       client.clientCustomer = $("input[name=clientUpdateCustomer]").val();
       client.clientTel = $("input[name=clientUpdateTel]").val();
       client.clientCategory = -1;
-      $.each($("select[name=clientUpdateCategory]").children(), function(
+      $.each($("select[name=clientUpdateCategory]").children(), function (
         index,
         item
       ) {
@@ -404,24 +384,24 @@
         dataType: "text",
         data: JSON.stringify(client),
         contentType: "application/json; charset=UTF-8",
-        success: function(data) {
+        success: function (data) {
           if (data == "true") {
             alert("수정했습니다.");
           } else {
             alert("수정에 실패했습니다.");
           }
         },
-        error: function(request, status, error) {
+        error: function (request, status, error) {
           alert("수정에 실패했습니다.");
           ajaxError(request, status, error);
         },
-        beforeSend: function() {
+        beforeSend: function () {
           loadingDisplayOn();
         },
-        complete: function() {
+        complete: function () {
           loadingDisplayOff();
           location.reload();
-        }
+        },
       });
     }
 

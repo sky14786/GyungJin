@@ -9,8 +9,8 @@
   </head>
   <body>
     <script>
-      $(document).ready(function() {
-        $("#header").load("../common/header.html?ver=2020040301");
+      $(document).ready(function () {
+        $("#header").load("../common/header.html?ver=2020040501");
       });
     </script>
 
@@ -20,10 +20,10 @@
       }
     </style>
     <div id="header"></div>
-    <div class="container-fluid" style="margin-top: 1%">
+    <div class="container-fluid" style="margin-top: 1%;">
       <table class="table">
         <thead class="thead-light">
-          <tr style="text-align:center;">
+          <tr style="text-align: center;">
             <th>분류</th>
             <th>주소</th>
             <th>고객명</th>
@@ -39,7 +39,7 @@
       <ul
         id="pageBar"
         class="pagination justify-content-center"
-        style="margin:20px 0"
+        style="margin: 20px 0;"
       >
         <!-- <li class="page-item"><a class="page-link" href="#">이전</a></li>
         <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -51,7 +51,7 @@
   </body>
   <script>
     var tradeCategory;
-    $(document).ready(function() {
+    $(document).ready(function () {
       loadTransaction(1);
     });
 
@@ -63,19 +63,19 @@
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
         async: false,
-        success: function(data) {
+        success: function (data) {
           var count = data[data.length - 1].count;
           tradeCategory = loadTradeCategory();
-          $.each(data, function(index, item) {
+          $.each(data, function (index, item) {
             if (index != data.length - 1) {
               createRow(item);
             }
           });
           createPageBar(count, page);
         },
-        error: function(request, status, error) {
+        error: function (request, status, error) {
           ajaxError(request, status, error);
-        }
+        },
       });
     }
 
@@ -147,16 +147,12 @@
       var tbody = $("#tbody");
       var tr = $("<tr>");
 
-      $.each(tradeCategory, function(index, result) {
+      $.each(tradeCategory, function (index, result) {
         if (result.tradeCode == item.traCategory) {
           $(tr).append(
             $("<td>")
               .text(result.tradeName)
-              .append(
-                $("<input>")
-                  .attr("type", "hidden")
-                  .val(item.traCode)
-              )
+              .append($("<input>").attr("type", "hidden").val(item.traCode))
           );
         }
       });
@@ -189,7 +185,7 @@
           .attr("onclick", "detailViewConnection(this)")
           .css({
             "background-color": "#17a2b8",
-            color: "white"
+            color: "white",
           })
           .text("보기")
       );
@@ -201,7 +197,7 @@
           .css({
             "background-color": "#17a2b8",
             color: "white",
-            "margin-left": "10px"
+            "margin-left": "10px",
           })
           .text("수정")
       );
@@ -213,7 +209,7 @@
           .css({
             "background-color": "#17a2b8",
             color: "white",
-            "margin-left": "10px"
+            "margin-left": "10px",
           })
           .text("삭제")
       );
@@ -225,7 +221,7 @@
           .css({
             "background-color": "#17a2b8",
             color: "white",
-            "margin-left": "10px"
+            "margin-left": "10px",
           })
           .text("견적서")
       );
@@ -237,71 +233,51 @@
 
     function deleteClient(item) {
       if (confirm("삭제하시겠습니까?")) {
-        var input = $(item)
-          .parent()
-          .parent()
-          .children()[0];
-        var index = $(input)
-          .children("input")
-          .val();
+        var input = $(item).parent().parent().children()[0];
+        var index = $(input).children("input").val();
         $.ajax({
           url: "/api/transaction/" + index,
           method: "DELETE",
           dataType: "text",
           contentType: "application/json; charset=UTF-8",
-          success: function(data) {
+          success: function (data) {
             if (data == "true") {
               alert("삭제되었습니다.");
             } else {
               alert("삭제 실패!");
             }
           },
-          erorr: function(request, status, error) {
+          erorr: function (request, status, error) {
             ajaxError(request, status, error);
           },
-          beforeSend: function() {
+          beforeSend: function () {
             loadingDisplayOn();
           },
-          complete: function() {
+          complete: function () {
             loadingDisplayOff();
             $(location).attr("href", $(location).attr("href"));
-          }
+          },
         });
       }
     }
 
     function detailViewConnection(item) {
-      var input = $(item)
-        .parent()
-        .parent()
-        .children()[0];
-      var index = $(input)
-        .children("input")
-        .val();
+      var input = $(item).parent().parent().children()[0];
+      var index = $(input).children("input").val();
       sessionStorage.setItem("index", index);
       $(location).attr("href", "/erp/TradeDetailView.html");
     }
 
     function estimateConnection(item) {
-      var input = $(item)
-        .parent()
-        .parent()
-        .children()[0];
-      var index = $(input)
-        .children("input")
-        .val();
+      var input = $(item).parent().parent().children()[0];
+      var index = $(input).children("input").val();
       sessionStorage.setItem("index", index);
       window.open("/erp/Estimate.htm", "_blank");
     }
 
     function updasteViewConnection(item) {
-      var input = $(item)
-        .parent()
-        .parent()
-        .children()[0];
-      var index = $(input)
-        .children("input")
-        .val();
+      var input = $(item).parent().parent().children()[0];
+      var index = $(input).children("input").val();
       sessionStorage.setItem("index", index);
       $(location).attr("href", "/erp/UpdateTrade.html");
     }
@@ -314,12 +290,12 @@
         contentType: "application/json; charset=UTF-8",
         async: false,
         result: {},
-        success: function(data) {
+        success: function (data) {
           obj.result = data;
         },
-        error: function(request, status, error) {
+        error: function (request, status, error) {
           ajaxError(request, status, error);
-        }
+        },
       };
       $.ajax(obj);
       return obj.result;
