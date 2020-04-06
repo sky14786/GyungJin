@@ -6,8 +6,8 @@
   text-align: left !important;
   padding: 10px !important;
 }
-.navbar {
-  grid-area: navbar;
+.menu {
+  grid-area: menu;
   display: grid;
   grid-template-areas: "nav1 nav2 nav3 nav4";
   grid-gap: 5px;
@@ -28,14 +28,28 @@
   margin-bottom: 20px;
 }
 
-.footer {
+.foot {
   grid-area: footer;
   border: solid 1px black;
 }
 
-.main > div {
-  border: solid 1px black;
+.gallery {
+  padding: 5px;
+  text-align: center;
+  font-size: 15px;
 }
+.gallery > img {
+  border: 1px solid black;
+}
+
+.content_gallery {
+  border: solid 1px black;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-areas: "gallery gallery gallery gallery";
+  padding: 10px;
+}
+
 .content1 {
   grid-area: content1;
   text-align: left !important;
@@ -61,7 +75,7 @@
 .nav4 {
   grid-area: nav4;
 }
-.navbar > div {
+.menu > div {
   /* border: solid black 1px; */
   /* background-color: #c99d5e; */
   padding: 15px;
@@ -71,7 +85,7 @@
   display: grid;
   grid-template-areas:
     "title"
-    "navbar"
+    "menu"
     "banner"
     "main"
     "footer";
@@ -87,11 +101,13 @@
   padding: 30px 0;
   font-size: 20px;
 }
-
+.content_div {
+  border: solid 1px black;
+}
 @media (max-width: 768px) {
-  .navbar {
+  .menu {
     color: white;
-    grid-area: navbar;
+    grid-area: menu;
     display: grid;
     grid-template-areas:
       "nav1 nav2"
@@ -103,7 +119,7 @@
     display: grid;
     grid-template-areas:
       "title"
-      "navbar"
+      "menu"
       "banner"
       "main"
       "footer";

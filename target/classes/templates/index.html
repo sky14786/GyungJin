@@ -7,35 +7,132 @@
       href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap"
       rel="stylesheet"
     />
-    <link href="../css/index.css?ver=2020040701" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link href="../css/index.css?ver=2020040708" rel="stylesheet" />
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
   </head>
   <body>
     <div class="grid-container">
       <div class="title"><h1>경진</h1></div>
-      <div class="navbar">
+      <div class="menu">
         <div class="nav1">● 회사소개</div>
         <div class="nav2">● 제품소개</div>
         <div class="nav3">● nav3</div>
         <div class="nav4">● 인테리어사례</div>
       </div>
-      <div class="banner">
-        <img src="../images/2_banner.jpg" height="400px" width="100%" />
+      <!-- <div class="banner"> -->
+      <!-- <img src="../images/1_banner.jpg" height="400px" width="100%" /> -->
+      <div id="myCarousel" class="banner carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+
+        <!-- The slideshow -->
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img
+              src="../images/1_banner.jpg"
+              alt="Los Angeles"
+              width="100%"
+              height="500px"
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="../images/1_banner.jpg"
+              alt="Los Angeles"
+              width="100%"
+              height="500px"
+            />
+          </div>
+          <div class="carousel-item">
+            <img
+              src="../images/1_banner.jpg"
+              alt="Los Angeles"
+              width="100%"
+              height="500px"
+            />
+          </div>
+        </div>
+
+        <!-- Left and right controls -->
+        <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </a>
+        <ul
+          class="carousel-indicators"
+          style="
+            bottom: -9px;
+            width: 100%;
+            background: #d4b78e;
+            position: initial;
+            margin: 0;
+          "
+        >
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ul>
+        <!-- </div> -->
       </div>
       <div class="main">
         <div class="content1">
-          <h5 style="margin: 0;">● 공지사항</h5>
+          <h5 style="margin: 0;">
+            <span class="material-icons">eco</span> 공지사항
+          </h5>
           <hr style="margin: 5px 0; border-color: gray;" />
+          <div class="content_div">컨텐츠</div>
         </div>
         <div class="content2">
-          <h5 style="margin: 0;">● 제품소개</h5>
+          <h5 style="margin: 0;">
+            <span class="material-icons">eco</span>제품소개
+          </h5>
           <hr style="margin: 5px 0; border-color: gray;" />
+          <div class="content_div">컨텐츠</div>
         </div>
         <div class="content3">
-          <h5 style="margin: 0;">● 사례</h5>
+          <h5 style="margin: 0;">
+            <span class="material-icons">eco</span> 사례
+          </h5>
           <hr style="margin: 5px 0; border-color: gray;" />
+          <div class="content_gallery">
+            <div class="gallery">
+              <img src="../images/loading.gif" width="120px" />
+              <br />이미지제목
+            </div>
+            <div class="gallery">
+              <img src="../images/loading.gif" width="120px" />
+              <br />이미지제목
+            </div>
+            <div class="gallery">
+              <img src="../images/loading.gif" width="120px" />
+              <br />이미지제목
+            </div>
+            <div class="gallery">
+              <img src="../images/loading.gif" width="120px" />
+              <br />이미지제목
+            </div>
+          </div>
         </div>
       </div>
-      <div class="footer">Footer</div>
+      <div class="foot">Footer</div>
     </div>
   </body>
 </html>
