@@ -1,0 +1,115 @@
+.banner {
+  grid-area: banner;
+}
+.title {
+  grid-area: title;
+  text-align: left !important;
+  padding: 10px !important;
+}
+.navbar {
+  grid-area: navbar;
+  display: grid;
+  grid-template-areas: "nav1 nav2 nav3 nav4";
+  grid-gap: 5px;
+  height: 60px;
+  padding: 0 !important;
+  color: white;
+  background-color: #c99d5e;
+  /* border: solid 1px black; */
+}
+.main {
+  grid-area: main;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-areas:
+    "content1 content2"
+    "content3 content3";
+  padding: 0 !important;
+  margin-bottom: 20px;
+}
+
+.footer {
+  grid-area: footer;
+  border: solid 1px black;
+}
+
+.main > div {
+  border: solid 1px black;
+}
+.content1 {
+  grid-area: content1;
+  text-align: left !important;
+}
+.content2 {
+  grid-area: content2;
+  text-align: left !important;
+}
+.content3 {
+  grid-area: content3;
+  text-align: left !important;
+}
+
+.nav1 {
+  grid-area: nav1;
+}
+.nav2 {
+  grid-area: nav2;
+}
+.nav3 {
+  grid-area: nav3;
+}
+.nav4 {
+  grid-area: nav4;
+}
+.navbar > div {
+  /* border: solid black 1px; */
+  /* background-color: #c99d5e; */
+  padding: 15px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    "title"
+    "navbar"
+    "banner"
+    "main"
+    "footer";
+  /* grid-gap: 5px; */
+  /* background-color: gray; */
+  padding: 100px;
+  font-family: "Noto sans KR";
+}
+
+.grid-container > div {
+  /* background-color: rgba(255, 255, 255, 0.8); */
+  text-align: center;
+  padding: 30px 0;
+  font-size: 20px;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    color: white;
+    grid-area: navbar;
+    display: grid;
+    grid-template-areas:
+      "nav1 nav2"
+      "nav3 nav4";
+    grid-gap: 5px;
+    padding: 5px;
+  }
+  .grid-container {
+    display: grid;
+    grid-template-areas:
+      "title"
+      "navbar"
+      "banner"
+      "main"
+      "footer";
+    /* grid-gap: 5px; */
+    /* background-color: gray; */
+    padding: 10px;
+    font-family: "Noto sans KR";
+  }
+}
