@@ -27,7 +27,6 @@ public class TradeCategoryController {
 
 	@PostMapping(value = "/tradeCategory")
 	public boolean insert(@RequestBody TradeCategoryDTO tradeCategory) {
-		System.out.println(tradeCategory);
 		return tcService.insert(tradeCategory);
 	}
 }

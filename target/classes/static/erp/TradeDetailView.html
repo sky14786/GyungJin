@@ -22,8 +22,8 @@
   </head>
   <body>
     <script>
-      $(document).ready(function() {
-        $("#header").load("../common/header.html?ver=2020040301");
+      $(document).ready(function () {
+        $("#header").load("../common/header.html?ver=2020040501");
       });
     </script>
 
@@ -33,9 +33,9 @@
       }
     </style>
     <div id="header"></div>
-    <div class="container" style="margin-top: 1%">
+    <div class="container" style="margin-top: 1%;">
       <div>
-        <div style="font-size: 40px;margin-bottom: 20px;text-align: right;">
+        <div style="font-size: 40px; margin-bottom: 20px; text-align: right;">
           <span class="text-dark">시공일지 등록</span>
         </div>
         <div class="input-group mb-4">
@@ -209,10 +209,10 @@
             </select>
           </div>
         </div>
-        <div style="text-align: center;padding: 25px;">
+        <div style="text-align: center; padding: 25px;">
           <button
-            class="btn  btn-info"
-            style="width: 100px;height: 50px;font-size: 25px;"
+            class="btn btn-info"
+            style="width: 100px; height: 50px; font-size: 25px;"
             onclick="history.back();"
           >
             뒤로
@@ -225,7 +225,7 @@
     var tradeCategory;
     var estimate = {};
     var materials = new Array();
-    $(document).ready(function() {
+    $(document).ready(function () {
       dateSetting();
       tradeCategory = loadTradeCategory();
       createTradeCategory();
@@ -238,12 +238,12 @@
         contentType: "application/json; charset=UTF-8",
         dataType: "json",
         async: "false",
-        success: function(data) {
+        success: function (data) {
           createMaterial(data, count);
         },
-        error: function(request, status, error) {
+        error: function (request, status, error) {
           ajaxError(request, status, error);
-        }
+        },
       });
     }
     function loadEstimate(estCode) {
@@ -253,7 +253,7 @@
         contentType: "application/json; charset=UTF-8",
         dataType: "json",
         async: "false",
-        success: function(data) {
+        success: function (data) {
           console.log(data);
           estimate = data;
           for (var i = 1; i <= 10; i++) {
@@ -262,9 +262,9 @@
             }
           }
         },
-        error: function(request, status, error) {
+        error: function (request, status, error) {
           ajaxError(request, status, error);
-        }
+        },
       });
     }
     function loadTransactionData() {
@@ -275,13 +275,13 @@
         contentType: "application/json; charset=UTF-8",
         dataType: "json",
         async: "false",
-        success: function(data) {
+        success: function (data) {
           settingTransactionData(data);
           loadEstimate(data.traEstimate);
         },
-        error: function(request, status, error) {
+        error: function (request, status, error) {
           ajaxError(request, status, error);
-        }
+        },
       });
     }
 
@@ -298,7 +298,7 @@
       $("#traMemo").text(item.traMemo);
       $("#traStatus").val(item.traStatus);
 
-      $.each(tradeCategory, function(index, temp) {
+      $.each(tradeCategory, function (index, temp) {
         if (temp.tradeCode == item.traCategory) {
           $("#traCategory").val(temp.tradeName);
         }
@@ -353,23 +353,21 @@
         contentType: "application/json; charset=UTF-8",
         async: false,
         result: {},
-        success: function(data) {
+        success: function (data) {
           obj.result = data;
         },
-        error: function(request, status, error) {
+        error: function (request, status, error) {
           ajaxError(request, status, error);
-        }
+        },
       };
       $.ajax(obj);
       return obj.result;
     }
 
     function createTradeCategory() {
-      $.each(tradeCategory, function(index, item) {
+      $.each(tradeCategory, function (index, item) {
         $("#traCategory").append(
-          $("<option>")
-            .attr("name", item.tradeCode)
-            .text(item.tradeName)
+          $("<option>").attr("name", item.tradeCode).text(item.tradeName)
         );
       });
     }
@@ -378,9 +376,7 @@
       var div = $("<div>").attr("class", "input-group-prepend mb-4");
 
       $(div).append(
-        $("<span>")
-          .attr("class", "input-group-text")
-          .text("사이즈")
+        $("<span>").attr("class", "input-group-text").text("사이즈")
       );
       $(div).append(
         $("<input>")
@@ -391,9 +387,7 @@
       );
 
       $(div).append(
-        $("<span>")
-          .attr("class", "input-group-text")
-          .text("자재명")
+        $("<span>").attr("class", "input-group-text").text("자재명")
       );
       $(div).append(
         $("<input>")
@@ -403,11 +397,7 @@
           .val(item.matName)
       );
 
-      $(div).append(
-        $("<span>")
-          .attr("class", "input-group-text")
-          .text("원가")
-      );
+      $(div).append($("<span>").attr("class", "input-group-text").text("원가"));
       $(div).append(
         $("<input>")
           .attr("class", "form-control mr-4")
@@ -417,9 +407,7 @@
       );
 
       $(div).append(
-        $("<span>")
-          .attr("class", "input-group-text")
-          .text("공급가액")
+        $("<span>").attr("class", "input-group-text").text("공급가액")
       );
       $(div).append(
         $("<input>")
@@ -429,11 +417,7 @@
           .val(item.matPrice)
       );
 
-      $(div).append(
-        $("<span>")
-          .attr("class", "input-group-text")
-          .text("수량")
-      );
+      $(div).append($("<span>").attr("class", "input-group-text").text("수량"));
       $(div).append(
         $("<input>")
           .attr("class", "form-control mr-4")

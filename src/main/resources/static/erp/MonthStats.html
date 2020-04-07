@@ -9,8 +9,8 @@
   </head>
   <body>
     <script>
-      $(document).ready(function() {
-        $("#header").load("../common/header.html?ver=2020040301");
+      $(document).ready(function () {
+        $("#header").load("../common/header.html?ver=2020040501");
       });
     </script>
 
@@ -21,10 +21,10 @@
     </style>
     <div id="header"></div>
     <div class="container-fluid">
-      <div style="padding: 15px 100px;text-align: center;">
+      <div style="padding: 15px 100px; text-align: center;">
         <span style="font-size: 40px;" id="titleText"></span>
 
-        <select id="year" style="width: 100px;margin-left: 1000px;">
+        <select id="year" style="width: 100px; margin-left: 1000px;">
           <option>선택안함</option>
         </select>
         <span class="mr-3 mt-1">년</span>
@@ -44,7 +44,7 @@
       </div>
       <table class="table">
         <thead class="thead-light">
-          <tr style="text-align:center;">
+          <tr style="text-align: center;">
             <th>원금</th>
             <th>세금</th>
             <th>매출</th>
@@ -55,7 +55,7 @@
       </table>
       <table class="table">
         <thead class="thead-light">
-          <tr style="text-align:center;">
+          <tr style="text-align: center;">
             <th>분류</th>
             <th>주소</th>
             <th>고객명</th>
@@ -71,13 +71,13 @@
       <ul
         id="pageBar"
         class="pagination justify-content-center"
-        style="margin:20px 0"
+        style="margin: 20px 0;"
       ></ul>
     </div>
   </body>
   <script>
     var tradeCategory;
-    $(document).ready(function() {
+    $(document).ready(function () {
       dateSetting();
       loadMonthStats(new Date().getFullYear(), new Date().getMonth() + 1, 1);
     });
@@ -99,12 +99,12 @@
         method: "GET",
         dataType: "json",
         contentType: "application/json; charset=UTF-8",
-        success: function(data) {
+        success: function (data) {
           if (data.length != 1) {
             var count = data[data.length - 1].count;
             tradeCategory = loadTradeCategory();
             statSetting(data[data.length - 2]);
-            $.each(data, function(index, item) {
+            $.each(data, function (index, item) {
               if (index < data.length - 2) {
                 createRow(item);
               }
@@ -114,9 +114,9 @@
             alert("검색 결과가 없습니다.");
           }
         },
-        error: function(request, status, error) {
+        error: function (request, status, error) {
           ajaxError(request, status, error);
-        }
+        },
       });
     }
 
@@ -241,16 +241,12 @@
       var tbody = $("#rowTbody");
       var tr = $("<tr>");
 
-      $.each(tradeCategory, function(index, result) {
+      $.each(tradeCategory, function (index, result) {
         if (result.tradeCode == item.traCategory) {
           $(tr).append(
             $("<td>")
               .text(result.tradeName)
-              .append(
-                $("<input>")
-                  .attr("type", "hidden")
-                  .val(item.traCode)
-              )
+              .append($("<input>").attr("type", "hidden").val(item.traCode))
           );
         }
       });
@@ -283,7 +279,7 @@
           .attr("onclick", "detailViewConnection(this)")
           .css({
             "background-color": "#17a2b8",
-            color: "white"
+            color: "white",
           })
           .text("보기")
       );
@@ -295,7 +291,7 @@
           .css({
             "background-color": "#17a2b8",
             color: "white",
-            "margin-left": "10px"
+            "margin-left": "10px",
           })
           .text("수정")
       );
@@ -307,7 +303,7 @@
           .css({
             "background-color": "#17a2b8",
             color: "white",
-            "margin-left": "10px"
+            "margin-left": "10px",
           })
           .text("삭제")
       );
@@ -338,71 +334,56 @@
         contentType: "application/json; charset=UTF-8",
         async: false,
         result: {},
-        success: function(data) {
+        success: function (data) {
           obj.result = data;
         },
-        error: function(request, status, error) {
+        error: function (request, status, error) {
           ajaxError(request, status, error);
-        }
+        },
       };
       $.ajax(obj);
       return obj.result;
     }
     function deleteClient(item) {
       if (confirm("삭제하시겠습니까?")) {
-        var input = $(item)
-          .parent()
-          .parent()
-          .children()[0];
-        var index = $(input)
-          .children("input")
-          .val();
+        var input = $(item).parent().parent().children()[0];
+        var index = $(input).children("input").val();
         $.ajax({
           url: "/api/transaction/" + index,
           method: "DELETE",
           dataType: "text",
           contentType: "application/json; charset=UTF-8",
-          success: function(data) {
+          success: function (data) {
             if (data == "true") {
               alert("삭제되었습니다.");
             } else {
               alert("삭제 실패!");
             }
           },
-          erorr: function(request, status, error) {
+          erorr: function (request, status, error) {
             ajaxError(request, status, error);
           },
-          beforeSend: function() {
+          beforeSend: function () {
             loadingDisplayOn();
           },
-          complete: function() {
+          complete: function () {
             loadingDisplayOff();
             $(location).attr("href", $(location).attr("href"));
-          }
+          },
         });
       }
     }
 
     function detailViewConnection(item) {
-      var input = $(item)
-        .parent()
-        .parent()
-        .children()[0];
-      var index = $(input)
-        .children("input")
-        .val();
+      var input = $(item).parent().parent().children()[0];
+      var index = $(input).children("input").val();
       sessionStorage.setItem("index", index);
       $(location).attr("href", "/erp/TradeDetailView.html");
     }
 
     function updasteViewConnection(item) {
-      var input = $(item)
-        .parent()
-        .parent()
-        .children()[0];
-      var index = $(input)
-        .children("input")
-        .val();
+      var input = $(item).parent().parent().children()[0];
+      var index = $(input).children("input").val();
       sessionStorage.setItem("index", index);
       $(location).attr("href", "/erp/UpdateTrade.html");
     }
