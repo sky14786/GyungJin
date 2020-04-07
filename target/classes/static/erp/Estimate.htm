@@ -139,7 +139,7 @@ div.HStyle11
 	<P CLASS=HStyle0>&nbsp;</P>
 	</TD>
 	<TD rowspan="3" colspan="3" valign="middle" style='width:204;height:46;border-left:none;border-right:none;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0><SPAN STYLE='font-family:"굴림"' id="traAddr"></SPAN>&nbsp;&nbsp;<SPAN STYLE='font-family:"굴림"' id="traAddrDetail"></SPAN>&nbsp;&nbsp;<SPAN STYLE='font-family:"굴림"' id="traCustomer"></SPAN></P>
+	<P CLASS=HStyle0><SPAN STYLE='font-family:"굴림"' id="traName"></SPAN></P>
 	</TD>
 	<TD rowspan="3" valign="middle" style='width:49;height:46;border-left:none;border-right:none;border-top:none;border-bottom:none;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
 	<P CLASS=HStyle0 STYLE='text-align:center;'><SPAN STYLE='font-family:"굴림";font-weight:"bold"'>귀하</SPAN></P>
@@ -799,9 +799,9 @@ div.HStyle11
 
     function settingTransactionData(item) {
       $("#traName").text(item.traName);
-      $("#traCustomer").text(item.traCustomer);
+      /* $("#traCustomer").text(item.traCustomer);
       $("#traAddr").text(item.traAddr);
-      $("#traAddrDetail").text(item.traAddrDetail);
+      $("#traAddrDetail").text(item.traAddrDetail); */
     
       $("#traCode").text(item.traCode);
 

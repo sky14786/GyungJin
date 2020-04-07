@@ -236,8 +236,8 @@
             Number(item.value) * Number($("input[name=matCost]")[index].value);
           priceSum +=
             Number(item.value) * Number($("input[name=matPrice]")[index].value);
-          tax += priceSum * 0.1;
         });
+        var tax = priceSum * 0.1;
         $("#traPrice").val(Number(priceSum + tax).toLocaleString() + "원");
         $("#traCost").val(Number(costSum).toLocaleString() + "원");
         $("#traTax").val(Number(tax).toLocaleString() + "원");
@@ -337,14 +337,15 @@
       $("input[name=quantity]").change(function () {
         var costSum = 0;
         var priceSum = 0;
-        var tax = 0;
+
         $.each($("input[name=quantity]"), function (index, item) {
           costSum +=
             Number(item.value) * Number($("input[name=matCost]")[index].value);
           priceSum +=
             Number(item.value) * Number($("input[name=matPrice]")[index].value);
-          tax += priceSum * 0.1;
         });
+        var tax = priceSum * 0.1;
+
         $("#traPrice").val(Number(priceSum + tax).toLocaleString() + "원");
         $("#traCost").val(Number(costSum).toLocaleString() + "원");
         $("#traTax").val(Number(tax).toLocaleString() + "원");
