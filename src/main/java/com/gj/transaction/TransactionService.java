@@ -16,5 +16,5 @@ public interface TransactionService {
 
 	public boolean update(TransactionDTO transaction, int index);
 
-	public String monthStat(int year, int month, int page) throws JsonProcessingException;
+	public String monthStat(int year, String month, int page) throws JsonProcessingException;
 }

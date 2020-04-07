@@ -20,10 +20,10 @@ public class StatController {
 
 	@GetMapping("/stat")
 	public String findAll(@RequestParam(value = "year", defaultValue = "-1") int year,
-			@RequestParam(value = "month", defaultValue = "-1") int month,
+			@RequestParam(value = "month", defaultValue = "-1") String month,
 			@RequestParam(value = "page", defaultValue = "1") int page) throws JsonProcessingException {
 		String result = "";
-		if (year != -1 && month != -1) {
+		if (year != -1 && !month.equals("-1") ) {
 			result = transactionService.monthStat(year, month, page);
 		}
 		return result;

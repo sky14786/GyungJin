@@ -36,7 +36,7 @@
     <div class="container" style="margin-top: 1%;">
       <div>
         <div style="font-size: 40px; margin-bottom: 20px; text-align: right;">
-          <span class="text-dark">시공일지 등록</span>
+          <span class="text-dark">시공일지 보기</span>
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
@@ -66,13 +66,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text">고객명</span>
           </div>
-          <input
-            type="text"
-            class="form-control"
-            placeholder="홍길동"
-            id="traCustomer"
-            readonly
-          />
+          <input type="text" class="form-control" id="traCustomer" readonly />
         </div>
         <div class="input-group mb-4">
           <div class="input-group-prepend">
@@ -137,7 +131,7 @@
             readonly
           />
         </div>
-        <div class="input-group mb-4">
+        <!-- <div class="input-group mb-4">
           <div class="input-group-prepend">
             <span class="input-group-text mr-1">방문일자</span>
             <select
@@ -187,8 +181,8 @@
             </select>
             <span class="mr-3 mt-1">분</span>
           </div>
-        </div>
-        <div class="form-group mb-4">
+        </div> -->
+        <!-- <div class="form-group mb-4">
           <label for="comment">메모:</label>
           <textarea
             class="form-control"
@@ -196,13 +190,13 @@
             id="traMemo"
             readonly
           ></textarea>
-        </div>
+        </div> -->
         <div class="input-group mb-4">
           <div class="input-group-prepend">
-            <span class="input-group-text mr-1">거래상태</span>
+            <!-- <span class="input-group-text mr-1">거래상태</span>
             <select class="form-control mr-5" id="traStatus" readonly>
               <option>선택안함</option>
-            </select>
+            </select> -->
             <span class="input-group-text mr-1">분류</span>
             <select class="form-control" id="traCategory" readonly>
               <option>선택안함</option>
@@ -226,7 +220,7 @@
     var estimate = {};
     var materials = new Array();
     $(document).ready(function () {
-      dateSetting();
+      // dateSetting();
       tradeCategory = loadTradeCategory();
       createTradeCategory();
       loadTransactionData();
@@ -295,8 +289,8 @@
       $("#traTax").val(item.traTax.toLocaleString() + "원");
       $("#traPrice").val(item.traPrice.toLocaleString() + "원");
       $("#traMaterial").text(item.traMaterial);
-      $("#traMemo").text(item.traMemo);
-      $("#traStatus").val(item.traStatus);
+      // $("#traMemo").text(item.traMemo);
+      // $("#traStatus").val(item.traStatus);
 
       $.each(tradeCategory, function (index, temp) {
         if (temp.tradeCode == item.traCategory) {
@@ -304,46 +298,46 @@
         }
       });
 
-      var visitDate = item.traVisitDate.split(" ");
-      $("#year").val(visitDate[0].substr(0, visitDate[0].length - 1));
-      $("#month").val(visitDate[1].substr(0, visitDate[1].length - 1));
-      $("#day").val(visitDate[2].substr(0, visitDate[2].length - 1));
-      $("#hour").val(visitDate[3].substr(0, visitDate[3].length - 1));
-      $("#minute").val(visitDate[4].substr(0, visitDate[4].length - 1));
+      // var visitDate = item.traVisitDate.split(" ");
+      // $("#year").val(visitDate[0].substr(0, visitDate[0].length - 1));
+      // $("#month").val(visitDate[1].substr(0, visitDate[1].length - 1));
+      // $("#day").val(visitDate[2].substr(0, visitDate[2].length - 1));
+      // $("#hour").val(visitDate[3].substr(0, visitDate[3].length - 1));
+      // $("#minute").val(visitDate[4].substr(0, visitDate[4].length - 1));
     }
 
-    function dateSetting() {
-      for (var i = 0; i < 3; i++) {
-        var option = $("<option>");
-        $(option).text(i + 2020);
-        $("#year").append(option);
-      }
+    // function dateSetting() {
+    //   for (var i = 0; i < 3; i++) {
+    //     var option = $("<option>");
+    //     $(option).text(i + 2020);
+    //     $("#year").append(option);
+    //   }
 
-      for (var i = 0; i < 12; i++) {
-        var option = $("<option>");
-        $(option).text(i + 1);
-        $("#month").append(option);
-      }
+    //   for (var i = 0; i < 12; i++) {
+    //     var option = $("<option>");
+    //     $(option).text(i + 1);
+    //     $("#month").append(option);
+    //   }
 
-      for (var i = 0; i < 24; i++) {
-        var option = $("<option>");
-        $(option).text(i + 1);
-        $("#hour").append(option);
-      }
-      for (var i = 0; i < 31; i++) {
-        var option = $("<option>");
-        $(option).text(i + 1);
-        $("#day").append(option);
-      }
-      for (var i = 0; i < 61; i++) {
-        var option = $("<option>");
-        $(option).text(i);
-        $("#minute").append(option);
-      }
+    //   for (var i = 0; i < 24; i++) {
+    //     var option = $("<option>");
+    //     $(option).text(i + 1);
+    //     $("#hour").append(option);
+    //   }
+    //   for (var i = 0; i < 31; i++) {
+    //     var option = $("<option>");
+    //     $(option).text(i + 1);
+    //     $("#day").append(option);
+    //   }
+    //   for (var i = 0; i < 61; i++) {
+    //     var option = $("<option>");
+    //     $(option).text(i);
+    //     $("#minute").append(option);
+    //   }
 
-      $("#traStatus").append($("<option>").text("예약"));
-      $("#traStatus").append($("<option>").text("완료"));
-    }
+    //   $("#traStatus").append($("<option>").text("예약"));
+    //   $("#traStatus").append($("<option>").text("완료"));
+    // }
 
     function loadTradeCategory() {
       var obj = {
@@ -383,6 +377,7 @@
           .attr("class", "form-control mr-4")
           .attr("type", "text")
           .attr("name", "matSize")
+          .attr("readonly", "true")
           .val(item.matSize)
       );
 
@@ -394,6 +389,7 @@
           .attr("class", "form-control mr-4")
           .attr("type", "text")
           .attr("name", "matName")
+          .attr("readonly", "true")
           .val(item.matName)
       );
 
@@ -403,6 +399,7 @@
           .attr("class", "form-control mr-4")
           .attr("type", "text")
           .attr("name", "matCost")
+          .attr("readonly", "true")
           .val(item.matCost)
       );
 
@@ -414,6 +411,7 @@
           .attr("class", "form-control mr-4")
           .attr("type", "text")
           .attr("name", "matPrice")
+          .attr("readonly", "true")
           .val(item.matPrice)
       );
 
@@ -423,6 +421,7 @@
           .attr("class", "form-control mr-4")
           .attr("type", "text")
           .attr("name", "quantity")
+          .attr("readonly", "true")
           .val(count)
       );
 

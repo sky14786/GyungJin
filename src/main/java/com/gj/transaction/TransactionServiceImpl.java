@@ -81,8 +81,8 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public String monthStat(int year, int month, int page) throws JsonProcessingException {
-		String parameter = year + "년 " + month + "월";
+	public String monthStat(int year, String month, int page) throws JsonProcessingException {
+		String parameter = year+"-"+ month;
 		Map<String, Integer> temp = transactionMapper.monthStat(parameter);
 		ObjectMapper mapper = new ObjectMapper();
 		String result = "";

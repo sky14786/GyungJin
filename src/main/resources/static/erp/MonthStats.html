@@ -57,10 +57,10 @@
         <thead class="thead-light">
           <tr style="text-align: center;">
             <th>분류</th>
+            <th>거래명</th>
             <th>주소</th>
             <th>고객명</th>
             <th>연락처</th>
-            <th>방문일</th>
             <th>금액</th>
             <th>등록일</th>
             <th>상세정보</th>
@@ -79,7 +79,11 @@
     var tradeCategory;
     $(document).ready(function () {
       dateSetting();
-      loadMonthStats(new Date().getFullYear(), new Date().getMonth() + 1, 1);
+      loadMonthStats(
+        new Date().getFullYear(),
+        "0" + (new Date().getMonth() + 1),
+        1
+      );
     });
 
     function searchMonthStat() {
@@ -250,10 +254,21 @@
           );
         }
       });
-      $(tr).append($("<td>").text(item.traAddr + " / " + item.traAddrDetail));
-      $(tr).append($("<td>").text(item.traCustomer));
+      $(tr).append($("<td>").text(item.traName));
+
+      if (item.traAddr != "") {
+        $(tr).append($("<td>").text(item.traAddr + " / " + item.traAddrDetail));
+      } else {
+        $(tr).append($("<td>").text("없음"));
+      }
+
+      if (item.traCustomer != "") {
+        $(tr).append($("<td>").text(item.traCustomer));
+      } else {
+        $(tr).append($("<td>").text("없음"));
+      }
       $(tr).append($("<td>").text(item.traTel));
-      $(tr).append($("<td>").text(item.traVisitDate));
+      // $(tr).append($("<td>").text(item.traVisitDate));
       $(tr).append($("<td>").text(item.traPrice.toLocaleString() + "원"));
 
       $(tr).append(
@@ -322,7 +337,12 @@
 
       for (var i = 0; i < 12; i++) {
         var option = $("<option>");
-        $(option).text(i + 1);
+        if (i < 9) {
+          $(option).text("0" + (i + 1));
+        } else {
+          $(option).text(i + 1);
+        }
+
         $("#month").append(option);
       }
     }
