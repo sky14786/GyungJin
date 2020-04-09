@@ -122,6 +122,9 @@ a:active {
   color: white;
   text-decoration: none;
 }
+g {
+  font-size: 10px;
+}
 
 @media (max-width: 768px) {
   .menu {
