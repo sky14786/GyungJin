@@ -22,8 +22,8 @@
   display: grid;
   grid-gap: 20px;
   grid-template-areas:
-    "content1 content2"
-    "content3 content3";
+    "content2"
+    "content3";
   padding: 0 !important;
   margin-bottom: 20px;
   color: #464646;
@@ -49,6 +49,9 @@
   grid-gap: 10px;
   grid-template-areas: "gallery gallery gallery gallery";
   padding: 10px;
+}
+
+.content_div {
 }
 
 .content1 {
@@ -128,14 +131,23 @@ g {
 
 @media (max-width: 768px) {
   .menu {
-    color: white;
     grid-area: menu;
     display: grid;
     grid-template-areas:
       "nav1 nav2"
       "nav3 nav4";
-    grid-gap: 5px;
-    padding: 5px;
+    grid-gap: 0px;
+    height: 124px;
+    padding: 0 !important;
+    color: white;
+    background-color: #c99d5e !important;
+    /* border: solid 1px black; */
+    /* margin-bottom: 80px; */
+  }
+  .menu > div {
+    /* background-color: #c99d5e !important; */
+    font-size: 24px;
+    padding: 10px;
   }
   .grid-container {
     display: grid;
@@ -147,7 +159,64 @@ g {
       "footer";
     /* grid-gap: 5px; */
     /* background-color: gray; */
-    padding: 10px;
+    padding: 0px;
+    font-family: "Noto sans KR";
+  }
+  .content_gallery {
+    border: solid 1px black;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-areas:
+      "gallery gallery"
+      "gallery gallery";
+    padding: 5px;
+  }
+  .gallery > img {
+    width: 400px;
+    height: 150px;
+  }
+}
+@media (max-width: 1280px) {
+  .grid-container {
+    display: grid;
+    grid-template-areas:
+      "title"
+      "menu"
+      "banner"
+      "main"
+      "footer";
+    /* grid-gap: 5px; */
+    /* background-color: gray; */
+    padding: 0px;
+    font-family: "Noto sans KR";
+  }
+  .content_gallery {
+    border: solid 1px black;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-areas:
+      "gallery gallery"
+      "gallery gallery";
+    padding: 5px;
+  }
+  .gallery > img {
+    width: 400px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 1800px) {
+  .grid-container {
+    display: grid;
+    grid-template-areas:
+      "title"
+      "menu"
+      "banner"
+      "main"
+      "footer";
+    /* grid-gap: 5px; */
+    /* background-color: gray; */
+    padding: 0px;
     font-family: "Noto sans KR";
   }
 }

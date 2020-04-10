@@ -7,11 +7,13 @@
       href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link href="../css/index.css?ver=2020040905" rel="stylesheet" />
+    <link href="../css/index.css?ver=2020041001" rel="stylesheet" />
     <!-- Latest compiled and minified CSS -->
     <link
       rel="stylesheet"
@@ -106,20 +108,44 @@
         <!-- </div> -->
       </div>
       <div class="main">
-        <div class="content1">
+        <!-- <div class="content1" style="width: 600px;">
           <h5 style="margin: 0;">
             <span class="material-icons" style="vertical-align: middle;">eco</span> <span style="vertical-align: middle;">공지사항</span>
           </h5>
           <hr style="margin: 5px 0; border-color: gray;" />
-          <div class="content_div">컨텐츠</div>
-        </div>
+          <div class="content_div" style="padding: 5px 20px;">          
+           <ul style="font-size:15px;">
+             <li>공지사항1<span style="text-align: right;">2020.04.10</span></li>
+             <li>공지사항2</li>
+             <li>공지사항3</li>
+             <li>공지사항4</li>
+             <li>공지사항5</li>
+             <li>공지사항6</li>
+           </ul>
+          </div>
+        </div> -->
         <div class="content2">
           <h5 style="margin: 0;">
             <span class="material-icons" style="vertical-align: middle;">eco</span> <span style="vertical-align: middle;">제품소개</span>
           </h5>
           <hr style="margin: 5px 0; border-color: gray;" />
-          <div class="content_div">컨텐츠</div>
+          <div class="content_div">
+            <div class="swiper-container" style="width:1300px;">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                  <img src="../images/1_banner.jpg" width="450px" height="160px">
+                </div>
+                <div class="swiper-slide">
+                  <img src="../images/1_banner.jpg" width="450px" height="160px">
+                </div>
+                <div class="swiper-slide">
+                  <img src="../images/1_banner.jpg" width="450px" height="160px">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+
         <div class="content3">
           <h5 style="margin: 0;">
             <span class="material-icons" style="vertical-align: middle;">eco</span> <span style="vertical-align: middle;">인테리어사례</span>
@@ -148,4 +174,31 @@
       <div class="foot"><img src="../images/Footer.jpg" width="1670px" height="100px"></div>
     </div>
   </body>
+  <style>
+
+    .swiper-slide{
+      text-align : center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .swiper-slide img{
+      max-width: 100%;
+    }
+  </style>
+  <script>
+    new Swiper('.swiper-container',{
+      slidesPerView :5,
+      spaceBetween : 50,
+      slidesPerGroup : 5,
+      loopFillGroupwithBlank:false,
+      loop:true,
+      autoplay:{
+        delay:3000
+      }
+    });
+  </script>
 </html>
+
+
