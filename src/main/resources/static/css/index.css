@@ -129,7 +129,7 @@ g {
   font-size: 6px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1280px) {
   .menu {
     grid-area: menu;
     display: grid;
@@ -137,7 +137,7 @@ g {
       "nav1 nav2"
       "nav3 nav4";
     grid-gap: 0px;
-    height: 124px;
+    height: 140px;
     padding: 0 !important;
     color: white;
     background-color: #c99d5e !important;
@@ -145,8 +145,7 @@ g {
     /* margin-bottom: 80px; */
   }
   .menu > div {
-    /* background-color: #c99d5e !important; */
-    font-size: 24px;
+    font-size: 30px;
     padding: 10px;
   }
   .grid-container {
@@ -157,8 +156,6 @@ g {
       "banner"
       "main"
       "footer";
-    /* grid-gap: 5px; */
-    /* background-color: gray; */
     padding: 0px;
     font-family: "Noto sans KR";
   }
@@ -176,7 +173,7 @@ g {
     height: 150px;
   }
 }
-@media (max-width: 1280px) {
+@media (max-width: 768px) {
   .grid-container {
     display: grid;
     grid-template-areas:
@@ -185,8 +182,6 @@ g {
       "banner"
       "main"
       "footer";
-    /* grid-gap: 5px; */
-    /* background-color: gray; */
     padding: 0px;
     font-family: "Noto sans KR";
   }
@@ -202,6 +197,26 @@ g {
   .gallery > img {
     width: 400px;
     height: 150px;
+  }
+  .menu {
+    grid-area: menu;
+    display: grid;
+    grid-template-areas:
+      "nav1"
+      "nav2"
+      "nav3"
+      "nav4";
+    grid-gap: 0px;
+    height: 350px;
+    padding: 0 !important;
+    color: white;
+    background-color: #c99d5e !important;
+  }
+  .menu > div {
+    font-size: 40px;
+    padding: 10px;
+    text-align: left;
+    margin-left: 30px;
   }
 }
 
@@ -214,8 +229,6 @@ g {
       "banner"
       "main"
       "footer";
-    /* grid-gap: 5px; */
-    /* background-color: gray; */
     padding: 0px;
     font-family: "Noto sans KR";
   }
