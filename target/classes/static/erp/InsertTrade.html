@@ -250,7 +250,7 @@
     }
 
     function addMaterial(item) {
-      if (materialCount < 10) {
+      if (materialCount < 20) {
         var div = $("<div>").attr("class", "input-group-prepend mb-4");
 
         $(div).append(
@@ -321,7 +321,7 @@
         $(item).parent().parent().append(div);
         materialCount++;
       } else {
-        alert("자재는 10개 까지 입력가능합니다.");
+        alert("자재는 20개 까지 입력가능합니다.");
       }
       priceFormatting();
     }

@@ -78,7 +78,88 @@
 		</choose>
 		<choose>
 			<when test="quantity10 != 0">
-				,#{material10},#{quantity10}
+				#{material10},#{quantity10},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose>
+		
+		<choose>
+			<when test="quantity11 != 0">
+				#{material11},#{quantity11},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose>
+			<choose>
+			<when test="quantity12 != 0">
+				#{material12},#{quantity12},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose>
+			<choose>
+			<when test="quantity13 != 0">
+				#{material13},#{quantity13},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose>
+			<choose>
+			<when test="quantity14 != 0">
+				#{material14},#{quantity14},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose>
+			<choose>
+			<when test="quantity15 != 0">
+				#{material15},#{quantity15},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose>
+			<choose>
+			<when test="quantity16 != 0">
+				#{material16},#{quantity16},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose>
+			<choose>
+			<when test="quantity17 != 0">
+				#{material17},#{quantity17},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose>
+			<choose>
+			<when test="quantity18 != 0">
+				#{material18},#{quantity18},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose>
+			<choose>
+			<when test="quantity19 != 0">
+				#{material19},#{quantity19},
+			</when>
+			<otherwise>
+				NULL,NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity20 != 0">
+				,#{material20},#{quantity20}
 			</when>
 			<otherwise>
 				NULL,NULL
@@ -172,11 +253,90 @@
 		</choose>
 		<choose>
 			<when test="quantity10 != 0">
-				MATERIAL_10 = #{material10}, QUANTITY_10 =
-				#{quantity10}
+				MATERIAL_10 = #{material10}, QUANTITY_10 = #{quantity10},
 			</when>
 			<otherwise>
-				MATERIAL_10 = NULL,QUANTITY_10 = NULL
+				MATERIAL_10 = NULL,QUANTITY_10 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity11 != 0">
+				MATERIAL_11 = #{material11}, QUANTITY_11 = #{quantity11},
+			</when>
+			<otherwise>
+				MATERIAL_11 = NULL,QUANTITY_11 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity12 != 0">
+				MATERIAL_12 = #{material12}, QUANTITY_12 = #{quantity12},
+			</when>
+			<otherwise>
+				MATERIAL_12 = NULL,QUANTITY_12 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity13 != 0">
+				MATERIAL_13 = #{material13}, QUANTITY_13 = #{quantity13},
+			</when>
+			<otherwise>
+				MATERIAL_13 = NULL,QUANTITY_13 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity14 != 0">
+				MATERIAL_14 = #{material14}, QUANTITY_14 = #{quantity14},
+			</when>
+			<otherwise>
+				MATERIAL_14 = NULL,QUANTITY_14 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity15 != 0">
+				MATERIAL_15 = #{material15}, QUANTITY_15 = #{quantity15},
+			</when>
+			<otherwise>
+				MATERIAL_15 = NULL,QUANTITY_15 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity16 != 0">
+				MATERIAL_16 = #{material16}, QUANTITY_16 = #{quantity16},
+			</when>
+			<otherwise>
+				MATERIAL_16 = NULL,QUANTITY_16 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity17 != 0">
+				MATERIAL_17 = #{material17}, QUANTITY_17 = #{quantity17},
+			</when>
+			<otherwise>
+				MATERIAL_17 = NULL,QUANTITY_17 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity18 != 0">
+				MATERIAL_18 = #{material18}, QUANTITY_18 = #{quantity18},
+			</when>
+			<otherwise>
+				MATERIAL_18 = NULL,QUANTITY_18 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity19 != 0">
+				MATERIAL_19 = #{material19}, QUANTITY_19 = #{quantity19},
+			</when>
+			<otherwise>
+				MATERIAL_19 = NULL,QUANTITY_19 = NULL,
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="quantity20 != 0">
+				MATERIAL_20 = #{material20}, QUANTITY_20 = #{quantity20}
+			</when>
+			<otherwise>
+				MATERIAL_20 = NULL,QUANTITY_20 = NULL
 			</otherwise>
 		</choose>
 		WHERE EST_CODE = #{estCode}

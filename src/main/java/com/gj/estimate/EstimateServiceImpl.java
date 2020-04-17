@@ -83,6 +83,56 @@ public class EstimateServiceImpl implements EstimateService {
 					materialMapper.delete(temp.getMaterial10());
 				}
 			}
+			if (estimate.getMaterial11() != temp.getMaterial11()) {
+				if (estimate.getMaterial11() == 0) {
+					materialMapper.delete(temp.getMaterial11());
+				}
+			}
+			if (estimate.getMaterial12() != temp.getMaterial12()) {
+				if (estimate.getMaterial12() == 0) {
+					materialMapper.delete(temp.getMaterial12());
+				}
+			}
+			if (estimate.getMaterial13() != temp.getMaterial13()) {
+				if (estimate.getMaterial13() == 0) {
+					materialMapper.delete(temp.getMaterial13());
+				}
+			}
+			if (estimate.getMaterial14() != temp.getMaterial14()) {
+				if (estimate.getMaterial14() == 0) {
+					materialMapper.delete(temp.getMaterial14());
+				}
+			}
+			if (estimate.getMaterial15() != temp.getMaterial15()) {
+				if (estimate.getMaterial15() == 0) {
+					materialMapper.delete(temp.getMaterial15());
+				}
+			}
+			if (estimate.getMaterial16() != temp.getMaterial16()) {
+				if (estimate.getMaterial16() == 0) {
+					materialMapper.delete(temp.getMaterial16());
+				}
+			}
+			if (estimate.getMaterial17() != temp.getMaterial17()) {
+				if (estimate.getMaterial17() == 0) {
+					materialMapper.delete(temp.getMaterial17());
+				}
+			}
+			if (estimate.getMaterial18() != temp.getMaterial18()) {
+				if (estimate.getMaterial18() == 0) {
+					materialMapper.delete(temp.getMaterial18());
+				}
+			}
+			if (estimate.getMaterial19() != temp.getMaterial19()) {
+				if (estimate.getMaterial19() == 0) {
+					materialMapper.delete(temp.getMaterial19());
+				}
+			}
+			if (estimate.getMaterial20() != temp.getMaterial20()) {
+				if (estimate.getMaterial20() == 0) {
+					materialMapper.delete(temp.getMaterial20());
+				}
+			}
 		} else {
 			return false;
 		}

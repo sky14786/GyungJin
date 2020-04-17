@@ -540,7 +540,7 @@
     // }
 
     function createMaterial(item, count) {
-      if (materialCount < 10) {
+      if (materialCount < 20) {
         var div = $("<div>").attr("class", "input-group-prepend mb-4");
 
         $(div).append(
@@ -629,7 +629,7 @@
     }
 
     function addMaterial(item) {
-      if (materialCount < 10) {
+      if (materialCount < 20) {
         var div = $("<div>").attr("class", "input-group-prepend mb-4");
 
         $(div).append(
@@ -733,7 +733,7 @@
         async: "false",
         success: function (data) {
           estimate = data;
-          for (var i = 1; i <= 10; i++) {
+          for (var i = 1; i <= 20; i++) {
             if (estimate["quantity" + i] != 0) {
               loadMaterials(estimate["material" + i], estimate["quantity" + i]);
             }
