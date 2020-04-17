@@ -248,7 +248,6 @@
         dataType: "json",
         async: "false",
         success: function (data) {
-          console.log(data);
           estimate = data;
           for (var i = 1; i <= 20; i++) {
             if (estimate["quantity" + i] != 0) {
