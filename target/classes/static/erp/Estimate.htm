@@ -150,7 +150,7 @@ div.HStyle11
 	<P CLASS=HStyle0 STYLE='text-align:left;'><SPAN STYLE='font-family:"굴림"'>사업장주소</SPAN></P>
 	</TD>
 	<TD colspan="5" valign="middle" bgcolor="#eeeeee"  style='width:246;height:28;border-left:solid #000000 0.4pt;border-right:double #000000 2.0pt;border-top:solid #000000 0.4pt;border-bottom:solid #000000 0.4pt;padding:1.4pt 1.4pt 1.4pt 1.4pt'>
-	<P CLASS=HStyle0 STYLE='line-height:100%;'><SPAN STYLE='font-size:9.0pt;font-family:"굴림";line-height:100%'>경기도 안산시 상록구 세류로3길</SPAN></P>
+	<P CLASS=HStyle0 STYLE='line-height:100%;'><SPAN STYLE='font-size:9.0pt;font-family:"굴림";line-height:100%'>경기도 안산시 상록구 사동 1473-10번지 101호</SPAN></P>
 	</TD>
 </TR>
 <TR>
@@ -766,7 +766,7 @@ div.HStyle11
         dataType: "json",
         async: "false",
         success: function(data) {
-          console.log(data);
+          /* console.log(data); */
           estimate = data;
           for (var i = 1; i <= 10; i++) {
             if (estimate["quantity" + i] != 0) {
@@ -805,19 +805,14 @@ div.HStyle11
     
       $("#traCode").text(item.traCode);
 
-      var visitDate = item.traVisitDate.split(" ");
-
-      $("#traVisitDate").text(visitDate[0]+" " +visitDate[1]+" "+visitDate[2]);
+	
+      $("#traVisitDate").text(new Date().getYear()+1900+"년"+ (new Date().getMonth()+1) +"월" +new Date().getDate()+"일");
 	  $("#traPriceHangul").text(viewKorean(String(item.traPrice)));
 
 
       $.each($("span[name=traPrice]"),function(index,temp){
         $(temp).text(item.traPrice.toLocaleString());
       });
-
-  
-      
-
     }
 
 	function viewKorean(num) { 
